@@ -51,8 +51,8 @@ def registerPlayer(name):
     """
     conn = connect()
     c = conn.cursor()
-    register_player = "INSERT INTO players (name) VALUES (%s);"
-    c.execute(register_player, (name,))
+    query = "INSERT INTO players (name) VALUES (%s);"
+    c.execute(query, (name,))
     conn.commit()
     conn.close()
 
@@ -79,6 +79,14 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
+
+    conn = connect()
+    c = conn.cursor()
+    query = "INSERT INTO games (win_ref, loose_ref) VALUES (%s, %s);"
+    c.execute(query, (winner, loser))
+    conn.commit()
+    conn.close()
+
  
  
 def swissPairings():
