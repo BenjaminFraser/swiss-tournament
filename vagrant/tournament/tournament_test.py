@@ -133,9 +133,9 @@ if __name__ == '__main__':
     testCount()
     testRegister()
     testRegisterCountDelete()
-    #testStandingsBeforeMatches()
-    #testReportMatches()
-    #testPairings()
+    testStandingsBeforeMatches()
+    testReportMatches()
+    testPairings()
     endtime = time.time()
     print "Success!  All tests pass! Time taken was ", endtime - start
 

@@ -15,7 +15,7 @@ def deleteMatches():
     """Remove all the match records from the database."""
     conn = connect()
     c = conn.cursor()
-    c.execute("UPDATE games SET id = NULL, win_ref = NULL, loose_ref = NULL;")
+    c.execute("TRUNCATE TABLE games;")
     conn.commit()
     conn.close()
 
@@ -73,14 +73,7 @@ def playerStandings():
 
     conn = connect()
     c = conn.cursor()
-    c.execute("select name, table1.player_id, no_of_wins, total_games " 
-              "from (select players.name, players.player_id, count(win_ref) as no_of_wins " 
-              "from players left join games on players.player_id = games.win_ref " 
-              "group by players.player_id) as table1 " 
-              "join (select players.player_id, count(*) as total_games from players join games " 
-              "on players.player_id = games.win_ref OR players.player_id = games.loose_ref " 
-              "group by players.player_id) as table2 on table1.player_id = table2.player_id " 
-              "order by no_of_wins desc;")
+    c.execute("SELECT * FROM player_standings;")
     performance_table = c.fetchall()
     return performance_table
     conn.commit()
