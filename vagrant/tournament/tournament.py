@@ -114,4 +114,12 @@ def swissPairings():
         name2: the second player's name
     """
 
+    conn = connect()
+    c = conn.cursor()
+    c.execute("SELECT * FROM player_standings;")
+    performance_table = c.fetchall()
+    results = iter(performance_table())
+    conn.commit()
+    conn.close()
+
 
