@@ -114,12 +114,41 @@ def swissPairings():
         name2: the second player's name
     """
 
-    conn = connect()
-    c = conn.cursor()
-    c.execute("SELECT * FROM player_standings;")
-    performance_table = c.fetchall()
-    results = iter(performance_table())
-    conn.commit()
-    conn.close()
+    #conn = connect()
+    #c = conn.cursor()
+    #c.execute("SELECT * FROM player_standings;")
+    #performance_table = c.fetchall()
+    #conn.commit()
+    #conn.close()
 
+    player_standings = playerStandings()
+    pairing_results_a = []
+    pairing_results_b = []
+    pairing_results = []
 
+    """for i in range(0, len(player_standings), 2):
+        pairing_results_a.append(player_standings[i])
+        print 'Added number %s to the tuples' % (i)
+    print pairing_results_a
+
+    for i in range(1, len(player_standings), 2):
+        pairing_results_b.append(player_standings[i])
+        print 'Added number %s to the tuples' % (i)
+
+    print pairing_results_a[1][0]"""
+
+   
+
+    for i in range(0, (len(player_standings)-1), 2):
+        one = player_standings[i][0]
+        two = player_standings[i+1][0]
+        three = player_standings[i+1][0]
+        four = player_standings[i+1][1]
+        pairing_results.append((one, two, three, four))
+    print pairing_results
+    return pairing_results
+
+    #if len(player_standings) % 2 != 0:
+        #for a, b in player_standings[]
+
+    #pairing_results = zip(a[1], a[2], b[1], b[2])
