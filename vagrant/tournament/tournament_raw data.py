@@ -15,7 +15,6 @@ def deleteMatches():
     """Remove all the match records from the database."""
     conn = connect()
     c = conn.cursor()
-    # Truncate the games table only, preserving player records.
     c.execute("TRUNCATE TABLE games;")
     conn.commit()
     conn.close()
@@ -25,11 +24,9 @@ def deletePlayers():
     """Remove all the player records from the database."""
     conn = connect()
     c = conn.cursor()
-    # Truncate both the players and games tables from the database.
     c.execute("TRUNCATE TABLE players, games")
     conn.commit()
     conn.close()
-
 
 def countPlayers():
     """Returns the number of players currently registered."""
@@ -44,8 +41,14 @@ def countPlayers():
 
 
 def registerPlayer(name):
-    """Registers a player into the players table, along with a unique player id """
-
+    """Adds a player to the tournament database.
+  
+    The database assigns a unique serial id number for the player.  (This
+    should be handled by your SQL database schema, not in your Python code.)
+  
+    Args:
+      name: the player's full name (need not be unique).
+    """
     conn = connect()
     c = conn.cursor()
     query = "INSERT INTO players (name) VALUES (%s);"
@@ -54,9 +57,11 @@ def registerPlayer(name):
     conn.close()
 
 
-
 def playerStandings():
     """Returns a list of the players and their win records, sorted by wins.
+
+    The first entry in the list should be the player in first place, or a player
+    tied for first place if there is currently a tie.
 
     Returns:
       A list of tuples, each of which contains (id, name, wins, matches):
@@ -68,7 +73,6 @@ def playerStandings():
 
     conn = connect()
     c = conn.cursor()
-    # Use the view player_standings as defined within tournament.sql
     c.execute("SELECT * FROM player_standings;")
     performance_table = c.fetchall()
     return performance_table
@@ -78,7 +82,6 @@ def playerStandings():
 
 
 def reportMatch(winner, loser):
-
     """Records the outcome of a single match between two players.
 
     Args:
@@ -88,7 +91,6 @@ def reportMatch(winner, loser):
 
     conn = connect()
     c = conn.cursor()
-    # Query and execute code format to escape the string, avoiding SQL injection.
     query = "INSERT INTO games (win_ref, loose_ref) VALUES (%s, %s);"
     c.execute(query, (winner, loser))
     conn.commit()
@@ -97,7 +99,6 @@ def reportMatch(winner, loser):
  
  
 def swissPairings():
-
     """Returns a list of pairs of players for the next round of a match.
   
     Assuming that there are an even number of players registered, each player
@@ -112,17 +113,33 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
- 
-    # Obtain the player standings tuples from the playerStandings() function.
-    player_standings = playerStandings()
 
-    # Define an empty dataset ready for tuple insertion below.
+    player_standings = playerStandings()
     pairing_results = []
 
-    # Iterate through the names and id's of players, and create associated pairing tuples.
+    """for i in range(0, len(player_standings), 2):
+        pairing_results_a.append(player_standings[i])
+        print 'Added number %s to the tuples' % (i)
+    print pairing_results_a
+
+    for i in range(1, len(player_standings), 2):
+        pairing_results_b.append(player_standings[i])
+        print 'Added number %s to the tuples' % (i)
+
+    print pairing_results_a[1][0]"""
+
+   
+
     for i in range(0, (len(player_standings)-1), 2):
-        one, two = player_standings[i][0], player_standings[i+1][1]
-        three, four = player_standings[i+1][0], player_standings[i+1][1]
+        one = player_standings[i][0]
+        two = player_standings[i+1][0]
+        three = player_standings[i+1][0]
+        four = player_standings[i+1][1]
         pairing_results.append((one, two, three, four))
-    
+    print pairing_results
     return pairing_results
+
+    #if len(player_standings) % 2 != 0:
+        #for a, b in player_standings[]
+
+    #pairing_results = zip(a[1], a[2], b[1], b[2])

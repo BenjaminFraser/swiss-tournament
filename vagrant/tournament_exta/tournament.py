@@ -43,12 +43,15 @@ def countPlayers():
     conn.close()
 
 
-def registerPlayer(name):
+def registerPlayer(name, tourn_id=1):
     """Registers a player into the players table, along with a unique player id """
 
     conn = connect()
     c = conn.cursor()
-    query = "INSERT INTO players (name) VALUES (%s);"
+    if tourn_id==2:
+        query = "INSERT INTO players_2 (name) VALUES (%s);"
+    else:
+        query = "INSERT INTO players (name) VALUES (%s);"
     c.execute(query, (name,))
     conn.commit()
     conn.close()
@@ -112,7 +115,16 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
- 
+    conn = connect()
+    c = conn.cursor()
+    # Use the view v_swiss_pairings as defined within tournament.sql
+    c.execute("SELECT * FROM v_swiss_pairings;")
+    result = c.fetchall()
+    return result
+    conn.commit()
+    conn.close()
+
+    """
     # Obtain the player standings tuples from the playerStandings() function.
     player_standings = playerStandings()
 
@@ -126,3 +138,4 @@ def swissPairings():
         pairing_results.append((one, two, three, four))
     
     return pairing_results
+    """
