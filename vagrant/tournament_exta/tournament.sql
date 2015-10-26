@@ -1,10 +1,4 @@
--- Table definitions for the tournament project.
---
--- Put your SQL 'create table' statements in this file; also 'create view'
--- statements if you choose to use it.
---
--- You can write comments in this file by starting them with two dashes, like
--- these lines here.
+-- Table definitions and custom views for the tournament project.
 
 DROP DATABASE IF EXISTS tournament;
 
@@ -18,21 +12,13 @@ CREATE TABLE games (id serial PRIMARY KEY,
 					win_ref integer REFERENCES players (player_id),
 					loose_ref integer REFERENCES players (player_id));
 
-CREATE VIEW v_performance_table as 
-		select name, table1.player_id, no_of_wins, total_games
-		from (select players.name, players.player_id, count(win_ref) as no_of_wins
-            from players left join games on players.player_id = games.win_ref 
-            group by players.player_id) as table1
-            join (select players.player_id, count(*) as total_games from players left join games 
-            on players.player_id = games.win_ref OR players.player_id = games.loose_ref
-            group by players.player_id) as table2 on table1.player_id = table2.player_id 
-            order by no_of_wins desc;
-
+-- Create a view that lists a player_id along with associated loss record.
 CREATE VIEW v_lost_games as
             select players.player_id, count(loose_ref) as lost_games from 
             players left join games on players.player_id = games.loose_ref 
             group by players.player_id;
 
+-- Create a view that displays a players id, name and win count to aid further views.
 CREATE VIEW v_won_games as
             select players.name, players.player_id, count(win_ref) as wins 
             from players left join games on players.player_id = games.win_ref 
