@@ -5,9 +5,13 @@ DROP DATABASE IF EXISTS tournament;
 CREATE DATABASE tournament;
 \c tournament;
 
-CREATE TABLE players (player_id serial PRIMARY KEY,
-					  name varchar(40));
+-- TOURNAMENT 1 TABLES AND VIEWS
 
+-- Create a players table with id (primary key) and name for tournament 1.
+CREATE TABLE players (player_id serial PRIMARY KEY,
+					name varchar(40));
+
+-- Create a games table with 2 foreign keys linking to players table player id.
 CREATE TABLE games (id serial PRIMARY KEY,
 					win_ref integer REFERENCES players (player_id),
 					loose_ref integer REFERENCES players (player_id));
@@ -55,6 +59,64 @@ CREATE VIEW v_swiss_pairings as
             select a.player_id AS "player_1_id", a.name AS "player_1_name", 
             b.player_id AS "player_2_id", b.name AS "player_2_name"
             from ranked_standings a, ranked_standings b 
+            WHERE a.rank+1 = b.rank AND a.rank % 2 = 1;
+
+
+-- TOURNAMENT 2 TABLES AND VIEWS           
+
+-- Create a players table with id (primary key) and name for tournament 2.
+CREATE TABLE players_2 (player_id serial PRIMARY KEY,
+                              name varchar(40));
+
+-- Create a games table with 2 foreign keys linking to players table player id.
+-- for tournament 2.
+CREATE TABLE games_2 (id serial PRIMARY KEY,
+                              win_ref integer REFERENCES players_2 (player_id),
+                              loose_ref integer REFERENCES players_2 (player_id));
+
+-- Create a view that lists a player_id along with associated loss record.
+CREATE VIEW v_lost_games_2 as
+            select players_2.player_id, count(loose_ref) as lost_games from 
+            players_2 left join games_2 on players_2.player_id = games_2.loose_ref 
+            group by players_2.player_id;
+
+-- Create a view that displays a players id, name and win count to aid further views.
+CREATE VIEW v_won_games_2 as
+            select players_2.name, players_2.player_id, count(win_ref) as wins 
+            from players_2 left join games_2 on players_2.player_id = games_2.win_ref 
+            group by players_2.player_id;
+
+CREATE VIEW v_combined_standings_2 as
+            select name, table1.player_id, wins, lost_games
+            from (select players_2.name, players_2.player_id, count(win_ref) as wins
+            from players_2 left join games_2 on players_2.player_id = games_2.win_ref
+            group by players_2.player_id) as table1
+            join (select players_2.player_id, count(loose_ref) as lost_games from 
+            players_2 left join games_2 on players_2.player_id = games_2.loose_ref 
+            group by players_2.player_id) as table2 on table1.player_id = table2.player_id 
+            order by wins desc;
+
+-- Create a view that combines the id, name and won games from combined standings 2, with 
+-- a new column called total_games, which is derived from wins + lost games for tournament 2.
+CREATE VIEW player_standings_2 as
+            select v_won_games_2.player_id, name, v_won_games_2.wins, total_games from 
+            v_won_games_2 join (select player_id, SUM(wins + lost_games) as total_games 
+            from v_combined_standings_2 group by player_id) as totaltable 
+            on v_won_games_2.player_id = totaltable.player_id order by wins desc;
+
+
+-- Number each player standing row through adding a row number with row_number().
+CREATE VIEW ranked_standings_2 as 
+            select row_number() over (order by wins desc) 
+            as rank, player_id, name, wins, total_games from player_standings_2;
+
+
+-- Perform a self-join on ranked_standings to produce a swiss pairings view with
+-- paired players id's and names on the same row for tournament 2. 
+CREATE VIEW v_swiss_pairings_2 as 
+            select a.player_id AS "player_1_id", a.name AS "player_1_name", 
+            b.player_id AS "player_2_id", b.name AS "player_2_name"
+            from ranked_standings_2 a, ranked_standings_2 b 
             WHERE a.rank+1 = b.rank AND a.rank % 2 = 1;
 
 

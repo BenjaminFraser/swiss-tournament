@@ -15,8 +15,8 @@ def deleteMatches():
     """Remove all the match records from the database."""
     conn = connect()
     c = conn.cursor()
-    # Truncate the games table only, preserving player records.
-    c.execute("TRUNCATE TABLE games;")
+    # Truncate both tournaments games tables only, preserving player records.
+    c.execute("TRUNCATE TABLE games, games_2;")
     conn.commit()
     conn.close()
 
@@ -25,8 +25,8 @@ def deletePlayers():
     """Remove all the player records from the database."""
     conn = connect()
     c = conn.cursor()
-    # Truncate both the players and games tables from the database.
-    c.execute("TRUNCATE TABLE players, games")
+    # Truncate both tournaments players and games tables from the database.
+    c.execute("TRUNCATE TABLE players, games, players_2, games_2")
     conn.commit()
     conn.close()
 
