@@ -31,12 +31,15 @@ def deletePlayers():
     conn.close()
 
 
-def countPlayers():
+def countPlayers(tourn_id=1):
     """Returns the number of players currently registered."""
 
     conn = connect()
     c = conn.cursor()
-    c.execute("SELECT count(player_id) FROM players;")
+    if tourn_id==2:
+        c.execute("SELECT count(player_id) FROM players_2;")
+    else:
+        c.execute("SELECT count(player_id) FROM players;")
     count_result = c.fetchone()
     return count_result[0]
     conn.commit()
@@ -58,7 +61,7 @@ def registerPlayer(name, tourn_id=1):
 
 
 
-def playerStandings():
+def playerStandings(tourn_id=1):
     """Returns a list of the players and their win records, sorted by wins.
 
     Returns:
@@ -71,8 +74,12 @@ def playerStandings():
 
     conn = connect()
     c = conn.cursor()
-    # Use the view player_standings as defined within tournament.sql
-    c.execute("SELECT * FROM player_standings;")
+    # If tournament 2 chosen, choose tournament 2 player standings view.
+    if tourn_id==2:
+        c.execute("SELECT * FROM player_standings_2;")
+    else:
+        # Use the view player_standings as defined within tournament.sql
+        c.execute("SELECT * FROM player_standings;")
     performance_table = c.fetchall()
     return performance_table
     conn.commit()
