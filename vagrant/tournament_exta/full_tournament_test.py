@@ -172,12 +172,12 @@ def testPairings():
 #   E: 4
 def testSimulatedTournament():
     # Initial state
-    registerPlayer('A', tour_id=2)
-    registerPlayer('B', tour_id=2)
-    registerPlayer('C', tour_id=2)
-    registerPlayer('D', tour_id=2)
-    registerPlayer('E', tour_id=2)
-    standings = playerStandings(tour_id=2)
+    registerPlayer('A', tourn_id=2)
+    registerPlayer('B', tourn_id=2)
+    registerPlayer('C', tourn_id=2)
+    registerPlayer('D', tourn_id=2)
+    registerPlayer('E', tourn_id=2)
+    standings = playerStandings(tourn_id=2)
     [idA, idB, idC, idD, idE] = [row[0] for row in standings]
     correct_standing = [(idA, 0),   # Rank 1
                         (idB, 0),   # Rank 1

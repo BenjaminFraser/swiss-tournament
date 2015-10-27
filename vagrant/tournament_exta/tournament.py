@@ -87,7 +87,7 @@ def playerStandings(tourn_id=1):
 
 
 
-def reportMatch(winner, loser):
+def reportMatch(winner, loser, tourn_id=1):
 
     """Records the outcome of a single match between two players.
 
@@ -98,15 +98,20 @@ def reportMatch(winner, loser):
 
     conn = connect()
     c = conn.cursor()
-    # Query and execute code format to escape the string, avoiding SQL injection.
-    query = "INSERT INTO games (win_ref, loose_ref) VALUES (%s, %s);"
+    # If tournament 2 chosen, select appropriate query. 
+    if tourn_id==2:
+        # Query and execute code format to escape the string, avoiding SQL injection.
+        query = "INSERT INTO games_2 (win_ref, loose_ref) VALUES (%s, %s);"
+    else:
+        # Query and execute code format to escape the string, avoiding SQL injection.
+        query = "INSERT INTO games (win_ref, loose_ref) VALUES (%s, %s);"
     c.execute(query, (winner, loser))
     conn.commit()
     conn.close()
 
  
  
-def swissPairings():
+def swissPairings(tourn_id=1):
 
     """Returns a list of pairs of players for the next round of a match.
   
@@ -124,8 +129,12 @@ def swissPairings():
     """
     conn = connect()
     c = conn.cursor()
-    # Use the view v_swiss_pairings as defined within tournament.sql
-    c.execute("SELECT * FROM v_swiss_pairings;")
+    if tourn_id==2:
+        # Use the swiss pairings view for tournament 2 within tournament.sql
+        c.execute("SELECT * FROM v_swiss_pairings_2;")
+    else:
+        # Use the view v_swiss_pairings as defined within tournament.sql
+        c.execute("SELECT * FROM v_swiss_pairings;")
     result = c.fetchall()
     return result
     conn.commit()
