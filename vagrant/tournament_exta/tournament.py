@@ -36,7 +36,7 @@ def countPlayers(tourn_id=1):
 
     conn = connect()
     c = conn.cursor()
-    if tourn_id==2:
+    if tourn_id == 2:
         c.execute("SELECT count(player_id) FROM players_2;")
     else:
         c.execute("SELECT count(player_id) FROM players;")
@@ -47,18 +47,17 @@ def countPlayers(tourn_id=1):
 
 
 def registerPlayer(name, tourn_id=1):
-    """Registers a player into the players table, along with a unique player id """
+    """Registers a player and unique id into the players table."""
 
     conn = connect()
     c = conn.cursor()
-    if tourn_id==2:
+    if tourn_id == 2:
         query = "INSERT INTO players_2 (name) VALUES (%s);"
     else:
         query = "INSERT INTO players (name) VALUES (%s);"
     c.execute(query, (name,))
     conn.commit()
     conn.close()
-
 
 
 def playerStandings(tourn_id=1):
@@ -75,7 +74,7 @@ def playerStandings(tourn_id=1):
     conn = connect()
     c = conn.cursor()
     # If tournament 2 chosen, choose tournament 2 player standings view.
-    if tourn_id==2:
+    if tourn_id == 2:
         c.execute("SELECT * FROM player_standings_2;")
     else:
         # Use the view player_standings as defined within tournament.sql
@@ -86,9 +85,7 @@ def playerStandings(tourn_id=1):
     conn.close()
 
 
-
 def reportMatch(winner, loser, tourn_id=1):
-
     """Records the outcome of a single match between two players.
 
     Args:
@@ -99,20 +96,17 @@ def reportMatch(winner, loser, tourn_id=1):
     conn = connect()
     c = conn.cursor()
     # If tournament 2 chosen, select appropriate query. 
-    if tourn_id==2:
-        # Query and execute code format to escape the string, avoiding SQL injection.
+    if tourn_id == 2:
+        # Query and execute code format to escape strings, avoiding SQL inj.
         query = "INSERT INTO games_2 (win_ref, loose_ref) VALUES (%s, %s);"
     else:
-        # Query and execute code format to escape the string, avoiding SQL injection.
         query = "INSERT INTO games (win_ref, loose_ref) VALUES (%s, %s);"
     c.execute(query, (winner, loser))
     conn.commit()
     conn.close()
 
- 
- 
-def swissPairings(tourn_id=1):
 
+def swissPairings(tourn_id=1):
     """Returns a list of pairs of players for the next round of a match.
   
     Assuming that there are an even number of players registered, each player
@@ -121,7 +115,7 @@ def swissPairings(tourn_id=1):
     to him or her in the standings.
   
     Returns:
-      A list of tuples, each of which contains (id1, name1, id2, name2)
+        A list of tuples, each of which contains (id1, name1, id2, name2)
         id1: the first player's unique id
         name1: the first player's name
         id2: the second player's unique id
@@ -129,7 +123,7 @@ def swissPairings(tourn_id=1):
     """
     conn = connect()
     c = conn.cursor()
-    if tourn_id==2:
+    if tourn_id == 2:
         # Use the swiss pairings view for tournament 2 within tournament.sql
         c.execute("SELECT * FROM v_swiss_pairings_2;")
     else:
@@ -139,19 +133,3 @@ def swissPairings(tourn_id=1):
     return result
     conn.commit()
     conn.close()
-
-    """
-    # Obtain the player standings tuples from the playerStandings() function.
-    player_standings = playerStandings()
-
-    # Define an empty dataset ready for tuple insertion below.
-    pairing_results = []
-
-    # Iterate through the names and id's of players, and create associated pairing tuples.
-    for i in range(0, (len(player_standings)-1), 2):
-        one, two = player_standings[i][0], player_standings[i+1][1]
-        three, four = player_standings[i+1][0], player_standings[i+1][1]
-        pairing_results.append((one, two, three, four))
-    
-    return pairing_results
-    """
