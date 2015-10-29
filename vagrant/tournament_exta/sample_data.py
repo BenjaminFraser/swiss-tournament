@@ -7,12 +7,12 @@ from tournament_test import testDelete
 
 
 the_players = [
-    (1, 'Jeff'),
-    (2, 'Adarsh'),
-    (3, 'Amanda'),
-    (4, 'Eduardo'),
-    (5, 'Philip'),
-    (6, 'Jee')
+    (1, 'Benjamin'),
+    (2, 'Peter'),
+    (3, 'Tracy'),
+    (4, 'Alexander'),
+    (5, 'Phil'),
+    (6, 'Jess')
 ]
 
 
