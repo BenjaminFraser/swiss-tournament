@@ -6,20 +6,22 @@ from tournament import reportMatch
 from tournament_test import testDelete
 
 
-the_players = [
+player_list = [
     (1, 'Benjamin'),
     (2, 'Peter'),
     (3, 'Tracy'),
     (4, 'Alexander'),
     (5, 'Phil'),
-    (6, 'Jess')
+    (6, 'Jess'),
+    (7, 'Felix'),
+    (8, 'Norman'),
+    (9, 'Shaun'),
+    (10, 'Andrew')
 ]
 
 
-def registerPlayerUpdated(player_id, name):
+def registerPlayerSample(player_id, name):
     """Add a player to the tournament database.
-    The database assigns a unique serial id number for the player.  (This
-    should be handled by your SQL database schema, not in your Python code.)
     Args:
       name: the player's full name (need not be unique).
     """
@@ -53,10 +55,10 @@ def createRandomMatches(player_list, num_matches):
 
 def setup_players_and_matches():
     testDelete()
-    for player in the_players:
-        registerPlayerUpdated(player[0], player[1])
+    for player in player_list:
+        registerPlayerSample(player[0], player[1])
 
-    createRandomMatches(the_players, 100)
+    createRandomMatches(player_list, 100)
 
 
 if __name__ == '__main__':
