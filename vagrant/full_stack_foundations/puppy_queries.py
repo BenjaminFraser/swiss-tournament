@@ -61,7 +61,7 @@ def puppy_shelter():
 		# Because shelter table is linked to the puppy table via a foreign
 		# key, we can call column data from shelter without stating a join!
 		# As shown by i.shelter.name below...
-		print i.id, i.name, i.shelter_id, i.shelter.name
+		print i.id, i.name, i.shelter_id, i.shelter.namef
 
 
 
