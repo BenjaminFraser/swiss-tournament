@@ -1,6 +1,14 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-import cgi 
+import cgi
 from restaurant_queries import *
+# Within this Python file I've created a basic web-server, which provides
+# the functionality to search, create, edit and delete restaurants that
+# are stored within the database. For this we handle simple GET and POST
+# requests, and make use of a query function file, restaurant_queries. The
+# restaurant queries file performs various functions that connect to the
+# database using SQL Alchemy. The original setup file for this database is 
+# within database_setup.py, where the classes and table data is setup.
+# 
 # Define webserverHandler class that extends from BaseHTTPRequestHandler.
 class webserverHandler(BaseHTTPRequestHandler):
     # create a do_GET function to handle GET requests.
@@ -84,6 +92,7 @@ class webserverHandler(BaseHTTPRequestHandler):
     # Create a do_POST method to handle POST requests.
     def do_POST(self):
         try:
+            # Handle new restaurant requests.
             if self.path.endswith("/restaurants/new"):
                 ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
                 if ctype == 'multipart/form-data':
@@ -108,7 +117,7 @@ class webserverHandler(BaseHTTPRequestHandler):
                     self.send_header('Location', '/restaurants')
                     self.end_headers()
                     return
-
+            # Handle edit requests.
             if self.path.endswith("/edit"):
                 ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
                 if ctype == 'multipart/form-data':
@@ -135,7 +144,7 @@ class webserverHandler(BaseHTTPRequestHandler):
                         output += '</body></html>'
                         self.wfile.write(output)
                         return
-
+            # Handle delete requests.
             if self.path.endswith("/delete"):
                 ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
                 if ctype == 'multipart/form-data':
