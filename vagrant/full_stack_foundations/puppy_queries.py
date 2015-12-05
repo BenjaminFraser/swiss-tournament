@@ -15,7 +15,7 @@ def list_puppies():
 	""" Returns all the puppies names, id and DOB in alphebetical order. """
     all_puppies = session.query(Puppy).order_by('name')
     for i in all_puppies:
-    print i.name, i.id, i.dateOfBirth
+        print i.name, i.id, i.dateOfBirth
 
 
 def young_puppies():
@@ -49,9 +49,9 @@ def ascending_weights():
 	"""" Returns all puppies id, name and weights in ascending order of weight. """
 
 	weights = session.query(Puppy).order_by(Puppy.weight)
-
+    puppy_weights = []
 	for i in weights:
-		print i.id, i.name, i.weight
+		puppy_weights.append([str(i.id), str(i.name), str(i.weight)])
 
 def puppy_shelter():
 	""" Returns all puppies located in one shelter location """
@@ -61,7 +61,7 @@ def puppy_shelter():
 		# Because shelter table is linked to the puppy table via a foreign
 		# key, we can call column data from shelter without stating a join!
 		# As shown by i.shelter.name below...
-		print i.id, i.name, i.shelter_id, i.shelter.namef
+		print i.id, i.name, i.shelter_id, i.shelter.name
 
 
 

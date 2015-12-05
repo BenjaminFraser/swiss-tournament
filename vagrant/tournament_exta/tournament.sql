@@ -5,18 +5,22 @@ DROP DATABASE IF EXISTS tournament;
 CREATE DATABASE tournament;
 \c tournament;
 
+CREATE TABLE Tournament (
+        id serial PRIMARY KEY, 
+        name varchar(150) NOT NULL,);
+
 -- TOURNAMENT 1 TABLES AND VIEWS
 
 -- Create a players table with id (primary key) and name for tournament 1.
 CREATE TABLE players (
         player_id serial PRIMARY KEY,
-	  name varchar(40));
+	name varchar(40));
 
 -- Create a games table with 2 foreign keys linking to players table player id.
 CREATE TABLE games (
         id serial PRIMARY KEY,
-	  win_ref integer REFERENCES players (player_id),
-	  loose_ref integer REFERENCES players (player_id));
+	win_ref integer REFERENCES players (player_id),
+	loose_ref integer REFERENCES players (player_id));
 
 -- Create a view that lists a player_id along with associated loss record.
 CREATE VIEW v_lost_games as
@@ -28,7 +32,7 @@ CREATE VIEW v_lost_games as
 CREATE VIEW v_won_games as
         select players.name, players.player_id, count(win_ref) as wins 
         from players left join games on players.player_id = games.win_ref 
-        97group by players.player_id;
+        group by players.player_id;
 
 -- A combined view showing id, name, wins and losses.
 CREATE VIEW v_combined_standings as

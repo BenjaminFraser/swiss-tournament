@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
  
 Base = declarative_base()
 
+# Create an association table to create a many to many relationship.
 association_table = Table('association', Base.metadata,
     Column('puppy_id', Integer, ForeignKey('puppy.id')),
     Column('adopter.id', Integer, ForeignKey('adopter.id'))
@@ -19,7 +20,8 @@ class Shelter(Base):
     state = Column(String(20))
     zipCode = Column(String(10))
     website = Column(String)
-    maximum_capacity = Column(Integer)
+    # maximum_capacity = Column(Integer)
+    shelter_pups = relationship("Puppy")
     
 class Puppy(Base):
     __tablename__ = 'puppy'
@@ -29,8 +31,8 @@ class Puppy(Base):
     dateOfBirth = Column(Date)
     picture = Column(String)
     shelter_id = Column(Integer, ForeignKey('shelter.id'))
-    shelter = relationship(Shelter)
     weight = Column(Numeric(10))
+    shelter = relationship(Shelter)
     adopter = relationship("Adopter", secondary=association_table, backref="puppies")
 
 class Adopter(Base):
