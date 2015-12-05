@@ -16,7 +16,7 @@ class webserverHandler(BaseHTTPRequestHandler):
                 for i in restaurant_string:
                     output += '<h3>%s</h3>' % i[0]
                     output += '<ul><li><a href="/restaurants/%s/edit">Edit</a>' % i[1]
-                    output += '<li><a href="%s/delete">Delete</a></li></ul><br>' % i[1]
+                    output += '<li><a href="/restaurants/%s/delete">Delete</a></li></ul><br>' % i[1]
                 output += '<p>Cant find your restaurant? Add one <a href ="/restaurants/new">here.</a>'
                 output += '</body></html>'
                 self.wfile.write(output)
@@ -52,6 +52,28 @@ class webserverHandler(BaseHTTPRequestHandler):
                 output += '<h3>Enter a new name below:</h3><br>'
                 output += '<input type="text" name="changeName"><br>'
                 output += '<input type="submit" value="Change" placeholder="New Name"></form>'
+                output += '</body></html>'
+                self.wfile.write(output)
+                return
+
+            if self.path.endswith("/delete"):
+                # We need to obtain the id number of the restaurant to edit.
+                # The id is in the path, as defined at the edit button.
+                restaurantIDnumber = self.path.split("/") [2]
+                # Using this id we can then query the database and find the name.
+                delete_name = fetch_name_from_id(restaurantIDnumber)
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                # Generate HTML for delete warning/confirmation.
+                output = ""
+                output += '<html><body><h1>%s</h1>' % delete_name
+                output += '<form method="POST" enctype="multipart/form-data" action="/restaurants/%s/delete"' % restaurantIDnumber
+                output += '<p>Are you sure you want to delete? '
+                output += 'Enter the restaurant name below to confirm.</p>'
+                output += '<input type="text" name="deleteName" placeholder="Restaurant name"><br>'
+                output += '<input type="submit" value="Delete" placeholder="Delete"></form><br><br>'
+                output += '<h5>Changed your mind? Click <a href="/restaurants">here</a> to return.</h5>'
                 output += '</body></html>'
                 self.wfile.write(output)
                 return
@@ -97,14 +119,48 @@ class webserverHandler(BaseHTTPRequestHandler):
                     # Using this id we can then query the database and find the name.
                     edit_name = fetch_name_from_id(restaurantIDnumber)
                     # Change the name using the change function in restaurant_queries.
+                    # Validate the change was successful beforehand.
                     if change_restaurant_name(restaurantIDnumber, messagedata[0]) == True:
+                        self.send_response(301)
+                        self.send_header('Content-type', 'text/html')
+                        # Set location back to the restaurants list.
+                        self.send_header('Location', '/restaurants')
+                        self.end_headers()
+                        return
+                    # Flag up a warning alert if the change was unsuccessful.
+                    else: 
+                        print "The change didnt work."
+                        output += '<html><body><h3>Oops, there was an error.</h3>'
+                        output += '<p>Click <a href="/restaurants">here</a> to return home.</p>'
+                        output += '</body></html>'
+                        self.wfile.write(output)
+                        return
+
+            if self.path.endswith("/delete"):
+                ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
+                if ctype == 'multipart/form-data':
+                    fields = cgi.parse_multipart(self.rfile, pdict)
+                    messagedata = fields.get('deleteName')
+                    # We need to obtain the id number of the restaurant to edit.
+                    # The id is in the path, as defined at the edit button.
+                    restaurantIDnumber = self.path.split("/") [2]
+                    # Using this id we can then query the database and find the name.
+                    delete_name = fetch_name_from_id(restaurantIDnumber)
+                    # Delete the restaurant entry using the delete function from the queries.
+                    # Validate the delete was successful before carrying on.
+                    if delete_restaurant(restaurantIDnumber, messagedata[0]) == True:
                         self.send_response(301)
                         self.send_header('Content-type', 'text/html')
                         self.send_header('Location', '/restaurants')
                         self.end_headers()
                         return
-                    else: 
-                        print "The change didnt work."
+                    # Create an error alert to notify the unsuccessful delete.
+                    else:
+                        print "The delete did not work."
+                        self.send_response(301)
+                        self.send_header('Content-type', 'text/html')
+                        self.end_headers()
+                        output = ""
                         output += '<html><body><h3>Oops, there was an error.</h3>'
                         output += '<p>Click <a href="/restaurants">here</a> to return home.</p>'
                         output += '</body></html>'
