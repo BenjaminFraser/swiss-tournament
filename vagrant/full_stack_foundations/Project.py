@@ -1,7 +1,7 @@
 # This Python file makes use of Flask microframework and the database framework
 # defined within database_setup.py, which makes use of SQLAlchemy with SQLite. 
 # Setup initial flask imports and app definition.
-from flask import Flask
+from flask import Flask, render_template, url_for
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -35,17 +35,18 @@ def restaurantList():
     restaurant_list = []
     for i in all_restaurants:
         restaurant_list.append((str(i.name), i.id))
-    output = ""
-    output += '<html><body><h1><u>Our restaurants!</u></h1>'
+    return render_template('restaurant_list.html', restaurant_list=restaurant_list)
+    #output = ""
+    #output += '<html><body><h1><u>Our restaurants!</u></h1>'
     # Create a view, edit and delete page, with URLs, for each restaurant.
-    for i in restaurant_list:
-        output += '<h3><u>%s</u></h3>' % i[0]
-        output += '<ul><li><a href="/restaurants/%s/">View menu</a>' % i[1]
-        output += '<li><a href="/restaurants/%s/edit">Edit</a>' % i[1]
-        output += '<li><a href="/restaurants/%s/delete">Delete</a></li></ul><br>' % i[1]
-    output += '<p>Cant find your restaurant? Add one <a href ="/restaurants/new">here.</a>'
-    output += '</body></html>'
-    return output
+    #for i in restaurant_list:
+    #    output += '<h3><u>%s</u></h3>' % i[0]
+    #    output += '<ul><li><a href="/restaurants/%s/">View menu</a></li>' % i[1]
+    #    output += '<li><a href="/restaurants/%s/edit">Edit</a>' % i[1]
+    #    output += '<li><a href="/restaurants/%s/delete">Delete</a></li></ul><br>' % i[1]
+    #output += '<p>Cant find your restaurant? Add one <a href ="/restaurants/new">here.</a>'
+    #output += '</body></html>'
+    #return output
 
 # Make a dynamic decorator which creates a page for the restaurant id.
 @app.route('/restaurants/<int:restaurant_id>/')
@@ -56,30 +57,32 @@ def restaurantMenu(restaurant_id):
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     # Query the menu items of the restaurant obtained above.
     menu_items = session.query(MenuItem).filter_by(restaurant_id = restaurant.id)
+    return render_template('main_menu.html', restaurant=restaurant, menu_items=menu_items)
     # Main title name of the chosen restaurant, with menu items listed below.
-    output = ""
-    output += '<html><body><h1><strong><u>%s</u></strong></h1>' % restaurant.name
-    for i in menu_items:
-        output += '<h3><strong><u>%s</u></strong></h3>' % i.name
-        output += '<p><i>%s</i></p>' % i.price
-        output += '<p><i>%s</i></p>' % i.description
-        output += '<p><a href="/restaurants/%s/%s/edit/">Edit</a></p>' % (restaurant.id, i.id)
-        output += '<p><a href="/restaurants/%s/%s/delete/">Delete</a></p><br>' % (restaurant.id, i.id)
-    output += '<p><i>Something extra to add to the existing menu? add it <a href ="/restaurants/%s/new/">here.</a></i></p><br>' % restaurant_id
-    output += '<p><i>Click <a href ="/restaurants">here.</a> to return to all restaurants.</i></p>'
-    output += '</body></html>'
-    return output
+    #output = ""
+    #output += '<html><body><h1><strong><u>%s</u></strong></h1>' % restaurant.name
+    #for i in menu_items:
+    #    output += '<h3><strong><u>%s</u></strong></h3>' % i.name
+    #    output += '<p><i>%s</i></p>' % i.price
+    #    output += '<p><i>%s</i></p>' % i.description
+    #    output += '<p><a href="/restaurants/%s/%s/edit/">Edit</a></p>' % (restaurant.id, i.id)
+    #    output += '<p><a href="/restaurants/%s/%s/delete/">Delete</a></p><br>' % (restaurant.id, i.id)
+    #output += '<p><i>Something extra to add to the existing menu? add it <a href ="/restaurants/%s/new/">here.</a></i></p><br>' % restaurant_id
+    #output += '<p><i>Click <a href ="/restaurants">here.</a> to return to all restaurants.</i></p>'
+    #output += '</body></html>'
+    #return output
 
 @app.route('/restaurants/new')
 def newRestaurant():
-    output = ""
-    output += '<html><body><h1>Create a new restaurant</h1>'
-    output += '<form method = "POST" enctype = "multipart/form-data" action = "/restaurants/new">'
-    output += '<h2>New restaurant name:</h2>'
-    output += '<input type = "text" name = "newRestaurantEntry"><br>'
-    output += '<input type = "submit" value = "Create">'
-    output += '</body></html>'
-    return output
+    return render_template('new_restaurant.html')
+    #output = ""
+    #output += '<html><body><h1>Create a new restaurant</h1>'
+    #output += '<form method = "POST" enctype = "multipart/form-data" action = "/restaurants/new">'
+    #output += '<h2>New restaurant name:</h2>'
+    #output += '<input type = "text" name = "newRestaurantEntry"><br>'
+    #output += '<input type = "submit" value = "Create">'
+    #output += '</body></html>'
+    #return output
 
 @app.route('/restaurants/<int:restaurant_id>/new/')
 def newMenuItem(restaurant_id):

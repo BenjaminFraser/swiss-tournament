@@ -1,0 +1,34 @@
+<html>
+
+<body>
+
+<h1><strong><u>{{restaurant.name}}</u></strong></h1>
+
+
+{% for i in menu_items %}
+
+<div>
+
+<h3><strong><u>{{i.name}}</u></strong></h3>
+
+<p><i>{{i.description}}</i></p>
+
+<p><i>{{i.price}}</i></p>
+
+<p>Edit</p>
+
+<p>Delete</p>
+<br>
+
+</div>
+
+
+{% endfor %}
+
+<p><i>Something extra to add to the existing menu? add it here.</i></p>
+
+<p><i>Click here to return to all restaurants.</i></p>
+
+</body>
+
+</html>

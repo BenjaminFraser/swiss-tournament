@@ -1,0 +1,28 @@
+<html>
+
+<body>
+
+<h1><u>Our restaurants!</u></h1>
+
+
+{% for i in restaurant_list %}
+
+<div>
+    <h3><u>{{i[0]}}</u></h3>
+    <ul>
+        <li>View menu</li>
+        <li>Edit</li>
+        <li>Delete</li>
+    </ul>
+</div>
+
+{% endfor %}
+
+<p>Cant find your restaurant? Add one <a href ="/restaurants/new">here.</a>
+    
+</body>
+
+</html>
+
+
+
