@@ -11,7 +11,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 def list_restaurants():
-    """ Returns all the puppies names, id and DOB in alphebetical order. """
+    """ Returns all the restaurant names, id and DOB in alphebetical order. """
     all_restaurants = session.query(Restaurant).order_by('name')
     restaurant_list = []
     for i in all_restaurants:

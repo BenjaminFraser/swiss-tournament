@@ -137,8 +137,11 @@ class webserverHandler(BaseHTTPRequestHandler):
                         self.end_headers()
                         return
                     # Flag up a warning alert if the change was unsuccessful.
-                    else: 
+                    else:
                         print "The change didnt work."
+                        self.send_response(301)
+                        self.send_header('Content-type', 'text/html')
+                        self.end_headers()
                         output += '<html><body><h3>Oops, there was an error.</h3>'
                         output += '<p>Click <a href="/restaurants">here</a> to return home.</p>'
                         output += '</body></html>'
