@@ -1,4 +1,18 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>Create a new restaurant</title>
+
+    <!-- Bootstrap -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <!-- Flask static styling folder -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+  </head>
 
 <body>
 
@@ -7,12 +21,15 @@
 
 <div>
 
-<form method = "POST" enctype = "multipart/form-data" action = "/restaurants/new">
+<form action = "{{url_for('newRestaurant')}}" method="POST">
     <h2>New restaurant name:</h2>
-    <input type = "text" name = "newRestaurantEntry"><br><br>
+    <input type = "text" name = "newRestaurantName"><br><br>
     <input type = "submit" value = "Create">
+</form>
 
 </div>
+
+<h5>Changed your mind? Click <a href="{{ url_for('restaurantList') }}">here</a> to return.</h5>
 
 </body>
 

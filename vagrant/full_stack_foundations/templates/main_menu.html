@@ -1,8 +1,87 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-<body>
+    <title>Restaurant menu page</title>
+
+    <!-- Bootstrap -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <!-- Flask static styling folder -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+
+  <body>
+  
+  <nav class="navbar navbar-inverse navbar-fixed-top" id="navvyBar">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#" id="companyLogo">AnyNote! <span class="glyphicon glyphicon-book"></span></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="home.php">Home <span class="sr-only">(current)</span></a></li>
+        <li class="dropdown" id="signInDropDown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sign in <span class="caret"></span></a>
+          <ul class="dropdown-menu" id="navCollapse">
+            <li><form role="form" id="loginPanel" method="POST">
+                  <div class="form-group">
+                    <label for="loginemail">Email address:</label>
+                    <input type="email" class="form-control" id="loginemail" name="loginemail" value="<?php echo addslashes($_POST['loginemail']); ?>">
+                  </div>
+                  <div class="form-group">
+                    <label for="loginpassword">Password:</label>
+                    <input type="password" class="form-control" id="loginpassword" name="loginpassword" value="<?php echo addslashes($_POST['loginpassword']); ?>">
+                  </div>
+                  <div class="checkbox">
+                    <label><input type="checkbox"> Remember me</label>
+                  </div>
+                  <input type="submit" class="btn btn-success" name="submit" id="loginButton" value="log in"/>
+                </form>
+          </ul>
+        </li>
+        <li><a href="#" >Sign up </a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Download the app!</a></li>
+        <li><a href="#">Account settings</a></li>
+        <li><a href="#">About </a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div class="container contentContainer" id="mainBody">
 
 <h1><strong><u>{{restaurant.name}}</u></strong></h1>
+
+ <!-- set messages variable to array of flashed messages -->
+    {% with messages = get_flashed_messages() %}
+
+    <!-- Set an if statement to run when there is a flash message set.-->
+    {% if messages %}
+
+    <ul>
+        <!-- Display each flash alert to the user by iterating through the array. -->
+        {% for message in messages %}
+        <li><h3><i><strong> {{message}} </strong></i></h3></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    <!-- These statements end the 'for' loop, the 'if' block and the 'with' block -->
 
 
 {% for i in menu_items %}
@@ -15,9 +94,9 @@
 
 <p><i>{{i.price}}</i></p>
 
-<p>Edit</p>
+<p><a href="{{ url_for('editMenuItem', restaurant_id=restaurant.id, id=i.id)}}">Edit</a></p>
 
-<p>Delete</p>
+<p><a href="{{ url_for('deleteMenuItem', restaurant_id=restaurant.id, id=i.id)}}">Delete</a></p>
 <br>
 
 </div>
@@ -25,9 +104,11 @@
 
 {% endfor %}
 
-<p><i>Something extra to add to the existing menu? add it here.</i></p>
+<p><i>Something extra to add to the existing menu? add it <a href="{{url_for('newMenuItem', restaurant_id=restaurant.id)}}">here.</a></i></p>
 
-<p><i>Click here to return to all restaurants.</i></p>
+<p><i>Click <a href="{{ url_for('restaurantList') }}">here</a> to return to all restaurants.</i></p>
+
+</div>
 
 </body>
 

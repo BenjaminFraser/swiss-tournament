@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Restaurant listings page</title>
+    <title>Delete menu item</title>
 
     <!-- Bootstrap -->
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
@@ -15,14 +15,14 @@
   </head>
 
   <body>
-
+  
     <div class="navbar navbar-default">
 
         <div class="container">
 
           <div class="navbar-header">
 
-            <a href="{{ url_for('restaurantList') }}" class="navbar-brand">Home</a>
+            <a href="http://www.ign.com" class="navbar-brand">Home</a>
 
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 
@@ -52,27 +52,23 @@
 
         </div>
 
-      </div> <!-- header -->
-
-<h1><u>Our restaurants!</u></h1>
+      </div>
 
 
-{% for i in restaurant_list %}
+    <h1><strong><u>{{restaurant.name}}</u></strong></h1>
 
-<div>
-    <h3><u>{{i[0]}}</u></h3>
-    <ul>
-        <li><a href="{{ url_for('restaurantMenu', restaurant_id=i[1])}}">View menu</a></li>
-        <li>Edit</li>
-        <li>Delete</li>
-    </ul>
-</div>
+    <h2><u>{{item.name}}</u></h2><br>
 
-{% endfor %}
-<p>Cant find your restaurant? Add one <a href="{{ url_for('newRestaurant')}}">here.</a>
+    <form action = "{{ url_for('deleteMenuItem', restaurant_id=restaurant.id, id=item.id) }}" method="POST">
+
+        <h3><i>Are you sure you want to delete the menu item listed above?</i></h3><br>
+
+        <input type="submit" value="Delete"></form>
+
+    </form>
+
+    <h5>Changed your mind? Click <a href="{{ url_for('restaurantMenu', restaurant_id=restaurant.id)}}">here</a> to return.</h5>
+
 </body>
 
 </html>
-
-
-

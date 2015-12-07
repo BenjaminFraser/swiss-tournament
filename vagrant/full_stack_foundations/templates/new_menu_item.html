@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>Restaurant new menu item</title>
+
+    <!-- Bootstrap -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <!-- Flask static styling folder -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+
+<body>
+
+<h1><strong><u>{{restaurant.name}}</u></strong></h1>
+
+<h2>Enter the details of the new menu item below.</h2>
+
+<form action="{{url_for('newMenuItem', restaurant_id=restaurant.id)}}" method = "POST">
+
+    <h3>New menu item name:</h3>
+    <input type = "text" name = "newMenuItemName"><br><br>
+    <h3>New menu item price:</h3>
+    $<input type="text" name="newMenuItemPrice" size="4"/><br>
+    <h3>New menu item description:</h3>
+    <textarea cols="40" rows="5" name="newMenuItemDescription"></textarea><br><br>
+    <input type = "submit" value = "Create">
+</form>
+<h5>Changed your mind? Click <a href="{{ url_for('restaurantMenu', restaurant_id=restaurant.id)}}">here</a> to return.</h5>
+
+</body>
+
+</html>
