@@ -12,64 +12,101 @@
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
     <!-- Flask static styling folder -->
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}">
   </head>
 
   <body>
 
-    <div class="navbar navbar-default">
+  <!-- HEADER -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" id="navvyBar">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{{ url_for('restaurantList') }}" id="companyLogo">Restrauntaire! <i class="fa fa-cutlery"></i></a>
+      </div>
 
-        <div class="container">
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="{{ url_for('restaurantList') }}">Home <span class="sr-only">(current)</span></a></li>
+          <li><a href="services.html">What We Provide </a></li>
+          <li><a href="index.php" >FAQ's </a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="{{ url_for('newRestaurant') }}">Add a restaurant </a></li>
+          <li><a href="#">Support </a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav> 
+  <!-- HEADER END -->
 
-          <div class="navbar-header">
+<div class="container contentContainer" id="mainBody">
 
-            <a href="{{ url_for('restaurantList') }}" class="navbar-brand">Home</a>
+  <div class="container" id="introBody">
 
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-
-            <span class="sr-only">Toggle navigation</span>
-
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-
-            </button>
-
-          </div>
-
-          <div class="collapse navbar-collapse">
-
-            <ul class="nav navbar-nav">
-
-            <li class="active"><a href="http://www.ign.com" class="navbar-brand">Home</a></li>
-
-            <li><a href="http://www.ign.com" class="navbar-brand">Home</a></li>
-
-            <li><a href="http://www.ign.com" class="navbar-brand">Home</a></li>
-
-            </ul>
-
-          </div>
-
-        </div>
-
-      </div> <!-- header -->
-
-<h1><u>Our restaurants!</u></h1>
+<h1 class="titleHeader"><strong><u>Our restaurants!</u></strong></h1>
 
 
 {% for i in restaurant_list %}
 
-<div>
-    <h3><u>{{i[0]}}</u></h3>
-    <ul>
-        <li><a href="{{ url_for('restaurantMenu', restaurant_id=i[1])}}">View menu</a></li>
-        <li>Edit</li>
-        <li>Delete</li>
-    </ul>
+<div class="row" id="listContent">
+  <div class="col-md-8 col-offset-2 col-md-offset-2">
+    <h3><strong><u>{{i[0]}}</u></strong></h3>  
+    <p><i><a href="{{ url_for('restaurantMenu', restaurant_id=i[1])}}">View menu</a></i></p>
+    <p><i>Edit</i></p>
+    <p><i>Delete</i></p>
+  </div>
 </div>
 
 {% endfor %}
-<p>Cant find your restaurant? Add one <a href="{{ url_for('newRestaurant')}}">here.</a>
+
+<div class = "lowerLinksText">
+  <p class="lead">Cant find your restaurant? Add one <a href="{{ url_for('newRestaurant')}}">here.</a></p>
+</div>
+
+</div>
+</div><!-- mainBody -->
+
+<footer>
+    <div class="navbar navbar-inverse navbar-fixed-bottom">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#footer-body">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse" id="footer-body">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">User Review</a></li>
+                    <li><a href="#">Terms &amp; Conditions</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+       
+    <script type="text/javascript">
+
+    $(".contentContainer").css("min-height", $(window).height());
+
+    </script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+
 </body>
 
 </html>
