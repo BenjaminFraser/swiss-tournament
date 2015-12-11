@@ -1,7 +1,7 @@
 # This Python file makes use of Flask microframework and the database framework
 # defined within database_setup.py, which makes use of SQLAlchemy with SQLite. 
 # Setup initial flask imports and app definition.
-from flask import Flask, render_template, url_for, request, redirect, flash
+from flask import Flask, render_template, url_for, request, redirect, flash, jsonify
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -24,6 +24,25 @@ DBSession = sessionmaker(bind=engine)
 # revert all of them back to the last commit by calling
 # session.rollback()
 session = DBSession()
+
+# Create an API Endpoint (GET request) to send data as JSON.
+@app.route('/restaurants/<int:restaurant_id>/menu/JSON')
+def restaurantMenuJSON(restaurant_id):
+    #Query the chosen restaurant with restaurant_id within the database.
+    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
+    # Query the menu items
+    menu_items = session.query(MenuItem).filter_by(restaurant_id = restaurant.id)
+    # Rather than returning a template, return a jsonify class with data.
+    # Using the serialize function serialize each menu item entry.
+    return jsonify(MenuItems=[i.serialize for i in menu_items])
+
+@app.route('/restaurants/<int:restaurant_id>/menu/<int:id>/JSON')
+def restaurantMenuItemJSON(restaurant_id, id):
+    # Query the menu item within the chosen restaurant.
+    menu_item = session.query(MenuItem).filter_by(restaurant_id = restaurant_id, id = id).one()
+    # Rather than returning a template, return a jsonify class with data.
+    # Using the serialize function serialize each menu item entry.
+    return jsonify(MenuItem= menu_item.serialize)
 
 # Setup route decorators to create our chosen URL links for the page.
 @app.route('/')

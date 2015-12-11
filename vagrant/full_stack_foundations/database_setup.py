@@ -39,6 +39,19 @@ class MenuItem(Base):
     # Create a variable restaurant which is the relationship between class Restaurant.
     restaurant = relationship(Restaurant)
 
+    # Create a serialize function to format data for sending as JSON objects.
+    @property
+    def serialize(self):
+        # Serialize data so its ideal for sending as JSON objects
+        return {
+            'name': self.name,
+            'id': self.id,
+            'description': self.description,
+            'price': self.price,
+            'course': self.course
+        }
+
+
 
 
 # Last part of Configuration component of sqlalchemy.
