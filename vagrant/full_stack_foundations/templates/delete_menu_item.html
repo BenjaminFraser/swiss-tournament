@@ -63,7 +63,7 @@
 
           <form for="form" action = "{{ url_for('deleteMenuItem', restaurant_id=restaurant.id, id=item.id) }}" method="POST">
 
-            <label><h4><i>Are you sure you want to delete the menu item listed above?</i></h4></label>
+            <label><h4><i>Are you sure you want to delete the menu item listed above?</i></h4></label><br>
             <input type="submit" value="Delete" class="btn btn-danger">
           </form>
         </div>

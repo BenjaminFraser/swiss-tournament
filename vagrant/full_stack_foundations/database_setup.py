@@ -7,7 +7,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String
 
 from sqlalchemy.ext.declarative import declarative_base
 
-from sqlalchemy.orm import relationship 
+from sqlalchemy.orm import relationship, backref
 
 from sqlalchemy import create_engine
 
@@ -20,11 +20,13 @@ Base = declarative_base()
 # Within this class we create a representation of our table
 # inside the created database.
 class Restaurant(Base):
-	# Create a table using __tablename__ = 'some_tablename'
-	__tablename__ = 'restaurant'
-	# Create columns of the table restaurant, using instances of Column class.
-	name = Column(String(80), nullable = False)
-	id = Column(Integer, primary_key = True)
+    # Create a table using __tablename__ = 'some_tablename'
+    __tablename__ = 'restaurant'
+    # Create columns of the table restaurant, using instances of Column class.
+    name = Column(String(80), nullable = False)
+    id = Column(Integer, primary_key = True)
+    # Create a variable menuitem which is a child of Restaurant, with cascade deletion.
+    menuitem = relationship("MenuItem", cascade="all,delete", backref="restaurant")
 
 
 class MenuItem(Base):
@@ -37,7 +39,7 @@ class MenuItem(Base):
     course = Column(String(250))
     restaurant_id = Column(Integer, ForeignKey('restaurant.id'))
     # Create a variable restaurant which is the relationship between class Restaurant.
-    restaurant = relationship(Restaurant)
+    # restaurant = relationship(Restaurant)
 
     # Create a serialize function to format data for sending as JSON objects.
     @property

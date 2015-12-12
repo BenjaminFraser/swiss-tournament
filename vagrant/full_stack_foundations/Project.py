@@ -68,6 +68,46 @@ def restaurantList():
     #output += '</body></html>'
     #return output
 
+@app.route('/restaurants/edit/<int:restaurant_id>/', methods=['GET', 'POST'])
+def editRestaurant(restaurant_id):
+    """ A page to rename the chosen restaurants name. """
+    if request.method == 'POST':
+        restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
+        if restaurant != []:
+            restaurant.name = request.form['changedRestaurantName']
+            session.add(restaurant)
+            session.commit()
+            print "%s successfully changed." % restaurant.name
+            flash("Restaurant successfully renamed.")
+            return redirect(url_for('restaurantList'))
+        else:
+            print "The chosen item could not be modified as something went wrong."
+            return
+    else:
+        restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
+        return render_template('edit_restaurant.html', restaurant=restaurant)
+
+
+@app.route('/restaurants/delete/<int:restaurant_id>/', methods=['GET', 'POST'])
+def deleteRestaurant(restaurant_id):
+    """ Provides a function to remove the selected restaurant and menu from the database. """
+    if request.method == 'POST':
+        restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
+        if restaurant != []:
+            session.delete(restaurant)
+            session.commit()
+            print "Restaurant removed from the database."
+            # Using the flash function, raise a message to display to the HTML template.
+            flash("%s removed from restaurant menu." % restaurant.name)
+            return redirect(url_for('restaurantList'))
+        else:
+            print "Restaurant was not found within the database."
+            return redirect(url_for('restaurantList'))
+    else:
+        restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
+        return render_template('delete_restaurant.html', restaurant=restaurant)
+
+
 # Make a dynamic decorator which creates a page for the restaurant id.
 @app.route('/restaurants/<int:restaurant_id>/')
 # Create a restaurant menu dynamic page, listing that specific restaurant
@@ -99,7 +139,8 @@ def newRestaurant():
         try:
             session.add(new_restaurant)
             session.commit()
-            print "successfully added an entry to the database!"
+            print "Successfully added an entry to the website!"
+            flash("Successfully added %s to the website!" % new_restaurant.name)
             return redirect(url_for('restaurantList'))
         except:
             print "The entry was not added to the database, something went wrong."
@@ -122,6 +163,7 @@ def newMenuItem(restaurant_id):
         new_item = MenuItem(name=request.form['newMenuItemName'], restaurant_id=restaurant_id, description=request.form['newMenuItemDescription'], price=request.form['newMenuItemPrice'])
         session.add(new_item)
         session.commit()
+        flash("Successfully added %s to the restaurant!" % new_item.name)
         # redirect back to restaurant menu after creating item.
         return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
     # Load the page as usual if the request is GET.
@@ -183,7 +225,7 @@ def deleteMenuItem(restaurant_id, id):
             session.commit()
             print "Menu item removed from the database."
             # Using the flash function, raise a message to display to the HTML template.
-            flash("Menu item removed from restaurant.")
+            flash("%s removed from restaurant." % delete_item.name)
             return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
         else:
             print "Item was not found within the database."

@@ -53,6 +53,25 @@
 
 <h1 class="titleHeader"><strong><u>Our restaurants!</u></strong></h1>
 
+<!-- set messages variable to array of flashed messages -->
+    {% with messages = get_flashed_messages() %}
+
+    <!-- Set an if statement to run when there is a flash message set.-->
+    {% if messages %}
+    <div class="row" id="alertRegion">
+        <div class ="col-md-6 col-offset-3 col-md-offset-3">
+            <div class="alert alert-info" role="alert">
+                    <!-- Display each flash alert to the user by iterating through the array. -->
+                    {% for message in messages %}
+                    <h3><i><strong> {{message}} </strong></i></h3>
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endwith %}
+    <!-- These statements end the 'for' loop, the 'if' block and the 'with' block -->
+
 
 {% for i in restaurant_list %}
 
@@ -60,8 +79,8 @@
   <div class="col-md-8 col-offset-2 col-md-offset-2">
     <h3><strong><u>{{i[0]}}</u></strong></h3>  
     <p><i><a href="{{ url_for('restaurantMenu', restaurant_id=i[1])}}">View menu</a></i></p>
-    <p><i>Edit</i></p>
-    <p><i>Delete</i></p>
+    <p><i><a href="{{ url_for('editRestaurant', restaurant_id=i[1])}}">Edit</a></i></p>
+    <p><i><a href="{{ url_for('deleteRestaurant', restaurant_id=i[1])}}">Delete</a></i></p>
   </div>
 </div>
 

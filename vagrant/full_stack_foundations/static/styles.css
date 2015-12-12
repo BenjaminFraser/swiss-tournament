@@ -2,9 +2,17 @@ html, body {
   height: 100%;
 }
 
+p {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Georgia, Times, serif;
+    }
+
 #mainBody {
   border: none;
-  background-color: #F6F7FC;
+  /*background-color: #F6F7FC;*/
   margin: 0;
   padding: 0;
   text-align: center;
@@ -13,6 +21,8 @@ html, body {
   height: 600px;
   background-size: cover;
   overflow: scroll;
+  background-image: url("images/cafe.png");
+  background-position: center;
 }
 
 #introBody {
