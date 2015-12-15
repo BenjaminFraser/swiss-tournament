@@ -1,0 +1,60 @@
+html, body {
+  height: 100%;
+}
+
+p {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Georgia, Times, serif;
+    }
+
+#mainBody {
+  border: none;
+  /*background-color: #F6F7FC;*/
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  position: relative;
+  width: 100%;
+  height: 600px;
+  background-size: cover;
+  overflow: scroll;
+  background-image: url("images/cafe.png");
+  background-position: center;
+}
+
+#introBody {
+  margin-top: 100px;
+  color: #2C3539;
+}
+
+#navCollapse { 
+  width: 80%;
+  padding: 10px 15px 10px 15px;
+  min-width: 300px;
+}
+
+#listContent {
+  color: #2C3539;
+  margin: 20px 0 20px 0;
+  float: none
+  text-align: center;
+}
+
+.lowerLinksText {
+  margin: 50px 0 70px 0;
+}
+
+.titleHeader {
+  font-size: 4em;
+}
+
+.formStyle {
+  padding-top: 20px;
+}
+
+#detailsForm {
+  padding-top: 20px;
+}
