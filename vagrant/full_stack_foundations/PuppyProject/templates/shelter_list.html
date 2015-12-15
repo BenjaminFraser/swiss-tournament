@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Puppy listings page</title>
+    <title>Puppy Shelter listings page</title>
 
     <!-- Bootstrap -->
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
@@ -28,7 +28,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="{{ url_for('shelterList') }}" id="companyLogo">The Puppy Haven! <i class="fa fa-cutlery"></i></a>
+        <a class="navbar-brand" href="{{ url_for('restaurantList') }}" id="companyLogo">Restrauntaire! <i class="fa fa-cutlery"></i></a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -51,7 +51,7 @@
 
   <div class="container" id="introBody">
 
-<h1 class="titleHeader"><strong><u>Our puppies!</u></strong></h1>
+<h1 class="titleHeader"><strong><u>Our Shelters!</u></strong></h1>
 
 <!-- set messages variable to array of flashed messages -->
     {% with messages = get_flashed_messages() %}
@@ -73,21 +73,21 @@
     <!-- These statements end the 'for' loop, the 'if' block and the 'with' block -->
 
 
-{% for i in puppies %}
+{% for i in shelters %}
 
 <div class="row" id="listContent">
   <div class="col-md-8 col-offset-2 col-md-offset-2">
     <h3><strong><u>{{i.name}}</u></strong></h3>  
-    <p><i><a href="{{ url_for('puppyProfile', puppy_id=i.id)}}">View profile</a></i></p>
-    <p><i><a href="{{ url_for('editRestaurant', restaurant_id=i[1])}}">Edit</a></i></p>
-    <p><i><a href="{{ url_for('deleteRestaurant', restaurant_id=i[1])}}">Delete</a></i></p>
+    <p><i><a href="{{ url_for('shelterPuppies', shelter_id=i.id)}}">View puppies</a></i></p>
+    <p><i><a href="{{ url_for('editShelter', shelter_id=i.id)}}">Edit</a></i></p>
+    <p><i><a href="{{ url_for('deleteShelter', shelter_id=i.id)}}">Delete</a></i></p>
   </div>
 </div>
 
 {% endfor %}
 
 <div class = "lowerLinksText">
-  <p class="lead">Want to adopt this puppy? The application process can be found <a href="{{ url_for('newRestaurant')}}">here.</a></p>
+  <p class="lead">Cant find your Shelter, or know about a new one? Add one <a href="{{ url_for('newShelter')}}">here.</a></p>
 </div>
 
 </div>

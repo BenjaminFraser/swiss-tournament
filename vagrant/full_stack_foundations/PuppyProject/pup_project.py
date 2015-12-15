@@ -32,11 +32,11 @@ def shelterList():
     """ Displays all shelters within a single summary page. """
     # Query all restaurants and place into a list with the id and name.
     shelters = session.query(Shelter).order_by('name')
-    shelter_list = []
-    for i in all_restaurants:
-        shelter_list.append((str(i.name), i.id))
+    #shelter_list = []
+    #for i in all_restaurants:
+    #    shelter_list.append((str(i.name), i.id))
     # Return the HTML template for restaurant lists within the templates folder.
-    return render_template('shelter_list.html', shelter_list=shelter_list)
+    return render_template('shelter_list.html', shelters=shelters)
 
 
 @app.route('/restaurants/edit/<int:restaurant_id>/', methods=['GET', 'POST'])
@@ -85,7 +85,7 @@ def puppyList():
     # All puppies to obtain name, id, DOB, address, city, state and website.
     puppies = session.query(Puppy).order_by('name')
     # Render the html template for puppy_list to display the required info.
-    return render_template('puppy_list.html', puppy_list=puppy_list)
+    return render_template('puppy_list.html', puppies=puppies)
 
 
 @app.route('/puppies/<int:puppy_id>/')
@@ -122,6 +122,15 @@ def createShelter():
             return redirect(url_for('shelterList'))
     else:
         return render_template('new_shelter.html')
+
+
+@app.route('/shelters/<int:shelter_id>/')
+def shelterPuppies(shelter_id):
+    """ Displays details about the current puppies at the chosen shelter. """
+    shelter = session.query(Shelter).filter_by(id=shelter_id).one()
+    shelter_pups = session.query(Puppy).filter_by(shelter_id=shelter_id).order_by('name')
+    return render_template('shelter_puppies.html', shelter=shelter, shelter_pups=shelter_pups)
+
 
 
 

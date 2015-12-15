@@ -61,8 +61,6 @@ def puppy_shelter():
         print i.id, i.name, i.shelter_id, i.shelter.name
 
 
-def createShelter():
-	""" Creates a new shelter at which puppies can be given a temporary home. """"
 
 
 
