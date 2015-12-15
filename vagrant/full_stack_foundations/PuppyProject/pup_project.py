@@ -5,7 +5,7 @@ from flask import Flask, render_template, url_for, request, redirect, flash, jso
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from puppies.py import Base, Shelter, Puppy, Adopter, Profile
+from puppies import Base, Shelter, Puppy, Adopter, Profile
 # Anytime we run an app in Python a special variable called __name__ is defined.
 # 
 app = Flask(__name__)
@@ -27,6 +27,7 @@ session = DBSession()
 
 
 # Setup route decorators to create our chosen URL links for the page.
+@app.route('/')
 @app.route('/shelters')
 def shelterList():
     """ Displays all shelters within a single summary page. """
@@ -35,11 +36,11 @@ def shelterList():
     #shelter_list = []
     #for i in all_restaurants:
     #    shelter_list.append((str(i.name), i.id))
-    # Return the HTML template for restaurant lists within the templates folder.
+    # Return the HTML template for shelter lists within the templates folder.
     return render_template('shelter_list.html', shelters=shelters)
 
 
-@app.route('/restaurants/edit/<int:restaurant_id>/', methods=['GET', 'POST'])
+@app.route('/shelters/edit/<int:shelter_id>/', methods=['GET', 'POST'])
 def editShelter(shelter_id):
     """ A page to rename the chosen shelters name. """
     if request.method == 'POST':
@@ -132,18 +133,16 @@ def shelterPuppies(shelter_id):
     return render_template('shelter_puppies.html', shelter=shelter, shelter_pups=shelter_pups)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# The running variable made from the Python interpretter gets defined as __main__.
+# This if statement makes sure the app is only run when executed by the python
+# interpretter. If this file is imported from another python module, this code
+# will not execute, but the rest of the file is still accesible. 
+if __name__ == '__main__':
+    # Create a secret key which flask uses for sessions.
+    # This would normally be something very secure if the app is live.
+    app.secret_key = 'random_super_key'
+    # Enable debug support when running from the Python interpretter.
+    # This lets the app reload itself each time it detects a code change - very useful.
+    app.debug = True
+    # Make the module publicly available since we're running it in Vagrant.
+    app.run(host='0.0.0.0', port=5000)
