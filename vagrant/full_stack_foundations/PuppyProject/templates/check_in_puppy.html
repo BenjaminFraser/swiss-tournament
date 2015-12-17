@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Add a puppy to shelter</title>
+    <title>Add a puppy to the shelter</title>
 
     <!-- Bootstrap -->
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
@@ -35,12 +35,12 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li class="active"><a href="{{ url_for('shelterList') }}">Home <span class="sr-only">(current)</span></a></li>
-          <li><a href="services.html">What We Provide </a></li>
-          <li><a href="index.php" >FAQ's </a></li>
+          <li><a href="{{url_for('puppyList')}}">Our Puppy List </a></li>
+          <li><a href="{{url_for('shelterList')}}">Our Shelter List </a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#">Adopt a puppy </a></li>
-          <li><a href="#">Support </a></li>
+          <li><a href="#">FAQ's </a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Delete a stored restaurant</title>
+    <title>Delete a stored shelter</title>
 
     <!-- Bootstrap -->
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
@@ -35,12 +35,12 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li class="active"><a href="{{ url_for('shelterList') }}">Home <span class="sr-only">(current)</span></a></li>
-          <li><a href="services.html">What We Provide </a></li>
-          <li><a href="index.php" >FAQ's </a></li>
+          <li><a href="{{url_for('puppyList')}}">Our Puppy List </a></li>
+          <li><a href="{{url_for('shelterList')}}">Our Shelter List </a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#">Adopt a puppy </a></li>
-          <li><a href="#">Support </a></li>
+          <li><a href="#">FAQ's </a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -51,7 +51,7 @@
 
   <div class="container" id="introBody">
 
-    <h1 class="titleHeader"><strong><u>{{restaurant.name}}</u></strong></h1>
+    <h1 class="titleHeader"><strong><u>{{shelter.name}}</u></strong></h1>
 
     <div class="container formStyle">
 
@@ -59,9 +59,9 @@
 
         <div class="col-md-6 col-offset-3 col-md-offset-3">
 
-          <form for="form" action = "{{ url_for('deleteRestaurant', restaurant_id=restaurant.id) }}" method="POST">
+          <form for="form" action = "{{ url_for('deleteShelter', shelter_id=shelter.id) }}" method="POST">
 
-            <label><h4><i>Are you sure you want to delete the restaurant {{restaurant.name}}? All menu items will be deleted in doing so.</i></h4></label>
+            <label><h4><i>Are you sure you want to delete the shelter {{shelter.name}}? All shelter puppies will have to be found a new home in doing so.</i></h4></label>
             <input type="submit" value="Delete" class="btn btn-danger">
           </form>
         </div>
@@ -69,7 +69,7 @@
     </div><!-- formStyle -->
 
   <div class = "lowerLinksText">
-    <h5>Changed your mind? Click <a href="{{ url_for('restaurantList')}}">here</a> to return.</h5>
+    <h5>Changed your mind? Click <a href="{{ url_for('shelterList')}}">here</a> to return.</h5>
   </div>
 
 </div><!-- introBody -->

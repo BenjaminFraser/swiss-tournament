@@ -20,7 +20,7 @@ class Shelter(Base):
     state = Column(String(20))
     zipCode = Column(String(10))
     website = Column(String)
-    maximum_capacity = Column(Integer, default=20)
+    maximum_capacity = Column(Integer, default=30)
     current_occupancy = Column(Integer)
     shelter_pups = relationship("Puppy")
     

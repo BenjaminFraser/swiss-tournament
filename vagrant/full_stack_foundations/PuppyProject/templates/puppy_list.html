@@ -35,12 +35,12 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li class="active"><a href="{{ url_for('shelterList') }}">Home <span class="sr-only">(current)</span></a></li>
-          <li><a href="services.html">What We Provide </a></li>
-          <li><a href="index.php" >FAQ's </a></li>
+          <li><a href="{{url_for('puppyList')}}">Our Puppy List </a></li>
+          <li><a href="{{url_for('shelterList')}}">Our Shelter List </a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#">Adopt a puppy </a></li>
-          <li><a href="#">Support </a></li>
+          <li><a href="#">FAQ's </a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -79,15 +79,16 @@
   <div class="col-md-8 col-offset-2 col-md-offset-2">
     <h3><strong><u>{{i.name}}</u></strong></h3>  
     <p><i><a href="{{ url_for('puppyProfile', puppy_id=i.id)}}">View profile</a></i></p>
-    <p><i><a href="{{ url_for('editRestaurant', restaurant_id=i[1])}}">Edit</a></i></p>
-    <p><i><a href="{{ url_for('deleteRestaurant', restaurant_id=i[1])}}">Delete</a></i></p>
+    <p><i><a href="#">Edit</a></i></p>
+    <p><i><a href="#">Delete</a></i></p>
   </div>
 </div>
 
 {% endfor %}
 
 <div class = "lowerLinksText">
-  <p class="lead">Want to adopt this puppy? The application process can be found <a href="{{ url_for('newRestaurant')}}">here.</a></p>
+  <p class="lead">Want to adopt a puppy? The application process can be found <a href="#">here.</a></p>
+  <p class="lead">Click <a href="{{ url_for('shelterList') }}">here</a> to return to our shelters.
 </div>
 
 </div>

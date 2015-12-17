@@ -3,7 +3,7 @@
 # Setup initial flask imports and app definition.
 from flask import Flask, render_template, url_for, request, redirect, flash, jsonify
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
 from puppies import Base, Shelter, Puppy, Adopter, Profile
 # Anytime we run an app in Python a special variable called __name__ is defined.
@@ -33,8 +33,12 @@ def shelterList():
     """ Displays all shelters within a single summary page. """
     # Query all restaurants and place into a list with the id and name.
     shelters = session.query(Shelter).order_by('name')
-    #shelter_list = []
-    #for i in all_restaurants:
+    # current occupancy must be worked out for each shelter by counting rows.
+    for i in shelters:
+        count_pups = session.query(func.count(Puppy.shelter_id)).filter_by(shelter_id=i.id).scalar()
+        i.current_occupancy = int(count_pups)
+        session.add(i)
+        session.commit()
     #    shelter_list.append((str(i.name), i.id))
     # Return the HTML template for shelter lists within the templates folder.
     return render_template('shelter_list.html', shelters=shelters)
