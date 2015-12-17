@@ -21,7 +21,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 600px;
   background-size: cover;
   overflow: scroll;
-  background-image: url("images/cafe.png");
+  background-image: url("images/dog.png");
   background-position: center;
 }
 

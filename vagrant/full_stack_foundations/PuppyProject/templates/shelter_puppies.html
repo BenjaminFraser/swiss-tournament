@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Puppy listings page</title>
+    <title>Shelter Puppy Listings</title>
 
     <!-- Bootstrap -->
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
@@ -16,7 +16,7 @@
   </head>
 
   <body>
-
+  
   <!-- HEADER -->
   <nav class="navbar navbar-inverse navbar-fixed-top" id="navvyBar">
     <div class="container-fluid">
@@ -51,9 +51,9 @@
 
   <div class="container" id="introBody">
 
-<h1 class="titleHeader"><strong><u>Our puppies!</u></strong></h1>
+    <h1 class= "titleHeader"><strong><u>{{shelter.name}}</u></strong></h1>
 
-<!-- set messages variable to array of flashed messages -->
+ <!-- set messages variable to array of flashed messages -->
     {% with messages = get_flashed_messages() %}
 
     <!-- Set an if statement to run when there is a flash message set.-->
@@ -73,24 +73,38 @@
     <!-- These statements end the 'for' loop, the 'if' block and the 'with' block -->
 
 
-{% for i in puppies %}
+{% for i in shelter_pups %}
 
 <div class="row" id="listContent">
+
   <div class="col-md-8 col-offset-2 col-md-offset-2">
-    <h3><strong><u>{{i.name}}</u></strong></h3>  
-    <p><i><a href="{{ url_for('puppyProfile', puppy_id=i.id)}}">View profile</a></i></p>
-    <p><i><a href="{{ url_for('editRestaurant', restaurant_id=i[1])}}">Edit</a></i></p>
-    <p><i><a href="{{ url_for('deleteRestaurant', restaurant_id=i[1])}}">Delete</a></i></p>
+
+    <h3><strong><u>{{i.name}}</u></strong></h3>
+
+    <p><i>{{i.gender}}</i></p>
+
+    <p><i>{{i.dateOfBirth}}</i></p>
+
+    <p><i>{{i.weight}}</i></p>
+
+    <p><a href="#">Edit</a></p>
+
+    <p><a href="#">Delete</a></p>
+    
   </div>
 </div>
+
 
 {% endfor %}
 
 <div class = "lowerLinksText">
-  <p class="lead">Want to adopt this puppy? The application process can be found <a href="{{ url_for('newRestaurant')}}">here.</a></p>
-</div>
+
+<p class="lead"><i>Would you like to check a puppy into this shelter? Click <a href="{{ url_for('checkInPuppy', shelter_id=shelter.id) }}">here.</a></i></p>
+
+<p class="lead"><i>Click <a href="{{ url_for('shelterList') }}">here</a> to return to all shelters.</i></p>
 
 </div>
+</div><!-- introBody -->
 </div><!-- mainBody -->
 
 <footer>
@@ -129,6 +143,3 @@
 </body>
 
 </html>
-
-
-

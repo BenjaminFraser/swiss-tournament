@@ -119,7 +119,7 @@ def createShelter():
             return redirect(url_for('shelterList'))
         except:
             print "The entry was no added to the database, an unexpected error occurred."
-            flash("The shelter was no added to the database, an error occurred!")
+            flash("The shelter was not added to the database, an error occurred!")
             return redirect(url_for('shelterList'))
     else:
         return render_template('new_shelter.html')
@@ -132,6 +132,27 @@ def shelterPuppies(shelter_id):
     shelter_pups = session.query(Puppy).filter_by(shelter_id=shelter_id).order_by('name')
     return render_template('shelter_puppies.html', shelter=shelter, shelter_pups=shelter_pups)
 
+
+@app.route('/shelters/<int:shelter_id>/addpuppy/', methods=['GET', 'POST'])
+def checkInPuppy(shelter_id):
+    shelter = session.query(Shelter).filter_by(id = shelter_id).one()
+    if request.method == 'POST':
+        input_puppy = request.form['checkInPuppyName']
+        input_puppy_id = request.form['checkInPuppyId']
+        puppy = session.query(Puppy).filter_by(id=input_puppy_id, name=input_puppy).one()
+        if (shelter.current_occupancy >= shelter.maximum_capacity) and puppy != []:
+            print "The current shelter is at maximum capacity, a new shelter must be made!"
+            flash("The shelter %s is at maximum capacity. Please use a different shelter.")
+            return redirect(url_for('shelterPuppies', shelter_id=shelter.id))
+        else:
+            puppy.shelter_id = shelter_id 
+            session.add(puppy)
+            session.commit()
+            print "%s successfully checked into %s" % (puppy.name, shelter.name)
+            flash("%s successfully added to %s" % (puppy.name, shelter.name))
+            return redirect(url_for('shelterPuppies', shelter_id=shelter.id))
+    else:
+        return render_template('check_in_puppy.html', shelter=shelter)
 
 # The running variable made from the Python interpretter gets defined as __main__.
 # This if statement makes sure the app is only run when executed by the python

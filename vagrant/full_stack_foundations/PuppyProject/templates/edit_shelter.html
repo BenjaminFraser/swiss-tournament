@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Edit Restaurant Name</title>
+    <title>Edit Shelter</title>
 
     <!-- Bootstrap -->
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
@@ -28,18 +28,18 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="{{ url_for('restaurantList') }}" id="companyLogo">Restrauntaire! <i class="fa fa-cutlery"></i></a>
+        <a class="navbar-brand" href="{{ url_for('shelterList') }}" id="companyLogo">The Puppy Haven! <i class="fa fa-cutlery"></i></a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="{{ url_for('restaurantList') }}">Home <span class="sr-only">(current)</span></a></li>
+          <li class="active"><a href="{{ url_for('shelterList') }}">Home <span class="sr-only">(current)</span></a></li>
           <li><a href="services.html">What We Provide </a></li>
           <li><a href="index.php" >FAQ's </a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="{{ url_for('newRestaurant') }}">Add a restaurant </a></li>
+          <li><a href="#">Adopt a puppy </a></li>
           <li><a href="#">Support </a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
@@ -51,7 +51,7 @@
 
   <div class="container" id="introBody">
 
-  <h1 class ="titleHeader"><strong><u>{{restaurant.name}}</u></strong></h1>
+  <h1 class ="titleHeader"><strong><u>{{shelter.name}}</u></strong></h1>
 
   <div class="container formStyle">
 
@@ -59,11 +59,11 @@
 
       <div class="col-md-6 col-offset-3 col-md-offset-3">
 
-        <form for="form" action="{{url_for('editRestaurant', restaurant_id=restaurant.id)}}" method = "POST">
+        <form for="form" action="{{url_for('editShelter', shelter_id=shelter.id)}}" method = "POST">
 
             <div class="form-group">
-                <h3>Enter a new name for the restaurant:</h3>
-                <input class="form-control" type="text" name="changedRestaurantName">
+                <h3>Enter a new name for the shelter:</h3>
+                <input class="form-control" type="text" name="changedShelterName">
             </div>
 
             <input type="submit" value="Change" class="btn btn-success">
@@ -73,8 +73,8 @@
   </div><!-- formStyle -->
 
   <div class = "lowerLinksText">
-    <h5>Want to change the menu instead? Click <a href="{{ url_for('restaurantMenu', restaurant_id=restaurant.id)}}">here</a> to return.</h5>
-    <h5>Changed your mind? Click <a href="{{ url_for('restaurantList')}}">here</a> to return.</h5>
+    <h5>Want to change the menu instead? Click <a href="#">here</a> to return.</h5>
+    <h5>Changed your mind? Click <a href="{{ url_for('shelterList')}}">here</a> to return.</h5>
   </div>
 
 </div><!-- introBody -->
