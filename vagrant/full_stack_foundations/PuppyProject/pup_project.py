@@ -100,10 +100,12 @@ def puppyProfile(puppy_id):
     puppy = session.query(Puppy).filter_by(id=puppy_id).one()
     # Query the puppy of the  obtained above.
     shelter = session.query(Shelter).filter_by(id = puppy.shelter_id).one()
-    if puppy_shelter != []:
-        return render_template('puppy_profile.html', puppy=puppy, shelter=shelter)
+    # Obtain the puppy weight and round to 2 decimal places.
+    pup_weight = round(puppy.weight, 2)
+    if shelter != None:
+        return render_template('puppy_profile.html', puppy=puppy, shelter=shelter, pup_weight=pup_weight)
     else:
-        return render_template('puppy_profile.html', puppy=puppy)
+        return render_template('puppy_profile.html', puppy=puppy, shelter=shelter, pup_weight=pup_weight)
 
 
 @app.route('/shelters/new/', methods=['GET', 'POST'])
@@ -139,6 +141,7 @@ def shelterPuppies(shelter_id):
 
 @app.route('/shelters/<int:shelter_id>/addpuppy/', methods=['GET', 'POST'])
 def checkInPuppy(shelter_id):
+    """ Provides a page for checking a puppy into a chosen shelter using shelter_id. """
     shelter = session.query(Shelter).filter_by(id = shelter_id).one()
     if request.method == 'POST':
         input_puppy = request.form['checkInPuppyName']
@@ -157,6 +160,53 @@ def checkInPuppy(shelter_id):
             return redirect(url_for('shelterPuppies', shelter_id=shelter.id))
     else:
         return render_template('check_in_puppy.html', shelter=shelter)
+
+@app.route('/puppies/<int:puppy_id>/adopt/', methods=['GET', 'POST'])
+def adoptPuppyPage(puppy_id):
+    """ Provides a page where adopters can adopt a puppy. """
+    puppy = session.query(Puppy).filter_by(id=puppy_id).one()
+    if request.method == 'POST':
+        try:
+            # Change the adopter_puppy field of adopter to reflect the puppy.
+            adopter_id = int(request.form['adopterIDField'])
+            adopter = session.query(Adopter).filter_by(id=adopter_id).one()
+            adopter.adopted_puppy = puppy.id
+            session.add(adopter)
+            # Change the shelter id of the puppy to None since it has a home.
+            puppy.shelter_id = None
+            session.add(puppy)
+            session.commit()
+            return redirect(url_for('puppyList'))
+        except:
+            print "The adoption process was unsuccessful."
+            return redirect(url_for('puppyList'))
+    else:
+        return render_template('adopt_puppy.html', puppy=puppy)
+
+
+def adoptPuppy(puppy_id, adopter_list):
+    """ Takes in a chosen puppy id to adopt, along with a list of adopter id's
+    who will take ownership of the seelcted puppy. On adoption, the puppy_id
+    shall be removed from the shelter, but will remain on the website puppy list. 
+    """
+    if adopter_list != []:
+        puppy = session.query(Puppy).filter_by(id=puppy_id).one()
+        for i in adopter_list:
+            try:
+                adopter_id = int(i)
+                adopter = session.query(Adopter).filter_by(id=adopter_id).one()
+                adopter.adopted_puppy = puppy.id
+                session.add(adopter)
+                session.commit()
+                print "%s added to adopter %s" % (puppy.name, adopter.name)
+                return redirect(url_for('puppyList'))
+            except ValueError:
+                print "Object inside adopter list is Not a Number!"
+                return redirect(url_for('puppyList'))
+    else:
+        print "The adopter list is empty."
+        return redirect(url_for('puppyList'))
+
 
 # The running variable made from the Python interpretter gets defined as __main__.
 # This if statement makes sure the app is only run when executed by the python

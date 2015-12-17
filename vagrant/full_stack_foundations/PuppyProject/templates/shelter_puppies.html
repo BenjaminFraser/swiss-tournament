@@ -79,18 +79,19 @@
 
   <div class="col-md-8 col-offset-2 col-md-offset-2">
 
-    <h3><strong><u>{{i.name}}</u></strong></h3>
-
-    <p><i>{{i.gender}}</i></p>
-
-    <p><i>{{i.dateOfBirth}}</i></p>
-
-    <p><i>{{i.weight}}</i></p>
-
-    <p><a href="#">Edit</a></p>
-
-    <p><a href="#">Delete</a></p>
-    
+      <div class="collapse-group">
+      <h3><strong><u>{{i.name}}</u></strong></h3>
+      <div class="collapse">
+        <p><i>Gender: {{i.gender}}</i></p>
+        <p><i>Birth date: {{i.dateOfBirth}}</i></p>
+        <p><i>Current residence: {{i.shelter.name}}</i></p>
+        <p><i>Unique Puppy ID: {{i.id}}</i></p>  
+      </div>
+      <p><button type="button" class="btn btn-link">View details »</button></p>
+    </div>
+      <p><i><a href="{{ url_for('puppyProfile', puppy_id=i.id)}}">View profile</a></i></p>
+      <p><i><a href="#">Edit</a></i></p>
+      <p><i><a href="#">Delete</a></i></p>
   </div>
 </div>
 
@@ -136,6 +137,14 @@
     <script type="text/javascript">
 
     $(".contentContainer").css("min-height", $(window).height());
+
+    /* Javascript snippet for collapse toggle functionality for shelter info. */
+    $('.row .btn').on('click', function(e) {
+    e.preventDefault();
+    var $this = $(this);
+    var $collapse = $this.closest('.collapse-group').find('.collapse');
+    $collapse.collapse('toggle');
+    });
 
     </script>
     <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>

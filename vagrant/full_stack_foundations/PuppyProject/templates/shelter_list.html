@@ -87,7 +87,7 @@
             <p class="lead"><a href="{{i.website}}">{{i.website}}</a></p>
             <p class="lead">This shelter has {{i.current_occupancy}} puppies, and can manage a total of {{i.maximum_capacity}}</p>
         </div>
-        <p><a class="btn" href="#">View details »</a></p>
+        <p><button type="button" class="btn btn-link">View details »</button></p>
     </div>
     <p><i><a href="{{ url_for('shelterPuppies', shelter_id=i.id)}}">View puppies</a></i></p>
     <p><i><a href="{{ url_for('editShelter', shelter_id=i.id)}}">Edit</a></i></p>

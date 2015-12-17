@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Add a puppy to the shelter</title>
+    <title>Puppy Profile</title>
 
     <!-- Bootstrap -->
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
@@ -51,36 +51,46 @@
 
   <div class="container" id="introBody">
 
-    <h1 class ="titleHeader"><strong><u>Check a puppy into {{shelter.name}}</u></strong></h1>
+<h1 class="titleHeader"><strong><u>{{puppy.name}}!</u></strong></h1>
 
-    <div class="container formStyle">
+<!-- set messages variable to array of flashed messages -->
+    {% with messages = get_flashed_messages() %}
 
-      <div class="row">
-
-        <div class="col-md-6 col-offset-3 col-md-offset-3">
-
-          <form for="form" action = "{{ url_for('checkInPuppy', shelter_id=shelter.id) }}" method="POST">
-
-            <div class="form-group">
-              <label for="name"><h3>Puppy Name:</h3></label>
-              <input class="form-control" type="text" name="checkInPuppyName" placeholder="Puppy Name">
+    <!-- Set an if statement to run when there is a flash message set.-->
+    {% if messages %}
+    <div class="row" id="alertRegion">
+        <div class ="col-md-6 col-offset-3 col-md-offset-3">
+            <div class="alert alert-info" role="alert">
+                    <!-- Display each flash alert to the user by iterating through the array. -->
+                    {% for message in messages %}
+                    <h3><i><strong> {{message}} </strong></i></h3>
+                    {% endfor %}
             </div>
-
-            <div class="form-group">
-              <label for="puppy_id"><h3>Puppy Unique ID:</h3></label>
-              <input class="form-control" type="text" name="checkInPuppyId" placeholder="Puppy ID">
-            </div>
-
-            <input type = "submit" class="btn btn-success" value = "Check In">
-          </form>
         </div>
-      </div>
-    </div><!-- formStyle -->
-
-    <div class = "lowerLinksText">
-      <h5>Changed your mind? Click <a href="{{ url_for('shelterList') }}">here</a> to return.</h5>
     </div>
-  </div><!-- introBody -->
+    {% endif %}
+    {% endwith %}
+    <!-- These statements end the 'for' loop, the 'if' block and the 'with' block -->
+
+<div class="row" id="listContent">
+  <div class="col-md-8 col-offset-2 col-md-offset-2">
+        <p><i>Gender: {{puppy.gender}}</i></p>
+        <p><i>Birth date: {{puppy.dateOfBirth}}</i></p>
+        <p><i>Weight: {{pup_weight}} lbs</i></p>
+        <p><i>Current residence: {{puppy.shelter.name}}</i></p>
+        <p><i>Unique Puppy ID: {{puppy.id}}</i></p>  
+      <p><i><a href="{{ url_for('adoptPuppyPage', puppy_id=puppy.id)}}">Adopt this puppy! </a></i></p>
+      <p><i><a href="#">Edit</a></i></p>
+      <p><i><a href="#">Delete</a></i></p>
+  </div>
+</div>
+
+<div class = "lowerLinksText">
+  <p class="lead">Want to adopt this puppy? The application process can be found <a href="{{ url_for('adoptPuppyPage', puppy_id=puppy.id)}}">here.</a></p>
+  <p class="lead">Click <a href="{{ url_for('shelterList') }}">here</a> to return to our shelters.
+</div>
+
+</div>
 </div><!-- mainBody -->
 
 <footer>
