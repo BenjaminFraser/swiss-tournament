@@ -77,13 +77,18 @@
 
 <div class="row" id="listContent">
   <div class="col-md-8 col-offset-2 col-md-offset-2">
-    <h3><strong><u>{{i.name}}</u></strong></h3>
-    <p>{{i.address}}</p>
-    <p>{{i.city}}</p>
-    <p>{{i.state}}</p>
-    <p>{{i.zipCode}}</p>
-    <p>{{i.website}}</p>
-    <p>This shelter has {{i.current_occupancy}} puppies, and can manage a total of {{i.maximum_capacity}}</p> 
+    <div class="collapse-group">
+        <h2><strong><u>{{i.name}}</u></strong></h2>
+        <div class="collapse">
+            <p class="lead">{{i.address}}</p>
+            <p class="lead">{{i.city}}</p>
+            <p class="lead">{{i.state}}</p>
+            <p class="lead">{{i.zipCode}}</p>
+            <p class="lead"><a href="{{i.website}}">{{i.website}}</a></p>
+            <p class="lead">This shelter has {{i.current_occupancy}} puppies, and can manage a total of {{i.maximum_capacity}}</p>
+        </div>
+        <p><a class="btn" href="#">View details »</a></p>
+    </div>
     <p><i><a href="{{ url_for('shelterPuppies', shelter_id=i.id)}}">View puppies</a></i></p>
     <p><i><a href="{{ url_for('editShelter', shelter_id=i.id)}}">Edit</a></i></p>
     <p><i><a href="{{ url_for('deleteShelter', shelter_id=i.id)}}">Delete</a></i></p>
@@ -129,6 +134,14 @@
     <script type="text/javascript">
 
     $(".contentContainer").css("min-height", $(window).height());
+
+    /* Javascript snippet for collapse toggle functionality for shelter info. */
+    $('.row .btn').on('click', function(e) {
+    e.preventDefault();
+    var $this = $(this);
+    var $collapse = $this.closest('.collapse-group').find('.collapse');
+    $collapse.collapse('toggle');
+    });
 
     </script>
     <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
