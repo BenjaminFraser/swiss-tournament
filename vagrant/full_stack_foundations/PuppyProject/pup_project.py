@@ -52,8 +52,8 @@ def shelterList():
 @app.route('/shelters/edit/<int:shelter_id>/', methods=['GET', 'POST'])
 def editShelter(shelter_id):
     """ A page to rename the chosen shelters name. """
+    shelter = session.query(Shelter).filter_by(id=shelter_id).one()
     if request.method == 'POST':
-        shelter = session.query(Shelter).filter_by(id=shelter_id).one()
         if shelter != []:
             shelter.name = request.form['changedShelterName']
             session.add(shelter)
@@ -65,15 +65,14 @@ def editShelter(shelter_id):
             print "The chosen item could not be modified as something went wrong."
             return
     else:
-        shelter = session.query(Shelter).filter_by(id=shelter_id).one()
         return render_template('edit_shelter.html', shelter=shelter)
 
 
 @app.route('/shelters/delete/<int:shelter_id>/', methods=['GET', 'POST'])
 def deleteShelter(shelter_id):
     """ Provides a function to remove the selected shelter and puppies from the database. """
+    shelter = session.query(Shelter).filter_by(id=shelter_id).one()
     if request.method == 'POST':
-        shelter = session.query(Shelter).filter_by(id=shelter_id).one()
         if shelter != []:
             session.delete(shelter)
             session.commit()
@@ -85,7 +84,6 @@ def deleteShelter(shelter_id):
             print "Shelter was not found within the database."
             return redirect(url_for('shelterList'))
     else:
-        shelter = session.query(Shelter).filter_by(id=shelter_id).one()
         return render_template('delete_shelter.html', shelter=shelter)
 
 
@@ -111,6 +109,44 @@ def puppyProfile(puppy_id):
         return render_template('puppy_profile.html', puppy=puppy, shelter=shelter, pup_weight=pup_weight)
     else:
         return render_template('puppy_profile.html', puppy=puppy, shelter=shelter, pup_weight=pup_weight)
+
+
+@app.route('/puppies/<int:puppy_id>/edit/', methods=['GET', 'POST'])
+def editPuppy(puppy_id):
+    """ Page to allow editting of puppy details. """
+    puppy = session.query(Puppy).filter_by(id=puppy_id).one()
+    if request.method == 'POST':
+        if puppy != []:
+            puppy.name = request.form['changedPuppyName']
+            session.add(puppy)
+            session.commit()
+            print "%s successfully changed." % puppy.name
+            flash("%s successfully renamed." % puppy.name)
+            return redirect(url_for('puppyList'))
+        else:
+            print "The chosen puppy could not be modified as something went wrong."
+            return
+    else:
+        return render_template('edit_puppy.html', puppy=puppy)
+
+
+@app.route('/puppies/<int:puppy_id>/delete/', methods=['GET', 'POST'])
+def deletePuppy(puppy_id):
+    """ Permanently delete a puppy from the database. """
+    puppy = session.query(Puppy).filter_by(id=puppy_id).one()
+    if request.method == 'POST':
+        if puppy != []:
+            session.delete(puppy)
+            session.commit()
+            print "%s removed from the database." % puppy.name
+            # Using the flash function, raise a message to display to the HTML template.
+            flash("%s removed from website." % puppy.name)
+            return redirect(url_for('puppyList'))
+        else:
+            print "Puppy was not found within the database."
+            return redirect(url_for('puppyList'))
+    else:
+        return render_template('delete_puppy.html', puppy=puppy)
 
 
 @app.route('/shelters/new/', methods=['GET', 'POST'])
@@ -154,7 +190,7 @@ def checkInPuppy(shelter_id):
         puppy = session.query(Puppy).filter_by(id=input_puppy_id, name=input_puppy).one()
         if (shelter.current_occupancy >= shelter.maximum_capacity) and puppy != []:
             print "The current shelter is at maximum capacity, a new shelter must be made!"
-            flash("The shelter %s is at maximum capacity. Please use a different shelter.")
+            flash("The shelter %s is at maximum capacity. Please use a different shelter." % shelter.name)
             return redirect(url_for('shelterPuppies', shelter_id=shelter.id))
         else:
             puppy.shelter_id = shelter_id 

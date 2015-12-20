@@ -88,8 +88,8 @@
       <p><button type="button" class="btn btn-link">View details »</button></p>
     </div>
       <p><i><a href="{{ url_for('puppyProfile', puppy_id=i.id)}}">View profile</a></i></p>
-      <p><i><a href="#">Edit</a></i></p>
-      <p><i><a href="#">Delete</a></i></p>
+      <p><i><a href="{{ url_for('editPuppy', puppy_id=i.id) }}">Edit</a></i></p>
+      <p><i><a href="{{url_for('deletePuppy', puppy_id=i.id) }}">Delete</a></i></p>
     </div>
   </div>
 
