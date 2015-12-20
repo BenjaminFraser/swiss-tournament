@@ -1,18 +1,17 @@
 html, body {
   height: 100%;
 }
-
+/*
 p {
   font-family: Helvetica, Arial, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: Georgia, Times, serif;
-    }
-
+}
+*/
 #mainBody {
   border: none;
-  /*background-color: #F6F7FC;*/
   margin: 0;
   padding: 0;
   text-align: center;
@@ -21,7 +20,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 600px;
   background-size: cover;
   overflow: scroll;
-  background-image: url("images/dog.png");
+  background-image: url("../images/dog.png");
   background-position: center;
 }
 
@@ -57,4 +56,19 @@ h1, h2, h3, h4, h5, h6 {
 
 #detailsForm {
   padding-top: 20px;
+}
+
+.intro {
+    display: table;
+    width: 100%;
+    height: auto;
+    padding: 100px 0;
+    text-align: center;
+    color: #fff;
+    background: url("../images/dog.png") no-repeat bottom center scroll;
+    background-color: #000;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
 }

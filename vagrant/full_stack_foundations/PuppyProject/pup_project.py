@@ -28,7 +28,12 @@ session = DBSession()
 
 # Setup route decorators to create our chosen URL links for the page.
 @app.route('/')
-@app.route('/shelters')
+def puppyHavenIntro():
+    """ Loads the main intro landing page for Puppy Haven. """
+    return render_template('puppy_haven_intro.html')
+
+
+@app.route('/shelters/')
 def shelterList():
     """ Displays all shelters within a single summary page. """
     # Query all restaurants and place into a list with the id and name.

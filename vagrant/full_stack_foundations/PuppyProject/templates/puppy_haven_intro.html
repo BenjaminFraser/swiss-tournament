@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>The Puppy Haven</title>
+
+    <!-- Bootstrap basic CSS-->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+        <!-- Custom CSS -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/grayscale.css') }}">
+
+    <!-- Flask static styling folder -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <!-- Font awesome CSS -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}">
+
+    <!-- Google Custom Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+  
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">
+                    <i class="fa fa-paw"></i>  <span class="light">The</span> Puppy Haven!
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#shelters">Shelter List</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#puppies">Puppy List</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Intro Header -->
+    <header class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h1 class="brand-heading">The Puppy Haven</h1>
+                        <p class="intro-text">The platform to help small furry pups find a new home.<br>Powered by the community.</p>
+                        <a href="#about" class="btn btn-circle page-scroll">
+                            <i class="fa fa-angle-double-down animated"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h1><i>Welcome<i></h1>
+                <p>The Puppy Haven is a reliable, responsible and moderated interface through which young puppies are registered, tracked and given new homes to verified shelters and responsible owners. You can browse through our shelter list at <a href="{{url_for('shelterList')}}">the shelter page</a>, where you'll find the current puppies within that shelter, along with location and contact details.</p>
+                <p>By registering for an account and applying for validation, you can be on track to adopting your own puppy through our system. Our system also facilitates checking your own animals into our shelters for periods of time if you require, and provided the shelter has the capacity to do so.</p>
+                <p>This platform was build by Benjamin D Fraser using the Flask framework, in conjunction with SQLAlchemy, SQLite, Bootstrap, custom HTML/CSS, JavaScript and Python. Form validation was built using WTForms within Flask.</a>.</p>
+                <a href="#" class="btn btn-default btn-lg">Create A Free Account</a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Shelter Section -->
+    <section id="shelters" class="content-section text-center">
+        <div class="shelters-section">
+            <div class="container">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h2>Our Shelters</h2>
+                    <p>View our extensive range of verified and regulated shelters. We routinely update puppy listings, along with shelter capacities for your convenience. You may also check a puppy into a shelter using our system if you require.</p>
+                    <a href="{{ url_for('shelterList') }}" class="btn btn-default btn-lg">Visit Our Shelter Page</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Puppies Section -->
+    <section id="puppies" class="content-section text-center">
+        <div class="puppies-section">
+            <div class="container">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h2>Our Puppies</h2>
+                    <p>Our puppy listings include both unhomed and recently homed puppies, whereby each puppy is profiled with its own unique information, including name, age, unique id, gender, recent pictures and more. You can browse our listings immediately, but in order to register and apply for adoption you must create a Puppy Haven Account, which is completely free! Get started by browsing our complete database of Puppies below.</p>
+                    <a href="{{ url_for('puppyList') }}" class="btn btn-default btn-lg">Visit Our Puppy Listings</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>Contact The Puppy Haven</h2>
+                <p>Feel free to email us to answer any queries, provide some feedback on our system, give us suggestions for new future features, or to just say hi!</p>
+                <p><a href="mailto:Benjamindfraser@gmail.com">Benjamindfraser@gmail.com</a>
+                </p>
+                <ul class="list-inline banner-social-buttons">
+                    <li>
+                        <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
+                    </li>
+                    <li>
+                        <a href="https://plus.google.com/+Startbootstrap/posts" class="btn btn-default btn-lg"><i class="fa fa-google-plus fa-fw"></i> <span class="network-name">Google+</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p>Copyright &copy; Benjamin D Fraser 2015</p>
+        </div>
+    </footer>
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+       
+    <script type="text/javascript">
+
+    $(".contentContainer").css("min-height", $(window).height());
+
+    </script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{{ url_for('static', filename='js/jquery.easing.min.js') }}"></script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{{ url_for('static', filename='js/grayscale.js') }}"></script>
+
+</body>
+
+</html>
