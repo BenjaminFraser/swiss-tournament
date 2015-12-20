@@ -149,6 +149,27 @@ def deletePuppy(puppy_id):
         return render_template('delete_puppy.html', puppy=puppy)
 
 
+@app.route('/puppies/new/', methods=['GET', 'POST'])
+def createPuppy():
+    """ Creates a new puppy entry and adds it to the database. """
+    if request.method == 'POST':
+        new_puppy = Puppy(name=request.form['newPuppyName'],
+            gender=request.form['newPuppyGender'], dateOfBirth=request.form['newPuppyDOB'],
+            shelter_id=request.form['newPuppyShelterID'], weight=request.form['newPuppyWeight'])
+        try:
+            session.add(new_puppy)
+            session.commit()
+            print "Successfully created a new Puppy"
+            flash("Successfully added %s to the our website!" % new_puppy.name)
+            return redirect(url_for('puppyList'))
+        except:
+            print "The entry was no added to the database, an unexpected error occurred."
+            flash("The puppy was not added to the database, an error occurred!")
+            return redirect(url_for('puppyList'))
+    else:
+        return render_template('new_puppy.html')
+
+
 @app.route('/shelters/new/', methods=['GET', 'POST'])
 def createShelter():
     """ Creates a new shelter at which puppies can be given a temporary home. """

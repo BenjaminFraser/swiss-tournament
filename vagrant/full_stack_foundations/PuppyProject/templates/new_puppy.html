@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Puppy listings page</title>
+    <title>Create a new puppy listing</title>
 
     <!-- Bootstrap -->
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
@@ -39,7 +39,7 @@
           <li><a href="{{url_for('shelterList')}}">Our Shelter List </a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="{{url_for('puppyList')}}">Adopt a puppy </a></li>
+          <li><a href="#">Adopt a puppy </a></li>
           <li><a href="#">FAQ's </a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
@@ -51,57 +51,51 @@
 
   <div class="container" id="introBody">
 
-<h1 class="titleHeader"><strong><u>Our puppies!</u></strong></h1>
+    <h1 class ="titleHeader"><strong><u>Create a new puppy entry</u></strong></h1>
 
-<!-- set messages variable to array of flashed messages -->
-    {% with messages = get_flashed_messages() %}
+    <div class="container formStyle">
 
-    <!-- Set an if statement to run when there is a flash message set.-->
-    {% if messages %}
-    <div class="row" id="alertRegion">
-        <div class ="col-md-6 col-offset-3 col-md-offset-3">
-            <div class="alert alert-info" role="alert">
-                    <!-- Display each flash alert to the user by iterating through the array. -->
-                    {% for message in messages %}
-                    <h3><i><strong> {{message}} </strong></i></h3>
-                    {% endfor %}
+      <div class="row">
+
+        <div class="col-md-6 col-offset-3 col-md-offset-3">
+
+          <form for="form" action = "{{url_for('createPuppy')}}" method="POST">
+
+            <div class="form-group">
+              <label for="name"><h3>New Puppy Name:</h3></label>
+              <input class="form-control" type="text" name="newPuppyName" placeholder="Puppy Name">
             </div>
+
+            <div class="form-group">
+              <label for="address"><h3>Gender:</h3></label>
+              <input class="form-control" type="text" name="newPuppyGender" placeholder="Puppy Gender">
+            </div>
+
+            <div class="form-group">
+              <label for="city"><h3>Date of birth:</h3></label>
+              <input class="form-control" type="text" name="newPuppyDOB" placeholder="DOB">
+            </div>
+
+            <div class="form-group">
+              <label for="shelter_id"><h3>Puppy Shelter ID (if applicable):</h3></label>
+              <input class="form-control" type="text" name="newPuppyShelterID" placeholder="Shelter ID">
+            </div>
+
+            <div class="form-group">
+              <label for="weight"><h3>Weight (lbs):</h3></label>
+              <input class="form-control" type="text" name="newPuppyWeight" placeholder="Puppy Weight (lbs)">
+            </div>
+
+            <input type = "submit" class="btn btn-success" value = "Create">
+          </form>
         </div>
-    </div>
-    {% endif %}
-    {% endwith %}
-    <!-- These statements end the 'for' loop, the 'if' block and the 'with' block -->
-
-
-{% for i in puppies %}
-
-<div class="row" id="listContent">
-  <div class="col-md-8 col-offset-2 col-md-offset-2">
-    <div class="collapse-group">
-      <h3><strong><u>{{i.name}}</u></strong></h3>
-      <div class="collapse">
-        <p><i>Gender: {{i.gender}}</i></p>
-        <p><i>Birth date: {{i.dateOfBirth}}</i></p>
-        <p><i>Current residence: {{i.shelter.name}}</i></p>
-        <p><i>Unique Puppy ID: {{i.id}}</i></p>  
       </div>
-      <p><button type="button" class="btn btn-link">View details »</button></p>
+    </div><!-- formStyle -->
+
+    <div class = "lowerLinksText">
+      <h5>Changed your mind? Click <a href="{{ url_for('puppyList') }}">here</a> to return.</h5>
     </div>
-      <p><i><a href="{{ url_for('puppyProfile', puppy_id=i.id)}}">View profile</a></i></p>
-      <p><i><a href="{{ url_for('editPuppy', puppy_id=i.id) }}">Edit</a></i></p>
-      <p><i><a href="{{url_for('deletePuppy', puppy_id=i.id) }}">Delete</a></i></p>
-    </div>
-  </div>
-
-{% endfor %}
-
-<div class = "lowerLinksText">
-  <p class="lead">Want to adopt a puppy? The application process can be found <a href="#">here.</a></p>
-  <p class="lead">Alternatively, if you would like to add a puppy to our database collection, <a href="{{ url_for('createPuppy') }}">click here.</a></p>
-  <p class="lead"><a href="{{ url_for('shelterList') }}">Click here</a> to return to our shelters.
-</div>
-
-</div>
+  </div><!-- introBody -->
 </div><!-- mainBody -->
 
 <footer>
@@ -134,20 +128,9 @@
 
     $(".contentContainer").css("min-height", $(window).height());
 
-    /* Javascript snippet for collapse toggle functionality for shelter info. */
-    $('.row .btn').on('click', function(e) {
-    e.preventDefault();
-    var $this = $(this);
-    var $collapse = $this.closest('.collapse-group').find('.collapse');
-    $collapse.collapse('toggle');
-    });
-
     </script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
 </body>
 
 </html>
-
-
-
