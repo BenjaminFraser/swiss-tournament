@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Create a new puppy listing</title>
+    <title>Edit Adopter</title>
 
     <!-- Bootstrap -->
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
@@ -51,35 +51,32 @@
 
   <div class="container" id="introBody">
 
-    <h1 class ="titleHeader"><strong><u>Create a new puppy entry</u></strong></h1>
+  <h1 class ="titleHeader"><strong><u>Edit {{adopter.name}}</u></strong></h1>
 
-    <div class="container formStyle">
+  <div class="container formStyle">
 
-      <div class="row">
+    <div class="row">
 
-        <div class="col-md-6 col-offset-3 col-md-offset-3">
+      <div class="col-md-6 col-offset-3 col-md-offset-3">
 
-          {% from "_formhelpers.html" import render_field %}
-          <form for="form" action = "{{url_for('createPuppy')}}" method="POST">
+        <form for="form" action="{{url_for('editAdopter', adopter_id=adopter.id)}}" method = "POST">
 
-              <dl>
-                  {{ render_field(form.name) }}
-                  {{ render_field(form.gender) }}
-                  {{ render_field(form.birthday) }}
-                  {{ render_field(form.shelter_id) }}
-                  {{ render_field(form.weight) }}
-              </dl>
+            <div class="form-group">
+                <h3>Enter a new name for the adopter:</h3>
+                <input class="form-control" type="text" name="changedAdopterName">
+            </div>
 
-            <input type = "submit" class="btn btn-success" value = "Create">
-          </form>
-        </div>
+            <input type="submit" value="Change" class="btn btn-success">
+        </form>
       </div>
-    </div><!-- formStyle -->
-
-    <div class = "lowerLinksText">
-      <h5>Changed your mind? Click <a href="{{ url_for('puppyList') }}">here</a> to return.</h5>
     </div>
-  </div><!-- introBody -->
+  </div><!-- formStyle -->
+
+  <div class = "lowerLinksText">
+      <h5>Changed your mind? Click <a href="{{ url_for('adopterList')}}">here</a> to return.</h5>
+  </div>
+
+</div><!-- introBody -->
 </div><!-- mainBody -->
 
 <footer>

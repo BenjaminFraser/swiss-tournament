@@ -6,6 +6,7 @@ from flask import Flask, render_template, url_for, request, redirect, flash, jso
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
 from puppies import Base, Shelter, Puppy, Adopter, Profile
+import form_templates
 # Anytime we run an app in Python a special variable called __name__ is defined.
 # 
 app = Flask(__name__)
@@ -152,10 +153,11 @@ def deletePuppy(puppy_id):
 @app.route('/puppies/new/', methods=['GET', 'POST'])
 def createPuppy():
     """ Creates a new puppy entry and adds it to the database. """
-    if request.method == 'POST':
-        new_puppy = Puppy(name=request.form['newPuppyName'],
-            gender=request.form['newPuppyGender'], dateOfBirth=request.form['newPuppyDOB'],
-            shelter_id=request.form['newPuppyShelterID'], weight=request.form['newPuppyWeight'])
+    form = CreatePuppyForm(request.form)
+    if request.method == 'POST' and form.validate():
+        new_puppy = Puppy(name=form.name.data,
+            gender=form.gender.data, dateOfBirth=form.birthday.data,
+            shelter_id=form.shelter_id.data, weight=form.weight.data)
         try:
             session.add(new_puppy)
             session.commit()
@@ -167,7 +169,7 @@ def createPuppy():
             flash("The puppy was not added to the database, an error occurred!")
             return redirect(url_for('puppyList'))
     else:
-        return render_template('new_puppy.html')
+        return render_template('new_puppy.html', form=form)
 
 
 @app.route('/shelters/new/', methods=['GET', 'POST'])
