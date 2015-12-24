@@ -59,42 +59,18 @@
 
         <div class="col-md-6 col-offset-3 col-md-offset-3">
 
+          {% from "_formhelpers.html" import render_field %}
           <form for="form" action = "{{url_for('createShelter')}}" method="POST">
 
-            <div class="form-group">
-              <label for="name"><h3>New Shelter Name:</h3></label>
-              <input class="form-control" type="text" name="newShelterName" placeholder="Shelter Name">
-            </div>
-
-            <div class="form-group">
-              <label for="address"><h3>Address:</h3></label>
-              <input class="form-control" type="text" name="newShelterAddress" placeholder="Shelter Address">
-            </div>
-
-            <div class="form-group">
-              <label for="city"><h3>City:</h3></label>
-              <input class="form-control" type="text" name="newShelterCity" placeholder="Shelter City">
-            </div>
-
-            <div class="form-group">
-              <label for="state"><h3>State:</h3></label>
-              <input class="form-control" type="text" name="newShelterState" placeholder="Shelter State">
-            </div>
-
-            <div class="form-group">
-              <label for="zipCode"><h3>Zip Code:</h3></label>
-              <input class="form-control" type="text" name="newShelterZipcode" placeholder="Shelter Zip Code">
-            </div>
-
-            <div class="form-group">
-              <label for="website"><h3>Website:</h3></label>
-              <input class="form-control" type="text" name="newShelterWebsite" placeholder="Shelter Website">
-            </div>
-
-            <div class="form-group">
-              <label for="maxcapacity"><h3>Maximum Puppy Capacity:</h3></label>
-              <input class="form-control" type="text" name="newShelterMax" placeholder="Shelter Max Capacity">
-            </div>
+            <dl>
+                  {{ render_field(form.name) }}
+                  {{ render_field(form.address) }}
+                  {{ render_field(form.city) }}
+                  {{ render_field(form.state) }}
+                  {{ render_field(form.zipCode) }}
+                  {{ render_field(form.website) }}
+                  {{ render_field(form.maximum_capacity) }}
+              </dl>
 
             <input type = "submit" class="btn btn-success" value = "Create">
           </form>

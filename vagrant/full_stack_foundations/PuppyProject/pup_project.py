@@ -6,7 +6,7 @@ from flask import Flask, render_template, url_for, request, redirect, flash, jso
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
 from puppies import Base, Shelter, Puppy, Adopter, Profile
-import form_templates
+from form_templates import *
 # Anytime we run an app in Python a special variable called __name__ is defined.
 # 
 app = Flask(__name__)
@@ -174,13 +174,12 @@ def createPuppy():
 
 @app.route('/shelters/new/', methods=['GET', 'POST'])
 def createShelter():
+    form = CreateShelterForm(request.form)
     """ Creates a new shelter at which puppies can be given a temporary home. """
-    if request.method == 'POST':
-        new_shelter = Shelter(name=request.form['newShelterName'],
-            address=request.form['newShelterAddress'], city=request.form['newShelterCity'],
-            state=request.form['newShelterState'], zipCode=request.form['newShelterZipcode'],
-            website=request.form['newShelterWebsite'], 
-            maximum_capacity=request.form['newShelterMax'])
+    if request.method == 'POST' and form.validate():
+        new_shelter = Shelter(name=form.name.data, address=form.address.data,
+            city=form.city.data, state=form.state.data, zipCode=form.zipCode.data,
+            website=form.website.data, maximum_capacity=form.maximum_capacity.data)
         try:
             session.add(new_shelter)
             session.commit()
@@ -192,7 +191,7 @@ def createShelter():
             flash("The shelter was not added to the database, an error occurred!")
             return redirect(url_for('shelterList'))
     else:
-        return render_template('new_shelter.html')
+        return render_template('new_shelter.html', form=form)
 
 
 @app.route('/shelters/<int:shelter_id>/')

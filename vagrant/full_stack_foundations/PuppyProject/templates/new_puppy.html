@@ -60,7 +60,7 @@
         <div class="col-md-6 col-offset-3 col-md-offset-3">
 
           {% from "_formhelpers.html" import render_field %}
-          <form for="form" action = "{{url_for('createPuppy')}}" method="POST">
+          <form for="form" action = "{{url_for('createPuppy' )}}" method="POST">
 
               <dl>
                   {{ render_field(form.name) }}
