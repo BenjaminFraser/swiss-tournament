@@ -32,3 +32,7 @@ class CreateShelterForm(Form):
 class CreateAdopterForm(Form):
     name = TextField('Name', [validators.Length(min=2, max=25)])
     adopted_puppy = IntegerField('Puppy ID')
+
+class CheckInPuppyForm(Form):
+    name = TextField('Puppy Name', [validators.Length(min=2, max=25)])
+    puppy_id = IntegerField('Puppy ID', [validators.Required()])

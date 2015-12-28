@@ -199,8 +199,8 @@ def createPuppy():
 
 @app.route('/shelters/new/', methods=['GET', 'POST'])
 def createShelter():
-    form = CreateShelterForm(request.form)
     """ Creates a new shelter at which puppies can be given a temporary home. """
+    form = CreateShelterForm(request.form)
     if request.method == 'POST' and form.validate():
         new_shelter = Shelter(name=form.name.data, address=form.address.data,
             city=form.city.data, state=form.state.data, zipCode=form.zipCode.data,
@@ -230,10 +230,11 @@ def shelterPuppies(shelter_id):
 @app.route('/shelters/<int:shelter_id>/addpuppy/', methods=['GET', 'POST'])
 def checkInPuppy(shelter_id):
     """ Provides a page for checking a puppy into a chosen shelter using shelter_id. """
+    form = CheckInPuppyForm(request.form)
     shelter = session.query(Shelter).filter_by(id = shelter_id).one()
-    if request.method == 'POST':
-        input_puppy = request.form['checkInPuppyName']
-        input_puppy_id = request.form['checkInPuppyId']
+    if request.method == 'POST' and form.validate():
+        input_puppy = form.name.data
+        input_puppy_id = form.puppy_id.data
         try:
             puppy = session.query(Puppy).filter_by(id=input_puppy_id, name=input_puppy).one()
             if (shelter.current_occupancy >= shelter.maximum_capacity) and puppy != []:
@@ -253,7 +254,7 @@ def checkInPuppy(shelter_id):
             return redirect(url_for('shelterPuppies', shelter_id=shelter.id))
 
     else:
-        return render_template('check_in_puppy.html', shelter=shelter)
+        return render_template('check_in_puppy.html', shelter=shelter, form=form)
 
 @app.route('/puppies/<int:puppy_id>/adopt/', methods=['GET', 'POST'])
 def adoptPuppyPage(puppy_id):

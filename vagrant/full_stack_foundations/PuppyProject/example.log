@@ -1,9 +1,0 @@
-INFO:werkzeug:10.0.2.2 - - [28/Dec/2015 16:24:58] "POST /shelters/6/addpuppy/ HTTP/1.1" 302 -
-INFO:werkzeug:10.0.2.2 - - [28/Dec/2015 16:24:58] "GET /shelters/6/ HTTP/1.1" 200 -
-INFO:werkzeug:10.0.2.2 - - [28/Dec/2015 16:25:02] "GET /shelters/6/addpuppy/ HTTP/1.1" 200 -
-INFO:werkzeug:10.0.2.2 - - [28/Dec/2015 16:25:05] "POST /shelters/6/addpuppy/ HTTP/1.1" 302 -
-INFO:werkzeug:10.0.2.2 - - [28/Dec/2015 16:25:05] "GET /shelters/6/ HTTP/1.1" 200 -
-INFO:werkzeug:10.0.2.2 - - [28/Dec/2015 16:25:06] "GET /shelters/6/addpuppy/ HTTP/1.1" 200 -
-INFO:werkzeug:10.0.2.2 - - [28/Dec/2015 16:25:11] "POST /shelters/6/addpuppy/ HTTP/1.1" 302 -
-INFO:werkzeug:10.0.2.2 - - [28/Dec/2015 16:25:11] "GET /shelters/6/ HTTP/1.1" 200 -
-INFO:werkzeug:10.0.2.2 - - [28/Dec/2015 16:25:17] "GET /shelters/6/addpuppy/ HTTP/1.1" 200 -
