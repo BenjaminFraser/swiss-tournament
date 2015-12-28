@@ -28,3 +28,7 @@ class CreateShelterForm(Form):
     zipCode = TextField('Zip Code', [validators.Length(min=2, max=25)])
     website = TextField ('Website')
     maximum_capacity = IntegerField('Maximum Capacity')
+
+class CreateAdopterForm(Form):
+    name = TextField('Name', [validators.Length(min=2, max=25)])
+    adopted_puppy = IntegerField('Puppy ID')

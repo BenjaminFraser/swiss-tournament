@@ -6,7 +6,11 @@ from flask import Flask, render_template, url_for, request, redirect, flash, jso
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
 from puppies import Base, Shelter, Puppy, Adopter, Profile
+# Import form templates for WTForms template classes.
 from form_templates import *
+# Import logging module to allow information logging to a file.
+import logging 
+
 # Anytime we run an app in Python a special variable called __name__ is defined.
 # 
 app = Flask(__name__)
@@ -25,6 +29,9 @@ DBSession = sessionmaker(bind=engine)
 # revert all of them back to the last commit by calling
 # session.rollback()
 session = DBSession()
+
+# Setup logging to a file to store info from last app run only.
+logging.basicConfig(filename='example.log', filemode='w', level=logging.DEBUG)
 
 
 # Setup route decorators to create our chosen URL links for the page.
@@ -53,10 +60,17 @@ def shelterList():
 @app.route('/shelters/edit/<int:shelter_id>/', methods=['GET', 'POST'])
 def editShelter(shelter_id):
     """ A page to rename the chosen shelters name. """
+    form = CreateShelterForm(request.form)
     shelter = session.query(Shelter).filter_by(id=shelter_id).one()
-    if request.method == 'POST':
+    if request.method == 'POST' and form.validate():
         if shelter != []:
-            shelter.name = request.form['changedShelterName']
+            shelter.name = form.name.data
+            shelter.address = form.address.data
+            shelter.city = form.state.data
+            shelter.state = form.state.data
+            shelter.zipCode = form.state.data
+            shelter.website = form.website.data
+            shelter.maximum_capacity = form.maximum_capacity.data
             session.add(shelter)
             session.commit()
             print "%s successfully changed." % shelter.name
@@ -66,7 +80,7 @@ def editShelter(shelter_id):
             print "The chosen item could not be modified as something went wrong."
             return
     else:
-        return render_template('edit_shelter.html', shelter=shelter)
+        return render_template('edit_shelter.html', shelter=shelter, form=form)
 
 
 @app.route('/shelters/delete/<int:shelter_id>/', methods=['GET', 'POST'])
@@ -115,20 +129,31 @@ def puppyProfile(puppy_id):
 @app.route('/puppies/<int:puppy_id>/edit/', methods=['GET', 'POST'])
 def editPuppy(puppy_id):
     """ Page to allow editting of puppy details. """
+    # Create a variable form, an instance of WTForms CreatePuppyForm object.
+    form = CreatePuppyForm(request.form)
     puppy = session.query(Puppy).filter_by(id=puppy_id).one()
-    if request.method == 'POST':
+    if request.method == 'POST' and form.validate():
         if puppy != []:
-            puppy.name = request.form['changedPuppyName']
-            session.add(puppy)
-            session.commit()
-            print "%s successfully changed." % puppy.name
-            flash("%s successfully renamed." % puppy.name)
-            return redirect(url_for('puppyList'))
+            puppy.name = form.name.data
+            puppy.gender = form.gender.data
+            puppy.dateOfBirth = form.birthday.data
+            puppy.shelter_id = form.shelter_id.data
+            puppy.weight = form.weight.data
+            try:
+                session.add(puppy)
+                session.commit()
+                print "%s successfully changed." % puppy.name
+                flash("%s successfully renamed." % puppy.name)
+                return redirect(url_for('puppyList'))
+            except:
+                print "The entry was not added to the database, an unexpected error occurred."
+                flash("The Puppy was not modified, an error occurred!")
+                return redirect(url_for('puppyList'))
         else:
             print "The chosen puppy could not be modified as something went wrong."
-            return
+            return redirect(url_for('puppyList'))
     else:
-        return render_template('edit_puppy.html', puppy=puppy)
+        return render_template('edit_puppy.html', puppy=puppy, form=form)
 
 
 @app.route('/puppies/<int:puppy_id>/delete/', methods=['GET', 'POST'])
@@ -209,18 +234,24 @@ def checkInPuppy(shelter_id):
     if request.method == 'POST':
         input_puppy = request.form['checkInPuppyName']
         input_puppy_id = request.form['checkInPuppyId']
-        puppy = session.query(Puppy).filter_by(id=input_puppy_id, name=input_puppy).one()
-        if (shelter.current_occupancy >= shelter.maximum_capacity) and puppy != []:
-            print "The current shelter is at maximum capacity, a new shelter must be made!"
-            flash("The shelter %s is at maximum capacity. Please use a different shelter." % shelter.name)
+        try:
+            puppy = session.query(Puppy).filter_by(id=input_puppy_id, name=input_puppy).one()
+            if (shelter.current_occupancy >= shelter.maximum_capacity) and puppy != []:
+                print "The current shelter is at maximum capacity, a new shelter must be made!"
+                flash("The shelter %s is at maximum capacity. Please use a different shelter." % shelter.name)
+                return redirect(url_for('shelterPuppies', shelter_id=shelter.id))
+            else:
+                puppy.shelter_id = shelter_id 
+                session.add(puppy)
+                session.commit()
+                print "%s successfully checked into %s" % (puppy.name, shelter.name)
+                flash("%s successfully added to %s" % (puppy.name, shelter.name))
+                return redirect(url_for('shelterPuppies', shelter_id=shelter.id))
+        except:
+            print "The input puppy id and name was not found in the database."
+            flash("The input puppy id and name was not found, please try again.")
             return redirect(url_for('shelterPuppies', shelter_id=shelter.id))
-        else:
-            puppy.shelter_id = shelter_id 
-            session.add(puppy)
-            session.commit()
-            print "%s successfully checked into %s" % (puppy.name, shelter.name)
-            flash("%s successfully added to %s" % (puppy.name, shelter.name))
-            return redirect(url_for('shelterPuppies', shelter_id=shelter.id))
+
     else:
         return render_template('check_in_puppy.html', shelter=shelter)
 

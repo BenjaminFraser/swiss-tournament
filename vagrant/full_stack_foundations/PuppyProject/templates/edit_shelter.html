@@ -39,7 +39,14 @@
           <li><a href="{{url_for('shelterList')}}">Our Shelter List </a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Adopt a puppy </a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Puppies <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+              </ul>
+          </li>
           <li><a href="#">FAQ's </a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
@@ -59,12 +66,32 @@
 
       <div class="col-md-6 col-offset-3 col-md-offset-3">
 
+        <div class="collapse-group">
+                <div class="collapse">
+                  <p><i>Name: {{shelter.name}}</i></p>
+                  <p><i>Address: {{shelter.address}}</i></p>
+                  <p><i>City: {{shelter.city}}</i></p>
+                  <p><i>State: {{shelter.state}}</i></p>  
+                  <p><i>Zip Code: {{shelter.zipCode}}</i></p> 
+                  <p><i>Shelter website: {{shelter.website}}</i></p> 
+                  <p><i>Shelter maximum capacity: {{shelter.maximum_capacity}}</i></p> 
+
+                </div>
+                <p><button type="button" class="collapser btn btn-link">View current details »</button></p>
+              </div>
+
+        {% from "_formhelper_edit.html" import render_field %}
         <form for="form" action="{{url_for('editShelter', shelter_id=shelter.id)}}" method = "POST">
 
-            <div class="form-group">
-                <h3>Enter a new name for the shelter:</h3>
-                <input class="form-control" type="text" name="changedShelterName">
-            </div>
+            <dl>
+                  {{ render_field(form.name) }}
+                  {{ render_field(form.address) }}
+                  {{ render_field(form.city) }}
+                  {{ render_field(form.state) }}
+                  {{ render_field(form.zipCode) }}
+                  {{ render_field(form.website) }}
+                  {{ render_field(form.maximum_capacity) }}
+              </dl>
 
             <input type="submit" value="Change" class="btn btn-success">
         </form>
@@ -73,7 +100,6 @@
   </div><!-- formStyle -->
 
   <div class = "lowerLinksText">
-    <h5>Want to change the menu instead? Click <a href="#">here</a> to return.</h5>
     <h5>Changed your mind? Click <a href="{{ url_for('shelterList')}}">here</a> to return.</h5>
   </div>
 
@@ -109,6 +135,14 @@
     <script type="text/javascript">
 
     $(".contentContainer").css("min-height", $(window).height());
+
+    /* Javascript snippet for collapse toggle functionality for shelter info. */
+    $('.row .collapser').on('click', function(e) {
+    e.preventDefault();
+    var $this = $(this);
+    var $collapse = $this.closest('.collapse-group').find('.collapse');
+    $collapse.collapse('toggle');
+    });
 
     </script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>

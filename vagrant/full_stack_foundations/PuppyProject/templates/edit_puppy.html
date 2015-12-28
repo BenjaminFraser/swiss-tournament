@@ -59,12 +59,26 @@
 
       <div class="col-md-6 col-offset-3 col-md-offset-3">
 
+              <div class="collapse-group">
+                <div class="collapse">
+                  <p><i>Gender: {{puppy.gender}}</i></p>
+                  <p><i>Birth date: {{puppy.dateOfBirth}}</i></p>
+                  <p><i>Current residence: {{puppy.shelter.name}}</i></p>
+                  <p><i>Unique Puppy ID: {{puppy.id}}</i></p>  
+                </div>
+                <p><button type="button" class="collapser btn btn-link">View current details »</button></p>
+              </div>
+
+        {% from "_formhelper_edit.html" import render_field %}
         <form for="form" action="{{url_for('editPuppy', puppy_id=puppy.id)}}" method = "POST">
 
-            <div class="form-group">
-                <h3>Enter a new name for the puppy:</h3>
-                <input class="form-control" type="text" name="changedPuppyName">
-            </div>
+            <dl>
+                  {{ render_field(form.name) }}
+                  {{ render_field(form.gender) }}
+                  {{ render_field(form.birthday) }}
+                  {{ render_field(form.shelter_id) }}
+                  {{ render_field(form.weight) }}
+              </dl>
 
             <input type="submit" value="Change" class="btn btn-success">
         </form>
@@ -108,6 +122,14 @@
     <script type="text/javascript">
 
     $(".contentContainer").css("min-height", $(window).height());
+
+    /* Javascript snippet for collapse toggle functionality for shelter info. */
+    $('.row .collapser').on('click', function(e) {
+    e.preventDefault();
+    var $this = $(this);
+    var $collapse = $this.closest('.collapse-group').find('.collapse');
+    $collapse.collapse('toggle');
+    });
 
     </script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
