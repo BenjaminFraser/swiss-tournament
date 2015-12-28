@@ -1,6 +1,7 @@
 # This Python file makes use of Flask microframework and the database framework
 # defined within database_setup.py, which makes use of SQLAlchemy with SQLite. 
 # Setup initial flask imports and app definition.
+import os
 from flask import Flask, render_template, url_for, request, redirect, flash, jsonify
 
 from sqlalchemy import create_engine, func
@@ -10,10 +11,27 @@ from puppies import Base, Shelter, Puppy, Adopter, Profile
 from form_templates import *
 # Import logging module to allow information logging to a file.
 import logging 
+# Import mail modules for email notification support.
+from flask.ext.mail import Mail, Message
 
 # Anytime we run an app in Python a special variable called __name__ is defined.
 # 
 app = Flask(__name__)
+
+# Setup mail server configuration and mail instance for email support.
+# MAIL_USERNAME and MAIL_PASSWORD must be setup prior to initiation.
+# This can be done in the vagrant console using $ export MAIL_USERNAME 'xxxx'
+app.config['MAIL_SERVER'] = 'smtp.live.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['DEFAULT_MAIL_SUBJECT'] = '[The Puppy Haven]'
+app.config['DEFAULT_MAIL_SENDER'] = 'Admin <Ben-fraser@hotmail.co.uk>'
+app.config['SECRET_KEY'] = 'hellomotto'
+app.config['DEFAULT_ADMIN'] = 'Admin <Ben-fraser@hotmail.co.uk>'
+
+mail = Mail(app)
 
 engine = create_engine('sqlite:///puppyshelter.db')
 # Bind the engine to the metadata of the Base class so that the
@@ -32,7 +50,6 @@ session = DBSession()
 
 # Setup logging to a file to store info from last app run only.
 logging.basicConfig(filename='example.log', filemode='w', level=logging.DEBUG)
-
 
 # Setup route decorators to create our chosen URL links for the page.
 @app.route('/')
@@ -245,6 +262,12 @@ def checkInPuppy(shelter_id):
                 puppy.shelter_id = shelter_id 
                 session.add(puppy)
                 session.commit()
+                # Create a mail instance for use with sending messages.
+                msg = Message("Hello Em, thanks for adopting",
+                    sender="Ben-fraser@hotmail.co.uk",
+                    recipients=["benjamindavidfraser@gmail.com"])
+                msg.body = "Thank you very much indeed!"
+                mail.send(msg)
                 print "%s successfully checked into %s" % (puppy.name, shelter.name)
                 flash("%s successfully added to %s" % (puppy.name, shelter.name))
                 return redirect(url_for('shelterPuppies', shelter_id=shelter.id))
@@ -271,6 +294,12 @@ def adoptPuppyPage(puppy_id):
             puppy.shelter_id = None
             session.add(puppy)
             session.commit()
+            # Create a mail instance for use with sending messages.
+            mail = Mail(app)
+            msg = Message("Hello Em, thanks for adopting %s" % puppy.name,
+                    sender="Ben-fraser@hotmail.co.uk",
+                    recipients=["Benjamindavidfraser@gmail.com"])
+            mail.send(msg)
             return redirect(url_for('puppyList'))
         except:
             print "The adoption process was unsuccessful."
