@@ -49,6 +49,7 @@ class CategoryItem(Base):
     id = Column(Integer, primary_key = True)
     description = Column(String(250))
     price = Column(String(8))
+    picture = Column(String(300))
     category_id = Column(Integer,ForeignKey('category.id'))
     category = relationship(Category)
     user_id = Column(Integer,ForeignKey('user.id'))
@@ -63,7 +64,7 @@ class CategoryItem(Base):
            'description'         : self.description,
            'id'         : self.id,
            'price'         : self.price,
-           'user_id'         : self.user_id
+           'user_id'         : self.user_id,
            'category_id'         : self.category_id
        }
 

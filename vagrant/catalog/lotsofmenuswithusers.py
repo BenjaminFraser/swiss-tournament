@@ -1,9 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from database_setup import Restaurant, Base, MenuItem, User
+from database_setup import Category, Base, CategoryItem, User
 
-engine = create_engine('sqlite:///restaurantmenunew.db')
+engine = create_engine('sqlite:///thegoodybasket.db')
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
 Base.metadata.bind = engine
@@ -21,366 +21,256 @@ session = DBSession()
 
 # Create dummy user
 User1 = User(name="Robo Barista", email="tinnyTim@udacity.com",
-             picture='https://pbs.twimg.com/profile_images/2671170543/18debd694829ed78203a5a36dd364160_400x400.png')
+             picture='profile1.jpg')
 session.add(User1)
 session.commit()
 
-# Menu for UrbanBurger
-restaurant1 = Restaurant(user_id=1, name="Urban Burger")
-
-session.add(restaurant1)
+User2 = User(name="Lisa Rodriguez", email="lisarodriguez@gmail.com",
+             picture='profile2.jpg')
+session.add(User2)
 session.commit()
 
-menuItem2 = MenuItem(user_id=1, name="Veggie Burger", description="Juicy grilled veggie patty with tomato mayo and lettuce",
-                     price="$7.50", course="Entree", restaurant=restaurant1)
-
-session.add(menuItem2)
+User3 = User(name="Hannah Martin", email="Hanzzymartin@hotmail.com",
+             picture='profile3.jpg')
+session.add(User3)
 session.commit()
 
-
-menuItem1 = MenuItem(user_id=1, name="French Fries", description="with garlic and parmesan",
-                     price="$2.99", course="Appetizer", restaurant=restaurant1)
-
-session.add(menuItem1)
+User4 = User(name="Brad Phillips", email="Bradistheboss@gmail.com",
+             picture='profile4.jpg')
+session.add(User4)
 session.commit()
 
-menuItem2 = MenuItem(user_id=1, name="Chicken Burger", description="Juicy grilled chicken patty with tomato mayo and lettuce",
-                     price="$5.50", course="Entree", restaurant=restaurant1)
-
-session.add(menuItem2)
+User5 = User(name="Marv Robins", email="Marvis1234rop@hotmail.com",
+             picture='profile5.jpg')
+session.add(User5)
 session.commit()
 
-menuItem3 = MenuItem(user_id=1, name="Chocolate Cake", description="fresh baked and served with ice cream",
-                     price="$3.99", course="Dessert", restaurant=restaurant1)
-
-session.add(menuItem3)
+User6 = User(name="Jennifer Andrews", email="JennAndrews5426@gmail.com",
+             picture='profile6.jpg')
+session.add(User6)
 session.commit()
 
-menuItem4 = MenuItem(user_id=1, name="Sirloin Burger", description="Made with grade A beef",
-                     price="$7.99", course="Entree", restaurant=restaurant1)
+# items for Snowboarding
+category1 = Category(user_id=1, name="Snowboarding")
 
-session.add(menuItem4)
+session.add(category1)
 session.commit()
 
-menuItem5 = MenuItem(user_id=1, name="Root Beer", description="16oz of refreshing goodness",
-                     price="$1.99", course="Beverage", restaurant=restaurant1)
+categoryItem1 = CategoryItem(user_id=1, name="White Snowboard", description="Brand new white 145cm pro model. Also available in red, orange and grey.",
+                     price="$250.00", picture="snowboard_white.jpg", category=category1)
 
-session.add(menuItem5)
-session.commit()
-
-menuItem6 = MenuItem(user_id=1, name="Iced Tea", description="with Lemon",
-                     price="$.99", course="Beverage", restaurant=restaurant1)
-
-session.add(menuItem6)
-session.commit()
-
-menuItem7 = MenuItem(user_id=1, name="Grilled Cheese Sandwich",
-                     description="On texas toast with American Cheese", price="$3.49", course="Entree", restaurant=restaurant1)
-
-session.add(menuItem7)
-session.commit()
-
-menuItem8 = MenuItem(user_id=1, name="Veggie Burger", description="Made with freshest of ingredients and home grown spices",
-                     price="$5.99", course="Entree", restaurant=restaurant1)
-
-session.add(menuItem8)
+session.add(categoryItem1)
 session.commit()
 
 
-# Menu for Super Stir Fry
-restaurant2 = Restaurant(user_id=1, name="Super Stir Fry")
+categoryItem2 = CategoryItem(user_id=1, name="Snow Jacket", description="Warm and puffy red snow jacket. Perfect for keeping warm!",
+                     price="$199.99", picture="jacket.jpg", category=category1)
 
-session.add(restaurant2)
+session.add(categoryItem2)
+session.commit()
+
+categoryItem3 = CategoryItem(user_id=1, name="Snow Goggles", description="Brand new 2015 model anti-glare, removable lens and adjustable strap goggles.",
+                     price="$49.99", picture="snow_goggles.jpg", category=category1)
+
+session.add(categoryItem3)
+session.commit()
+
+categoryItem4 = CategoryItem(user_id=1, name="Snow Gloves", description="Thick and padded snow gloves to keep toasty hands. Available in red and black.",
+                     price="$39.99", picture="ski_gloves.jpg", category=category1)
+
+session.add(categoryItem4)
+session.commit()
+
+categoryItem5 = CategoryItem(user_id=1, name="Snow Hat", description="Keep your head warm with this knitted-by-hand snow hat.",
+                     price="$17.99", picture="warm_hat.jpg", category=category1)
+
+session.add(categoryItem5)
+session.commit()
+
+categoryItem6 = CategoryItem(user_id=1, name="Ray-Ban Aviators", description="Keep cool on the slopes with these huge aviators.",
+                     price="$1.99", picture="ray_bans.jpg", category=category1)
+
+session.add(categoryItem6)
 session.commit()
 
 
-menuItem1 = MenuItem(user_id=1, name="Chicken Stir Fry", description="With your choice of noodles vegetables and sauces",
-                     price="$7.99", course="Entree", restaurant=restaurant2)
+# Items for Skiing
+category2 = Category(user_id=2, name="Skiing")
 
-session.add(menuItem1)
-session.commit()
-
-menuItem2 = MenuItem(user_id=1, name="Peking Duck",
-                     description=" A famous duck dish from Beijing[1] that has been prepared since the imperial era. The meat is prized for its thin, crisp skin, with authentic versions of the dish serving mostly the skin and little meat, sliced in front of the diners by the cook", price="$25", course="Entree", restaurant=restaurant2)
-
-session.add(menuItem2)
-session.commit()
-
-menuItem3 = MenuItem(user_id=1, name="Spicy Tuna Roll", description="Seared rare ahi, avocado, edamame, cucumber with wasabi soy sauce ",
-                     price="15", course="Entree", restaurant=restaurant2)
-
-session.add(menuItem3)
-session.commit()
-
-menuItem4 = MenuItem(user_id=1, name="Nepali Momo ", description="Steamed dumplings made with vegetables, spices and meat. ",
-                     price="12", course="Entree", restaurant=restaurant2)
-
-session.add(menuItem4)
-session.commit()
-
-menuItem5 = MenuItem(user_id=1, name="Beef Noodle Soup", description="A Chinese noodle soup made of stewed or red braised beef, beef broth, vegetables and Chinese noodles.",
-                     price="14", course="Entree", restaurant=restaurant2)
-
-session.add(menuItem5)
-session.commit()
-
-menuItem6 = MenuItem(user_id=1, name="Ramen", description="a Japanese noodle soup dish. It consists of Chinese-style wheat noodles served in a meat- or (occasionally) fish-based broth, often flavored with soy sauce or miso, and uses toppings such as sliced pork, dried seaweed, kamaboko, and green onions.",
-                     price="12", course="Entree", restaurant=restaurant2)
-
-session.add(menuItem6)
+session.add(category2)
 session.commit()
 
 
-# Menu for Panda Garden
-restaurant1 = Restaurant(user_id=1, name="Panda Garden")
+categoryItem1 = CategoryItem(user_id=2, name="Ski Boots", description="Warm, lightweight and super rugged ski boots. Available in all sizes.",
+                     price="$175.50", picture="ski_boots.jpg", category=category2)
 
-session.add(restaurant1)
+session.add(categoryItem1)
 session.commit()
 
 
-menuItem1 = MenuItem(user_id=1, name="Pho", description="a Vietnamese noodle soup consisting of broth, linguine-shaped rice noodles called banh pho, a few herbs, and meat.",
-                     price="$8.99", course="Entree", restaurant=restaurant1)
+categoryItem2 = CategoryItem(user_id=2, name="Ski Gloves", description="Padded and warm waterproof gloves, available in red and black.",
+                     price="$52.99", picture="ski_gloves.jpg", category=category2)
 
-session.add(menuItem1)
+session.add(categoryItem2)
 session.commit()
 
-menuItem2 = MenuItem(user_id=1, name="Chinese Dumplings", description="a common Chinese dumpling which generally consists of minced meat and finely chopped vegetables wrapped into a piece of dough skin. The skin can be either thin and elastic or thicker.",
-                     price="$6.99", course="Appetizer", restaurant=restaurant1)
+categoryItem3 = CategoryItem(user_id=2, name="K2 Soloman Skis", description="Brand new 2015 Solomon K2 skis in size 175.",
+                     price="$450.00", picture="k2_skis.jpg", category=category2)
 
-session.add(menuItem2)
+session.add(categoryItem3)
 session.commit()
 
-menuItem3 = MenuItem(user_id=1, name="Gyoza", description="light seasoning of Japanese gyoza with salt and soy sauce, and in a thin gyoza wrapper",
-                     price="$9.95", course="Entree", restaurant=restaurant1)
+categoryItem4 = CategoryItem(user_id=2, name="Walking Boots", description="Warm and weatherproof. Available in all sizes.",
+                     price="$69.99", picture="walking_boots.jpg", category=category2)
 
-session.add(menuItem3)
+session.add(categoryItem4)
 session.commit()
 
-menuItem4 = MenuItem(user_id=1, name="Stinky Tofu", description="Taiwanese dish, deep fried fermented tofu served with pickled cabbage.",
-                     price="$6.99", course="Entree", restaurant=restaurant1)
+categoryItem5 = CategoryItem(user_id=2, name="Sirloin Burger", description="Made with grade A beef",
+                     price="$7.99", picture="walking_boots.jpg", category=category2)
 
-session.add(menuItem4)
+session.add(categoryItem5)
 session.commit()
 
-menuItem2 = MenuItem(user_id=1, name="Veggie Burger", description="Juicy grilled veggie patty with tomato mayo and lettuce",
-                     price="$9.50", course="Entree", restaurant=restaurant1)
+categoryItem6 = CategoryItem(user_id=2, name="Root Beer", description="16oz of refreshing goodness",
+                     price="$1.99", picture="walking_boots.jpg", category=category2)
 
-session.add(menuItem2)
-session.commit()
-
-
-# Menu for Thyme for that
-restaurant1 = Restaurant(user_id=1, name="Thyme for That Vegetarian Cuisine ")
-
-session.add(restaurant1)
+session.add(categoryItem6)
 session.commit()
 
 
-menuItem1 = MenuItem(user_id=1, name="Tres Leches Cake", description="Rich, luscious sponge cake soaked in sweet milk and topped with vanilla bean whipped cream and strawberries.",
-                     price="$2.99", course="Dessert", restaurant=restaurant1)
+# Items for Laptops
+category3 = Category(user_id=3, name="Laptops")
 
-session.add(menuItem1)
-session.commit()
-
-menuItem2 = MenuItem(user_id=1, name="Mushroom risotto", description="Portabello mushrooms in a creamy risotto",
-                     price="$5.99", course="Entree", restaurant=restaurant1)
-
-session.add(menuItem2)
-session.commit()
-
-menuItem3 = MenuItem(user_id=1, name="Honey Boba Shaved Snow",
-                     description="Milk snow layered with honey boba, jasmine tea jelly, grass jelly, caramel, cream, and freshly made mochi", price="$4.50", course="Dessert", restaurant=restaurant1)
-
-session.add(menuItem3)
-session.commit()
-
-menuItem4 = MenuItem(user_id=1, name="Cauliflower Manchurian", description="Golden fried cauliflower florets in a midly spiced soya,garlic sauce cooked with fresh cilantro, celery, chilies,ginger & green onions",
-                     price="$6.95", course="Appetizer", restaurant=restaurant1)
-
-session.add(menuItem4)
-session.commit()
-
-menuItem5 = MenuItem(user_id=1, name="Aloo Gobi Burrito", description="Vegan goodness. Burrito filled with rice, garbanzo beans, curry sauce, potatoes (aloo), fried cauliflower (gobi) and chutney. Nom Nom",
-                     price="$7.95", course="Entree", restaurant=restaurant1)
-
-session.add(menuItem5)
-session.commit()
-
-menuItem2 = MenuItem(user_id=1, name="Veggie Burger", description="Juicy grilled veggie patty with tomato mayo and lettuce",
-                     price="$6.80", course="Entree", restaurant=restaurant1)
-
-session.add(menuItem2)
+session.add(category3)
 session.commit()
 
 
-# Menu for Tony's Bistro
-restaurant1 = Restaurant(user_id=1, name="Tony\'s Bistro ")
+categoryItem1 = CategoryItem(user_id=3, name="Retina MacBook Pro 13 inch", description="MacBook Pro 13-inch dual-core i5 2.5GHz/4GB/500GB/HD Graphics 4000/SD",
+                     price="$999.00", picture="macbook.jpg", category=category3)
 
-session.add(restaurant1)
+session.add(categoryItem1)
 session.commit()
 
 
-menuItem1 = MenuItem(user_id=1, name="Shellfish Tower", description="Lobster, shrimp, sea snails, crawfish, stacked into a delicious tower",
-                     price="$13.95", course="Entree", restaurant=restaurant1)
+categoryItem2 = CategoryItem(user_id=3, name="Microsoft Surface Pro 3", description="Microsoft Surface Pro 3 256GB Silver tablet with keyboard.",
+                     price="$799.99", picture="surface_pro.jpg", category=category3)
 
-session.add(menuItem1)
+session.add(categoryItem2)
 session.commit()
 
-menuItem2 = MenuItem(user_id=1, name="Chicken and Rice", description="Chicken... and rice",
-                     price="$4.95", course="Entree", restaurant=restaurant1)
+categoryItem3 = CategoryItem(user_id=3, name="Sony Vaio", description="Sony Vaio VPCX13C7E Notebook Intel Atom (Z540).",
+                     price="$5.50", picture="sony_vaio.jpg", category=category3)
 
-session.add(menuItem2)
+session.add(categoryItem3)
 session.commit()
 
-menuItem3 = MenuItem(user_id=1, name="Mom's Spaghetti", description="Spaghetti with some incredible tomato sauce made by mom",
-                     price="$6.95", course="Entree", restaurant=restaurant1)
+categoryItem4 = CategoryItem(user_id=3, name="Chocolate Cake", description="fresh baked and served with ice cream",
+                     price="$3.99", picture="sony_vaio.jpg", category=category3)
 
-session.add(menuItem3)
+session.add(categoryItem4)
 session.commit()
 
-menuItem4 = MenuItem(user_id=1, name="Choc Full O\' Mint (Smitten\'s Fresh Mint Chip ice cream)",
-                     description="Milk, cream, salt, ..., Liquid nitrogen magic", price="$3.95", course="Dessert", restaurant=restaurant1)
+categoryItem5 = CategoryItem(user_id=3, name="Sirloin Burger", description="Made with grade A beef",
+                     price="$7.99", picture="sony_vaio.jpg", category=category3)
 
-session.add(menuItem4)
+session.add(categoryItem5)
 session.commit()
 
-menuItem5 = MenuItem(user_id=1, name="Tonkatsu Ramen", description="Noodles in a delicious pork-based broth with a soft-boiled egg",
-                     price="$7.95", course="Entree", restaurant=restaurant1)
+categoryItem6 = CategoryItem(user_id=3, name="Root Beer", description="16oz of refreshing goodness",
+                     price="$1.99", picture="sony_vaio.jpg", category=category3)
 
-session.add(menuItem5)
-session.commit()
-
-
-# Menu for Andala's
-restaurant1 = Restaurant(user_id=1, name="Andala\'s")
-
-session.add(restaurant1)
+session.add(categoryItem6)
 session.commit()
 
 
-menuItem1 = MenuItem(user_id=1, name="Lamb Curry", description="Slow cook that thang in a pool of tomatoes, onions and alllll those tasty Indian spices. Mmmm.",
-                     price="$9.95", course="Entree", restaurant=restaurant1)
+# Items for biking category.
+category4 = Category(user_id=4, name="Biking")
 
-session.add(menuItem1)
-session.commit()
-
-menuItem2 = MenuItem(user_id=1, name="Chicken Marsala", description="Chicken cooked in Marsala wine sauce with mushrooms",
-                     price="$7.95", course="Entree", restaurant=restaurant1)
-
-session.add(menuItem2)
-session.commit()
-
-menuItem3 = MenuItem(user_id=1, name="Potstickers", description="Delicious chicken and veggies encapsulated in fried dough.",
-                     price="$6.50", course="Appetizer", restaurant=restaurant1)
-
-session.add(menuItem3)
-session.commit()
-
-menuItem4 = MenuItem(user_id=1, name="Nigiri Sampler", description="Maguro, Sake, Hamachi, Unagi, Uni, TORO!",
-                     price="$6.75", course="Appetizer", restaurant=restaurant1)
-
-session.add(menuItem4)
-session.commit()
-
-menuItem2 = MenuItem(user_id=1, name="Veggie Burger", description="Juicy grilled veggie patty with tomato mayo and lettuce",
-                     price="$7.00", course="Entree", restaurant=restaurant1)
-
-session.add(menuItem2)
+session.add(category4)
 session.commit()
 
 
-# Menu for Auntie Ann's
-restaurant1 = Restaurant(user_id=1, name="Auntie Ann\'s Diner' ")
+categoryItem1 = CategoryItem(user_id=4, name="Racing Bike", description="Feel the speed with this super light and stiff carbon fibre racing bike.",
+                     price="$1499.99", picture="racing_bike.jpg", category=category4)
 
-session.add(restaurant1)
-session.commit()
-
-menuItem9 = MenuItem(user_id=1, name="Chicken Fried Steak",
-                     description="Fresh battered sirloin steak fried and smothered with cream gravy", price="$8.99", course="Entree", restaurant=restaurant1)
-
-session.add(menuItem9)
+session.add(categoryItem1)
 session.commit()
 
 
-menuItem1 = MenuItem(user_id=1, name="Boysenberry Sorbet", description="An unsettlingly huge amount of ripe berries turned into frozen (and seedless) awesomeness",
-                     price="$2.99", course="Dessert", restaurant=restaurant1)
+categoryItem2 = CategoryItem(user_id=4, name="Bike Helmet", description="Protect your head from falls with a super strong helmet.",
+                     price="$22.99", picture="bike_helmet.jpg", category=category4)
 
-session.add(menuItem1)
+session.add(categoryItem2)
 session.commit()
 
-menuItem2 = MenuItem(user_id=1, name="Broiled salmon", description="Salmon fillet marinated with fresh herbs and broiled hot & fast",
-                     price="$10.95", course="Entree", restaurant=restaurant1)
+categoryItem3 = CategoryItem(user_id=4, name="Bike Chain", description="Spare chain with a full range of sizes and types available.",
+                     price="$15.50", picture="bike_chain.jpg", category=category4)
 
-session.add(menuItem2)
+session.add(categoryItem3)
 session.commit()
 
-menuItem3 = MenuItem(user_id=1, name="Morels on toast (seasonal)",
-                     description="Wild morel mushrooms fried in butter, served on herbed toast slices", price="$7.50", course="Appetizer", restaurant=restaurant1)
+categoryItem4 = CategoryItem(user_id=4, name="27 Inch Tyre", description="A wonderfully resistant tyre with Smart Guard protection.",
+                     price="$33.99", picture="bike_tyres.jpg", category=category4)
 
-session.add(menuItem3)
+session.add(categoryItem4)
 session.commit()
 
-menuItem4 = MenuItem(user_id=1, name="Tandoori Chicken", description="Chicken marinated in yoghurt and seasoned with a spicy mix(chilli, tamarind among others) and slow cooked in a cylindrical clay or metal oven which gets its heat from burning charcoal.",
-                     price="$8.95", course="Entree", restaurant=restaurant1)
+categoryItem5 = CategoryItem(user_id=4, name="Puncture Repair Kit", description="Part of the essentials list when preparing for a bike ride.",
+                     price="$15.99", picture="puncture_repair_kit.jpg", category=category4)
 
-session.add(menuItem4)
+session.add(categoryItem5)
 session.commit()
 
-menuItem2 = MenuItem(user_id=1, name="Veggie Burger", description="Juicy grilled veggie patty with tomato mayo and lettuce",
-                     price="$9.50", course="Entree", restaurant=restaurant1)
+categoryItem6 = CategoryItem(user_id=4, name="White Stripe Crash Helmet", description="Colourful and stylish streamlined biking helmet.",
+                     price="$29.99", picture="bike_helmet2.jpg", category=category4)
 
-session.add(menuItem2)
-session.commit()
-
-menuItem10 = MenuItem(user_id=1, name="Spinach Ice Cream", description="vanilla ice cream made with organic spinach leaves",
-                      price="$1.99", course="Dessert", restaurant=restaurant1)
-
-session.add(menuItem10)
+session.add(categoryItem6)
 session.commit()
 
 
-# Menu for Cocina Y Amor
-restaurant1 = Restaurant(user_id=1, name="Cocina Y Amor ")
+# Items for surfing category.
+category5 = Category(user_id=5, name="Surfing")
 
-session.add(restaurant1)
+session.add(category5)
 session.commit()
 
 
-menuItem1 = MenuItem(user_id=1, name="Super Burrito Al Pastor",
-                     description="Marinated Pork, Rice, Beans, Avocado, Cilantro, Salsa, Tortilla", price="$5.95", course="Entree", restaurant=restaurant1)
+categoryItem1 = CategoryItem(user_id=5, name="Surf Wax", description="Essential surfboard traction.",
+                     price="$7.50", picture="surf_wax.jpg", category=category5)
 
-session.add(menuItem1)
-session.commit()
-
-menuItem2 = MenuItem(user_id=1, name="Cachapa", description="Golden brown, corn-based Venezuelan pancake; usually stuffed with queso telita or queso de mano, and possibly lechon. ",
-                     price="$7.99", course="Entree", restaurant=restaurant1)
-
-session.add(menuItem2)
+session.add(categoryItem1)
 session.commit()
 
 
-restaurant1 = Restaurant(user_id=1, name="State Bird Provisions")
-session.add(restaurant1)
+categoryItem2 = CategoryItem(user_id=5, name="Surfboard", description="This versatile shape will glide you through the waves.",
+                     price="$299.99", picture="surfboard.jpg", category=category5)
+
+session.add(categoryItem2)
 session.commit()
 
-menuItem1 = MenuItem(user_id=1, name="Chantrelle Toast", description="Crispy Toast with Sesame Seeds slathered with buttery chantrelle mushrooms",
-                     price="$5.95", course="Appetizer", restaurant=restaurant1)
+categoryItem3 = CategoryItem(user_id=5, name="Wetsuit", description="Keep warm and protected in the cold months.",
+                     price="$150.00", picture="wetsuit.jpg", category=category5)
 
-session.add(menuItem1)
-session.commit
-
-menuItem1 = MenuItem(user_id=1, name="Guanciale Chawanmushi",
-                     description="Japanese egg custard served hot with spicey Italian Pork Jowl (guanciale)", price="$6.95", course="Dessert", restaurant=restaurant1)
-
-session.add(menuItem1)
+session.add(categoryItem3)
 session.commit()
 
+categoryItem4 = CategoryItem(user_id=5, name="Flip Flops", description="Blue, easy fit slip on.",
+                     price="$3.99", picture="flip_flops.jpg", category=category5)
 
-menuItem1 = MenuItem(user_id=1, name="Lemon Curd Ice Cream Sandwich",
-                     description="Lemon Curd Ice Cream Sandwich on a chocolate macaron with cardamom meringue and cashews", price="$4.25", course="Dessert", restaurant=restaurant1)
-
-session.add(menuItem1)
+session.add(categoryItem4)
 session.commit()
 
+categoryItem5 = CategoryItem(user_id=5, name="Hat", description="Hat for chilling in the beach sun.",
+                     price="$7.99", picture="flip_flops.jpg", category=category5)
+
+session.add(categoryItem5)
+session.commit()
+
+categoryItem6 = CategoryItem(user_id=5, name="Root Beer", description="16oz of refreshing goodness",
+                     price="$1.99", picture="flip_flops.jpg", category=category5)
+
+session.add(categoryItem6)
+session.commit()
 
 print "added menu items!"

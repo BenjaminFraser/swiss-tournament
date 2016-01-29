@@ -1,64 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
 
-        <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
-        </script>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-        <script src="//apis.google.com/js/platform.js?onload=start"> </script>
+    <title>The Goody Basket</title>
 
-        <!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
+    <!-- Bootstrap basic CSS-->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 
-    </head>
-    <body>
+        <!-- Custom CSS -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/grayscale.css') }}">
 
+    <!-- Flask static styling folder -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <!-- Font awesome CSS -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}">
+
+    <!-- Google Custom Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+    </script>
+
+    <script src="//apis.google.com/js/platform.js?onload=start"> </script>
+
+    <!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
+
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+  
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
         <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="{{url_for('introPage')}}">
+                    <i class="fa fa-paw"></i>  <span class="light">The</span> <span class="logo-yellow">Goody</span> Basket!
+                </a>
+            </div>
 
-            <!-- Import header.html template -->
-            {% include "header.html" %}
-
-            <div class="row top-menu">
-                <div class="col-md-10"></div>
-                <div class="col-md-2 text-right">
-                </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#shelters">Category list</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#puppies">Create an account</a>
+                    </li>
+                </ul>
             </div>
-            <div class="row divider blue">
-                <div class="col-md-12"></div>
-            </div>
-            <div class="row banner main">
-                <div class="col-md-1"></div>
-                <div class="col-md-11 padding-none">
-                    <h1>Restaurants</h1>
-                </div>
-            </div>
+            <!-- /.navbar-collapse -->
         </div>
+        <!-- /.container -->
+    </nav>
 
-        <div class = 'flash'>
-              {% with messages = get_flashed_messages() %}
-      {% if messages %}
+    <div class = 'flash'>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
           
-        <ul>
-        {% for message in messages %}
-            <li> <strong> {{ message }} </strong> </li>
-        {% endfor %}
-        </ul>
+          <ul>
+            {% for message in messages %}
+              <li> <strong> {{ message }} </strong> </li>
+            {% endfor %}
+          </ul>
         {% endif %}
-    {% endwith %}
+      {% endwith %}
+    </div>
 
-        </div>
+    <div class="container content-section">
 
-        <div class="container">
+        <img src="{{ url_for('static', filename='images/welcome.png') }}">
+
+    </div>
+
+    <div class="container content-section">
+
+      <h3>Login or Signup now with your Google+ or Facebook account</h3>
+
+      <div class="row">
+
+        <div class="col-md-4 col-offset-1 col-md-offset-1">
+
+          <div class="container">
 
             <!-- Google + sign in button -->
 
             <div id="signInButton">
             <span class="g-signin"
                 data-scope="openid email"
-                data-clientid="890936887393-aep5kbjpa6770ori93ggic016iofnq8a.apps.googleusercontent.com"
+                data-clientid="18721200209-q6p2l271bu28d07ji7fqfcbbv8vig24s.apps.googleusercontent.com"
                 data-redirecturi="postmessage"
                 data-accesstype="offline"
                 data-cookiepolicy="single_host_origin"
@@ -71,7 +124,35 @@
 
             <!-- Google + sign in button end -->
 
+          </div>
         </div>
+
+        <div class="col-md-4 col-offset-2">
+
+          <div class ="container">
+
+            <!-- Facebook login button -->
+            <button>
+             
+              <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
+              <a href='javascript:sendTokenToServer()'>Login with Facebook</a>
+
+              </fb:login-button>
+
+            </button>
+            <!--END FACEBOOK SIGN IN -->
+
+          </div>
+        </div>
+      </div>
+
+        <!-- Footer -->
+        <footer>
+          <div class="container text-center">
+            <p>Copyright &copy; Benjamin D Fraser 2015</p>
+          </div>
+        </footer>
+    </div>
 
         <!-- GOOGLE + SIGN IN SCRIPT -->
 
@@ -80,7 +161,7 @@
           if (authResult['code']) {
             // Hide the sign-in button now that the user is authorized
             $('#signinButton').attr('style', 'display: none');
-            // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
+            // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main categories page
             $.ajax({
               type: 'POST',
               url: '/gconnect?state={{STATE}}',
@@ -92,7 +173,7 @@
                 if (result) {
                   $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
                  setTimeout(function() {
-                  window.location.href = "/restaurant";
+                  window.location.href = "/category";
                  }, 4000);
                   
               } else if (authResult['error']) {
@@ -146,7 +227,7 @@
                 if (result) {
                   $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
                  setTimeout(function() {
-                  window.location.href = "/restaurant";
+                  window.location.href = "/category";
                  }, 4000);
                   
               } else {
@@ -160,21 +241,24 @@
 
         </script>
 
-        <div class ="container">
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+           
+        <!-- Script to set min height of content to window. -->
+        <script type="text/javascript">
 
-        <button>
-         
+        $(".contentContainer").css("min-height", $(window).height());
 
-          <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
-          <a href='javascript:sendTokenToServer()'>Login with Facebook</a>
+        </script>
 
-          </fb:login-button>
+        <!-- Plugin JavaScript -->
+        <script src="{{ url_for('static', filename='js/jquery.easing.min.js') }}"></script>
 
+        <!-- Bootstrap core JavaScript -->
+        <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
-        </button>
-        <!--END FACEBOOK SIGN IN -->
-
-        </div>
+        <!-- Custom Theme JavaScript -->
+        <script src="{{ url_for('static', filename='js/grayscale.js') }}"></script>
 
     </body>
 </html>

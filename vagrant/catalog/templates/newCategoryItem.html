@@ -1,0 +1,38 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	<div class="row divider metallic">
+		<div class="col-md-12"></div>
+	</div>
+	<div class="row banner menu">
+		<div class="col-md-11 col-md-offset-1 padding-none">
+			<h1>{{ category.name }}</h1>
+			<h4>New category item</h4>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-1 padding-top">
+			<form action ="{{url_for('newCategoryItem', category_id=category.id)}}" method = "post">
+				<div class="form-group">
+					<label for="name">Name:</label>
+					<input type ="text" maxlength="50" class="form-control" name="name"placeholder="Name of the item">
+
+					<label for="description">Description:</label>
+					<textarea class="form-control" maxlength="250" rows="3" name="description" placeholder="Description of the item"></textarea>
+
+					<label for="price">Price:</label>
+					<div class="input-group">
+						<div class="input-group-addon">$</div>
+						<input type ="text" class="form-control" maxlength="10" name="price" placeholder="Price in $">
+					</div>
+
+					<label for="image-url">Image URL:</label>
+					<textarea class="form-control" maxlength="300" rows="3" name="image-url" placeholder="Image URL"></textarea>
+
+					<button type="submit" class="btn btn-success margin-top" id="submit"><span class="fa fa-thumbs-up"></span> Create</button>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}
+
