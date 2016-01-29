@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
+from flask import Flask, render_template, request, redirect, jsonify, url_for, flash, send_from_directory
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Category, CategoryItem, User
@@ -11,8 +11,17 @@ import httplib2
 import json
 from flask import make_response
 import requests
+import os
+from werkzeug import secure_filename
 
+# Initialise the flask application
 app = Flask(__name__)
+
+# setup upload directory for file-upload functionality.
+app.config['UPLOAD_FOLDER'] = 'static/item_images/'
+
+# Setup acceptable extensions for uploading files.
+app.config['ALLOWED_EXTENSIONS'] = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
@@ -26,6 +35,45 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+# For a given upload file, return whether it is an acceptable type.
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
+
+# Handle a user uploaded file.
+@app.route('/upload', methods=["GET","POST"])
+def upload():
+    # Get the name of the uploaded file
+    file = request.files['file']
+    # Fetch item_id of upload and fetch from DB. 
+    category_item_id = request.form['category_item']
+    fetched_item = session.query(CategoryItem).filter_by(id=category_item_id).one()
+    if fetched_item != None:
+        # Check if the file is one of the allowed types/extensions
+        if file and allowed_file(file.filename):
+            # Make the filename safe, remove unsupported chars
+            filename = secure_filename(file.filename)
+            # Move the file form the temporal folder to
+            # the upload folder we setup
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # Add the filename to the database item object picture field
+            fetched_item.picture = filename
+            print "Added picture %s to database" % filename
+            session.add(fetched_item)
+            session.commit()
+            # Redirect the user to the uploaded_file route, which
+            # will basicaly show on the browser the uploaded file
+            return redirect(url_for('uploaded_file',
+                                    filename=filename))
+
+# This route is expecting a parameter containing the name
+# of a file. Then it will locate that file on the upload
+# directory and show it on the browser, so if the user uploads
+# an image, that image is going to be show after the upload
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
 # Create anti-forgery state token
 @app.route('/login')
@@ -408,7 +456,7 @@ def editCategoryItemImage(category_id, item_id):
     category = session.query(Category).filter_by(id=category_id).one()
     if login_session['user_id'] != category.user_id:
         return "<script>function myFunction() {alert('You are not authorized to edit category items to this category. Please create your own category in order to edit items.');}</script><body onload='myFunction()''>"
-    if request.method == 'POST':
+    return render_template('editItemPhoto.html', category_id=category_id, item_id=item_id, item=editedItem)
 
 # Delete a category item
 @app.route('/category/<int:category_id>/items/<int:item_id>/delete', methods=['GET', 'POST'])
