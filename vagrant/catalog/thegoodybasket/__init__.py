@@ -7,6 +7,7 @@ import random
 import string
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
+from oauth2client.client import AccessTokenCredentials
 import httplib2
 import json
 from flask import make_response
@@ -18,7 +19,7 @@ from werkzeug import secure_filename
 app = Flask(__name__)
 
 # setup upload directory for file-upload functionality.
-app.config['UPLOAD_FOLDER'] = 'static/item_images/'
+app.config['UPLOAD_FOLDER'] = 'thegoodybasket/static/item_images/'
 
 # Setup acceptable extensions for uploading files.
 app.config['ALLOWED_EXTENSIONS'] = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
@@ -223,7 +224,7 @@ def gconnect():
         return response
 
     # Store the access token in the session for later use.
-    login_session['credentials'] = credentials
+    login_session['credentials'] = credentials.access_token
     login_session['gplus_id'] = gplus_id
 
     # Get user info
@@ -292,7 +293,7 @@ def gdisconnect():
             json.dumps('Current user not connected.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
-    access_token = credentials.access_token
+    access_token = credentials
     url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
@@ -498,10 +499,3 @@ def disconnect():
     else:
         flash("You were not logged in")
         return redirect(url_for('showCategories'))
-
-
-
-if __name__ == '__main__':
-    app.secret_key = 'super_secret_key'
-    app.debug = True
-    app.run(host='0.0.0.0', port=5000)
