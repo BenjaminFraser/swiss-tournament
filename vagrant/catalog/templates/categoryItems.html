@@ -25,7 +25,7 @@
 <div class = 'flash'>
 		      {% with messages = get_flashed_messages() %}
       {% if messages %}
-          
+    <div class="alert alert-info">
         <ul>
         {% for message in messages %}
             <li> <strong> {{ message }} </strong> </li>
@@ -33,6 +33,7 @@
         </ul>
         {% endif %}
     {% endwith %}
+   	</div>
 
 </div>
 	<div class="row padding-top padding-bottom">
@@ -85,7 +86,7 @@
 								{% else %}
 								<img src="{{ url_for('static', filename='blank_user.gif') }}">
 								{% endif %}
-								<a href='{{url_for('editCategoryItem', category_id = category.id, item_id=i.id ) }}'>Edit</a> | 
+								<a href='{{url_for('editCategoryItemImage', category_id = category.id, item_id=i.id ) }}'>Edit</a> | 
 								<a href='{{url_for('deleteCategoryItem', category_id = category.id, item_id=i.id ) }}'>Delete</a>
 							</div>
 				</div>

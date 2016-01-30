@@ -58,13 +58,15 @@ def upload():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             # Add the filename to the database item object picture field
             fetched_item.picture = filename
+            category = fetched_item.category_id
             print "Added picture %s to database" % filename
             session.add(fetched_item)
             session.commit()
+            flash('Image successfully updated!')
             # Redirect the user to the uploaded_file route, which
             # will basicaly show on the browser the uploaded file
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
+            return redirect(url_for('categoryItems',
+                                    category_id=category))
 
 # This route is expecting a parameter containing the name
 # of a file. Then it will locate that file on the upload

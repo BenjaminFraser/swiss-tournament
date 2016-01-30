@@ -68,6 +68,10 @@
 	margin: 20px;
 	margin-left: -20px;
 }
+.category-item img {
+  height: 240px;
+  width: 320px;
+}
 .menu-price {
 	font-weight: 700;
 }
@@ -85,12 +89,6 @@
 	font-size: 14px;
 	color: #000;
 	font-weight: 400;
-}
-.flash {
-	background-color: #98FB98;
-	width:100%;
-	text-decoration: none;
-
 }
 
 .flash li {
