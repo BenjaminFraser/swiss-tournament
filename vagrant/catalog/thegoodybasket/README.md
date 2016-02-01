@@ -1,60 +1,106 @@
-# OAuth2.0
-Starter Code for Auth&amp;Auth course
-# Installing the Vagrant VM for ud330 - Authentication & Authorization
+# **THE GOODY BASKET: ITEM CATALOG WEB APP - README** 
 
-**Note: If you already have a vagrant machine installed from previous Udacity courses skip to the 'Fetch the Source Code and VM Configuration' section**
-
-In Lessons 2,3 and 4 of this course, you'll use a virtual machine (VM) to run a web server and a web app that uses it. The VM is a Linux system that runs on top of your own machine.  You can share files easily between your computer and the VM.
-
-We're using the Vagrant software to configure and manage the VM. Here are the tools you'll need to install to get it running:
-
-### Git
-
-If you don't already have Git installed, [download Git from git-scm.com.](http://git-scm.com/downloads) Install the version for your operating system.
-
-On Windows, Git will provide you with a Unix-style terminal and shell (Git Bash).  
-(On Mac or Linux systems you can use the regular terminal program.)
-
-You will need Git to install the configuration for the VM. If you'd like to learn more about Git, [take a look at our course about Git and Github](http://www.udacity.com/course/ud775).
-
-### VirtualBox
-
-VirtualBox is the software that actually runs the VM. [You can download it from virtualbox.org, here.](https://www.virtualbox.org/wiki/Downloads)  Install the *platform package* for your operating system.  You do not need the extension pack or the SDK. You do not need to launch VirtualBox after installing it.
-
-**Ubuntu 14.04 Note:** If you are running Ubuntu 14.04, install VirtualBox using the Ubuntu Software Center, not the virtualbox.org web site. Due to a [reported bug](http://ubuntuforums.org/showthread.php?t=2227131), installing VirtualBox from the site may uninstall other software you need.
-
-### Vagrant
-
-Vagrant is the software that configures the VM and lets you share files between your host computer and the VM's filesystem.  [You can download it from vagrantup.com.](https://www.vagrantup.com/downloads) Install the version for your operating system.
-
-**Windows Note:** The Installer may ask you to grant network permissions to Vagrant or make a firewall exception. Be sure to allow this.
-
-## Fetch the Source Code and VM Configuration
-
-**Windows:** Use the Git Bash program (installed with Git) to get a Unix-style terminal.  
-**Other systems:** Use your favorite terminal program.
-
-From the terminal, run:
-
-    git clone https://github.com/udacity/OAuth2.0 oauth
-
-This will give you a directory named **oauth** complete with the source code for the flask application, a vagrantfile, and a bootstrap.sh file for installing all of the necessary tools. 
-
-## Run the virtual machine!
-
-Using the terminal, change directory to oauth (**cd oauth**), then type **vagrant up** to launch your virtual machine.
+----------
 
 
-## Running the Restaurant Menu App
-Once it is up and running, type **vagrant ssh**. This will log your terminal into the virtual machine, and you'll get a Linux shell prompt. When you want to log out, type **exit** at the shell prompt.  To turn the virtual machine off (without deleting anything), type **vagrant halt**. If you do this, you'll need to run **vagrant up** again before you can log into it.
+## INTRODUCTION 
+
+The Goody Basket is a web application, which provides a range of individual items that are organised into various categories. The application features a full user registration and authentication system through which users can create a profile and log into the system using either a Google+ account or Facebook account. Once logged in, the user will gain the ability to create, edit and delete their own categories and associated items. Additionally, users may upload their own chosen image to each created item as they wish, along with being able to edit and delete these as required.
+
+The application is built using the Flask framework in conjunction with SQLAlchemy and Python, along with various external libraries, including OAuth 2.0, Google+ API and Facebook Login. 
+
+----------
 
 
-Now that you have Vagrant up and running type **vagrant ssh** to log into your VM.  change to the /vagrant directory by typing **cd /vagrant**. This will take you to the shared folder between your virtual machine and host machine.
+## REQUIREMENTS 
 
-Type **ls** to ensure that you are inside the directory that contains project.py, database_setup.py, and two directories named 'templates' and 'static'
+This project provides you with the following required directory and files:
 
-Now type **python database_setup.py** to initialize the database.
+```
+    The_Goody_Basket/
+    ├── runserver.py
+    ├── database_setup.py
+    ├── client_secrets.json
+    ├── fb_client_secrets.json
+    ├── lotsofitemswithusers.py
+    ├── The_Goody_Basket/
+        ├── __init__.py
+        ├── signin.py
+        ├── views.py
+        ├── static/
+            ├── css
+            ├── images 
+            ├── js 
+            ├── font-awesome
+            ├── item_images
+            ├── user_images
+        ├── templates/
+            ├── PAGE TEMPLATES
+```
+- `Vagrantfile` contains the virtual machine configuration data to enable use of the database in PostgreSQL.
+- `database_setup.py` is the setup file for the SQLAlchemy database schema.
+- `runserver.py` is the startup Python file for running the application.
+- `lotsofitemswithusers.py` contains a sample selection of database objects ready to pre-load into The Goody Basket application for quick setup.
+- `__init__.py` creates the Flask application object, which allows other modules within the application to safely import it for use.   
+- `signin.py` is the module required for setting up a full user registration and authentication system within our app, using OAuth 2.0.
+- `views.py` is the module containing the applications routings, views and CRUD functionality.
 
-Type **python lotsofmenus.py** to populate the database with restaurants and menu items. (Optional)
+You will need Git installed on your system to get the Virtual Machine running prior to using the database. You can download the required version of Git for your operating system using this [link](http://git-scm.com/downloads).
 
-Type **python project.py** to run the Flask web server. In your browser visit **http://localhost:5000** to view the restaurant menu app.  You should be able to view, add, edit, and delete menu items and restaurants.
+If you are on windows Git will provide you with a linux style terminal and shell called Git bash. If you are using a Mac system or Linux the regular terminal program will suffice. 
+
+You will also need VirtualBox to run the Virtual Machine, where you must download the platform package relevant to your operating system. No extension pack or SDK is required with VirtualBox for the database, nor do you need to manually launch VirtualBox after installation. The link for download can be accessed [here](https://www.virtualbox.org). 
+
+Finally, you shall need Vagrant installed to allow configuration of the virtual machine and allow file sharing between the host and VM. You can download Vagrant [here](https://www.vagrantup.com).
+
+---------
+
+
+## TABLE SCHEMA 
+
+### Tables 
+
+- **User** - Stores the users name, email and unique user_id for each registered user of the application.
+
+- **Category** - Stores the category name, category_id and the creater user_id of each category inserted into the database.
+
+- **CategoryItem** - Stores the unique item id, item name, description, price, picture, category id and original creators user id. The category and user references are foreign keys of the Category and User tables respectively. 
+
+
+### Views 
+
+- There are a total of 8 created views for the database, which provide the functions required for player standings, rankings and swiss pairings. On creation of a new tournament, extra views associated for that tournament are generated using Python and SQL.
+
+---------
+
+
+## QUICK START 
+
+In order to get the tournament database up and running, follow the series of steps given below:
+
+1 - Download the tournament database directory to obtain the directory and files listed above, and store these somewhere accessible so that you know the path to the tournament directory.
+
+2 - You shall need Git, Vagrant and VirtualBox installed as instructed above in order to use the database.
+
+3 - Using the terminal, navigate to the `/vagrant` directory in the downloaded fileset, and use the command `vagrant up`. If it is your first time running this it may take some time. Once it is up and running, type `vagrant ssh` in order to log in. You should now be operating within the Vagrant Virtual Machine. 
+
+4 - Within the Vagrant VM, change directory to the tournament folder using `cd /vagrant/tournament`.
+
+5 - You can now run the database in PostgreSQL within the VM and utilise the `psql` program. To setup the database initially, you must run the tournament.sql file using the psql program, which can be done by running: 
+    `psql -f tournament.sql`
+in the Virtual machine command line.
+
+6 - The database can be tested for full functionality using the tournament_test.py file through the VM command line. Simply input `python tournament_test.py`. The functions tested against these tests are defined within tournament.py.
+
+7 - If sample data for insertion into the tournaments is required, it can be loaded into the database through running the sample_data.py file using `python sample_data.py` from the VM `/tournament` directory.
+
+--------
+
+
+## CREATOR 
+
+Benjamin Fraser
+
+Credit to Udacity for the core unit tests (1-8) of the tournament database. 
+
+--------

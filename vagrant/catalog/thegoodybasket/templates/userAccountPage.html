@@ -1,0 +1,68 @@
+{% extends "main.html" %}
+{% block content %}
+{% include 'header.html' %}
+    <div class="row divider metallic">
+        <div class="col-md-12"></div>
+    </div>
+    <div class="row banner main">
+        <div class="col-md-1"></div>
+        <div class="col-md-11 padding-none">
+            <h1>Your Account</h1>
+        </div>
+    </div>
+
+<div class = 'flash'>
+              {% with messages = get_flashed_messages() %}
+      {% if messages %}
+    <div class="alert alert-info">
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+    </div>
+
+</div>
+    
+    <div class="row padding-top padding-bottom">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 padding-none" id="userDetails">
+            <a href="{{url_for('newCategory')}}">
+                <button class="btn btn-default" id="new-category">
+                    <span class="fa fa-edit" aria-hidden="true"></span> Add Profile Picture
+                </button>
+            </a>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    {% for i in user %}
+            <div class="row" id="categoryItemSpace">
+                <div class="col-md-1"></div>
+                    <div class="col-md-5 category-list">
+                        <h3>{{i.name}}</h3>
+                        {% if i.picture != None %}
+                                <img src="{{ url_for('static', filename='user_images/' + i.picture) }}">
+                                {% else %}
+                                <img src="{{ url_for('static', filename='blank_user.gif') }}">
+                                {% endif %}
+                    </div>
+                    <div class="col-md-5 category-list">
+                        <div class="border-line">
+                            <h4>Email:</h4>
+                            <p>{{ i.email }}</p>
+                        </div>
+                        <div class="border-line">
+                            <h4>About Me:</h4>
+                                {% if i.about_me != None %}
+                                    <p>{{ i.about_me }}</p>
+                                {% else %}
+                                    <p>Add a little bit about yourself <a href="#">here!</a></p>
+                                {% endif %}
+                        </div>
+                    </div>
+                <div class="col-md-1"></div>
+            </div>
+    {% endfor %}
+{% endblock %}

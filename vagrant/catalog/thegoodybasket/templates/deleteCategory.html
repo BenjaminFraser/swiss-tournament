@@ -17,16 +17,12 @@
             </div>
 
             <div class="container padding-bottom">
-            <form action="#" method = 'post'>
-
-        	   <button type="submit" class="btn btn-danger" id="submit" type="submit">
-        	   <span class="fa fa-trash" aria-hidden="true"></span> Delete</button>
-        	   <a href = '{{url_for('showCategories')}}'>
-        		  <button class="btn btn-default delete">
-        		  <span class="fa fa-close" aria-hidden="true"></span> Cancel</button>
-        	   </a>
-
-            </form>
+                <form action="#" method = 'post'>
+        	        <button type="submit" class="btn btn-danger" id="submit" type="submit">
+        	        <span class="fa fa-trash" aria-hidden="true"></span> Delete</button>
+                    <a href="{{ url_for('categoryItems', category_id = category.id)}}" class="btn btn-default delete">
+                    <span class="fa fa-thumbs-o-down" aria-hidden="true"></span> Cancel</a>
+                </form>
             </div>
         </div>
     </div>

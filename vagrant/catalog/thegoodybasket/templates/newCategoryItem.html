@@ -16,20 +16,25 @@
 				<div class="form-group">
 					<label for="name">Name:</label>
 					<input type ="text" maxlength="50" class="form-control" name="name"placeholder="Name of the item">
-
+				</div>
+				<div class="form-group">
 					<label for="description">Description:</label>
 					<textarea class="form-control" maxlength="250" rows="3" name="description" placeholder="Description of the item"></textarea>
-
+				</div>
+				<div class="form-group">
 					<label for="price">Price:</label>
 					<div class="input-group">
 						<div class="input-group-addon">$</div>
 						<input type ="text" class="form-control" maxlength="10" name="price" placeholder="Price in $">
 					</div>
-
+				</div>
+				<div class="form-group">
 					<label for="image-url">Image URL:</label>
 					<textarea class="form-control" maxlength="300" rows="3" name="image-url" placeholder="Image URL"></textarea>
-
-					<button type="submit" class="btn btn-success margin-top" id="submit"><span class="fa fa-thumbs-up"></span> Create</button>
+				</div>
+					<button type="submit" class="btn btn-success" id="submit"><span class="fa fa-thumbs-up"></span> Create</button>
+					<a href="{{ url_for('categoryItems', category_id = category.id)}}" class="btn btn-default delete">
+					<span class="fa fa-thumbs-o-down" aria-hidden="true"></span> Cancel</a>
 				</div>
 			</form>
 		</div>

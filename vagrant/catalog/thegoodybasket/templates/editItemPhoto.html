@@ -26,6 +26,8 @@
                     <input type="file" name="file"><br />
                     <input type="hidden" name="category_item" value="{{ item.id }}"></input>
                     <input class="btn btn-primary" type="submit" value="Upload">
+                    <a href="{{ url_for('categoryItems', category_id=category.id)}}" class="btn btn-default delete">
+                    <span class="fa fa-thumbs-o-down" aria-hidden="true"></span> Cancel</a>
                 </form>
             </div>
         </div>
