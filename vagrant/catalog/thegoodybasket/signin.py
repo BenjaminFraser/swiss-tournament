@@ -13,6 +13,7 @@ import json
 from flask import make_response
 import requests
 import os
+import urllib
 from werkzeug import secure_filename
 from thegoodybasket import app
 
@@ -216,7 +217,10 @@ def gconnect():
 def createUser(login_session):
     """ Upon a new user to DB upon facebook/google login. """
     newUser = User(name=login_session['username'], email=login_session[
-                   'email'], picture=login_session['picture'])
+                   'email'], picture=login_session['username']+".jpg")
+    if login_session['picture'] != None:
+        urllib.urlretrieve(login_session['picture'], "thegoodybasket/static/user_images/"+login_session['username']+".jpg")
+        print "added %s's picture to the image folder!" % login_session['username']
     session.add(newUser)
     session.commit()
     user = session.query(User).filter_by(email=login_session['email']).one()

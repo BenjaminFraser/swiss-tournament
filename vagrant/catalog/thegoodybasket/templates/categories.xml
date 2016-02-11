@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <author>
+        <name>Benjamin Fraser</name>
+    </author>
+    <title type="text">Categories</title>
+    {% for category in categories %}
+    <category>
+        <title type="text">{{category.name}}</title>
+        <summary type="xhtml">
+            <div xmlns="http://www.w3.org/1999/xhtml">
+                <p>ID: <category_id>{{category.id}}</category_id></p>
+                <p>Category: <category>{{category.name}}</category></p>
+                <p>Creator: <creator>{{category.user_id}}</creator></p>
+            </div>
+        </summary>
+    </category>
+    {% endfor %}
+</feed>

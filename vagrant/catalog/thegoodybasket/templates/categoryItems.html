@@ -9,12 +9,16 @@
 			<h1>{{ category.name }}
 			<figure class="creator">
 				{% if creator != [] %}
-				<img src="{{ url_for('static', filename='user_images/' + creator.picture) }}">
-				<br>
-				<figcaption>{{ creator.name }}</figcaption>
-				{% else %}
-				<img src="{{ url_for('static', filename='blank_user.gif') }}">
-				<figcaption>Menu creator's name goes here</figcaption>
+					{% if creator.picture != [] %}
+						<img src="{{ url_for('static', filename='user_images/' + creator.picture) }}">
+					{% else %}
+						<img src="{{ url_for('static', filename='images/upload_photo.png') }}">
+						<br>
+					{% endif %}
+					<figcaption>{{ creator.name }}</figcaption>
+					{% else %}
+					<img src="{{ url_for('static', filename='blank_user.gif') }}">
+					<figcaption>Menu creator's name goes here</figcaption>
 				{% endif %}
 			</figure>
 			</h1>
@@ -84,10 +88,10 @@
 								{% if i.picture != None %}
 								<img src="{{ url_for('static', filename='item_images/' + i.picture) }}">
 								{% else %}
-								<img src="{{ url_for('static', filename='blank_user.gif') }}">
+								<a href="{{url_for('editCategoryItemImage', category_id = category.id, item_id=i.id)}}">
+								<img src="{{ url_for('static', filename='images/upload_photo.png') }}"></a>
 								{% endif %}
-								<a href='{{url_for('editCategoryItemImage', category_id = category.id, item_id=i.id ) }}'>Edit</a> | 
-								<a href='{{url_for('deleteCategoryItem', category_id = category.id, item_id=i.id ) }}'>Delete</a>
+								<a href='{{url_for('editCategoryItemImage', category_id = category.id, item_id=i.id ) }}'>Edit</a>
 							</div>
 				</div>
 				<div class="col-md-2 padding-top">

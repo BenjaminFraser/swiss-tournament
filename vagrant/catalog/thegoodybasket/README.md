@@ -76,15 +76,15 @@ Finally, you shall need Vagrant installed to allow configuration of the virtual 
 
 ## QUICK START 
 
-In order to get the tournament database up and running, follow the series of steps given below:
+In order to get the app up and running, follow the series of steps given below:
 
-1 - Download the tournament database directory to obtain the directory and files listed above, and store these somewhere accessible so that you know the path to the tournament directory.
+1 - Download The Goody Basket App directory to obtain the directory and files listed above, and store these somewhere accessible so that you know the path to the application directory.
 
 2 - You shall need Git, Vagrant and VirtualBox installed as instructed above in order to use the database.
 
 3 - Using the terminal, navigate to the `/vagrant` directory in the downloaded fileset, and use the command `vagrant up`. If it is your first time running this it may take some time. Once it is up and running, type `vagrant ssh` in order to log in. You should now be operating within the Vagrant Virtual Machine. 
 
-4 - Within the Vagrant VM, change directory to the tournament folder using `cd /vagrant/tournament`.
+4 - Within the Vagrant VM, change directory to the tournament folder using `cd /vagrant/thegoodybasket`.
 
 5 - You can now run the database in PostgreSQL within the VM and utilise the `psql` program. To setup the database initially, you must run the tournament.sql file using the psql program, which can be done by running: 
     `psql -f tournament.sql`
