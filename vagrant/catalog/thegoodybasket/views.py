@@ -122,8 +122,11 @@ def editCategory(category_id):
 # Delete a category
 @app.route('/category/<int:category_id>/delete/', methods=['GET', 'POST'])
 def deleteCategory(category_id):
+    """ Delete a category, along with its associated items. """
     categoryToDelete = session.query(
         Category).filter_by(id=category_id).one()
+    itemsToDelete = session.query(
+        CategoryItem).filter_by(category_id=category_id).all()
     # Only allow the original creator user id to delete the category.
     if 'username' not in login_session:
         return redirect('/login')
@@ -132,6 +135,9 @@ def deleteCategory(category_id):
         return redirect(url_for('categoryItems', category_id=category_id))
     if request.method == 'POST':
         session.delete(categoryToDelete)
+        # Delete all associated items.
+        for item in itemsToDelete:
+            session.delete(item)
         flash('%s Successfully Deleted' % categoryToDelete.name)
         session.commit()
         return redirect(url_for('showCategories', category_id=category_id))
@@ -156,9 +162,11 @@ def categoryItems(category_id):
 # Create a new category item
 @app.route('/category/<int:category_id>/items/new/', methods=['GET', 'POST'])
 def newCategoryItem(category_id):
+    """ Allow the category creator to create a new item. """
     if 'username' not in login_session:
         return redirect('/login')
     category = session.query(Category).filter_by(id=category_id).one()
+    # Prevent non-creator users adding new items.
     if login_session['user_id'] != category.user_id:
         flash('You are not authorized to add category items to this category. Please create your own category in order to add items.')
         return redirect(url_for('categoryItems', category_id=category_id))
@@ -166,19 +174,28 @@ def newCategoryItem(category_id):
         newItem = CategoryItem(name=request.form['name'], description=request.form['description'], price=request.form[
                            'price'], category_id=category_id, user_id=category.user_id)
         session.add(newItem)
-        session.commit()
+        # Flush and obtain default created item id.
+        session.flush()
+        createdItemID = newItem.id
         flash('New Category %s Item Successfully Created' % (newItem.name))
-        return redirect(url_for('categoryItems', category_id=category_id))
+        # If upload selected, proceed to upload photo page for item.
+        if request.form['button'] == 'upload-image':
+            return redirect(url_for('editCategoryItemImage', category_id=category.id, item_id=createdItemID))
+        # Otherwise create item without image and return to category items page.
+        else:
+            return redirect(url_for('categoryItems', category_id=category_id))
     else:
         return render_template('newCategoryItem.html', category=category)
 
 # Edit a category item
 @app.route('/category/<int:category_id>/items/<int:item_id>/edit', methods=['GET', 'POST'])
 def editCategoryItem(category_id, item_id):
+    """ Allow the creator to edit the basic item details. """
     if 'username' not in login_session:
         return redirect('/login')
     editedItem = session.query(CategoryItem).filter_by(id=item_id).one()
     category = session.query(Category).filter_by(id=category_id).one()
+    # Only allow creator id to edit items.
     if login_session['user_id'] != category.user_id:
         flash('You are not authorized to edit category items in this category. Please create your own category in order to add items.')
         return redirect(url_for('categoryItems', category_id=category_id))
@@ -199,6 +216,7 @@ def editCategoryItem(category_id, item_id):
 # Edit a category item image
 @app.route('/category/<int:category_id>/items/<int:item_id>/edit/img', methods=['GET', 'POST'])
 def editCategoryItemImage(category_id, item_id):
+    """ Allows a user to upload a new image, or edit an existing. """
     if 'username' not in login_session:
         return redirect('/login')
     editedItem = session.query(CategoryItem).filter_by(id=item_id).one()

@@ -28,11 +28,10 @@
 						<input type ="text" class="form-control" maxlength="10" name="price" placeholder="Price in $">
 					</div>
 				</div>
-				<div class="form-group">
-					<label for="image-url">Image URL:</label>
-					<textarea class="form-control" maxlength="300" rows="3" name="image-url" placeholder="Image URL"></textarea>
-				</div>
-					<button type="submit" class="btn btn-success" id="submit"><span class="fa fa-thumbs-up"></span> Create</button>
+				<p class="small">Want to upload a photo for your new item? Click below.</p>
+				<button type="submit" class="btn btn-success" id="submit" name="button" value="upload-image"><span class="fa fa-thumbs-up"></span> Create and upload image</button>
+				<p class="margin-top small">Alternatively, click below to submit an image at a later date.</p>
+					<button type="submit" class="btn btn-success" id="submit" name="button" value"Submit"><span class="fa fa-thumbs-up"></span> Create</button>
 					<a href="{{ url_for('categoryItems', category_id = category.id)}}" class="btn btn-default delete">
 					<span class="fa fa-thumbs-o-down" aria-hidden="true"></span> Cancel</a>
 				</div>
