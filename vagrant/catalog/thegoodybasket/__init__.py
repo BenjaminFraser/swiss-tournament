@@ -5,30 +5,10 @@ from database_setup import Base, Category, CategoryItem, User
 from flask import session as login_session
 import random
 import string
-from oauth2client.client import flow_from_clientsecrets
-from oauth2client.client import FlowExchangeError
-from oauth2client.client import AccessTokenCredentials
-import httplib2
-import json
-from flask import make_response
-import requests
 import os
-from werkzeug import secure_filename
-from dict2xml import dict2xml as xmlify
 
 # Initialise the flask application
 app = Flask(__name__)
-
-# setup upload directory for file-upload functionality.
-app.config['UPLOAD_FOLDER'] = 'thegoodybasket/static/item_images/'
-
-# Setup acceptable extensions for uploading files.
-app.config['ALLOWED_EXTENSIONS'] = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-
-CLIENT_ID = json.loads(
-    open('client_secrets.json', 'r').read())['web']['client_id']
-APPLICATION_NAME = "The Goody Basket"
-
 
 # Connect to Database and create database session
 engine = create_engine('sqlite:///thegoodybasket.db')
@@ -39,6 +19,15 @@ session = DBSession()
 
 import thegoodybasket.views
 import thegoodybasket.signin
+
+# Generate a random string token for CSRF protection on selected POST views.
+def generate_csrf_token():
+    if '_csrf_token' not in login_session:
+        csrf_token = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
+        login_session['_csrf_token'] = csrf_token
+    return login_session['_csrf_token']
+
+app.jinja_env.globals['csrf_token'] = generate_csrf_token
 
 # JSON APIs to view Category and associated items information
 @app.route('/category/<int:category_id>/items/JSON')

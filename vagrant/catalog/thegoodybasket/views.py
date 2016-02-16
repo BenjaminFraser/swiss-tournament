@@ -3,15 +3,6 @@ from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Category, CategoryItem, User
 from flask import session as login_session
-import random
-import string
-from oauth2client.client import flow_from_clientsecrets
-from oauth2client.client import FlowExchangeError
-from oauth2client.client import AccessTokenCredentials
-import httplib2
-import json
-from flask import make_response
-import requests
 import os
 from werkzeug import secure_filename
 from thegoodybasket import app
@@ -21,10 +12,6 @@ app.config['UPLOAD_FOLDER'] = 'thegoodybasket/static/item_images/'
 
 # Setup acceptable extensions for uploading files.
 app.config['ALLOWED_EXTENSIONS'] = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-
-CLIENT_ID = json.loads(
-    open('client_secrets.json', 'r').read())['web']['client_id']
-APPLICATION_NAME = "The Goody Basket"
 
 # Connect to Database and create database session
 engine = create_engine('sqlite:///thegoodybasket.db')
@@ -134,6 +121,10 @@ def deleteCategory(category_id):
         flash('You are not authorized to delete this category. Only creators of the category may delete.')
         return redirect(url_for('categoryItems', category_id=category_id))
     if request.method == 'POST':
+        # Remove and return the csrf token, and compare with form csrf token.
+        token = login_session.pop('_csrf_token', None)
+        if not token or token != request.form.get('_csrf_token'):
+            abort(403)
         session.delete(categoryToDelete)
         # Delete all associated items.
         for item in itemsToDelete:
@@ -237,6 +228,9 @@ def deleteCategoryItem(category_id, item_id):
         flash('You are not authorized to delete items from this category. You must be the category creator to do so.')
         return redirect(url_for('categoryItems', category_id=category_id))
     if request.method == 'POST':
+        token = login_session.pop('_csrf_token', None)
+        if not token or token != request.form.get('_csrf_token'):
+            abort(403)
         session.delete(itemToDelete)
         session.commit()
         flash('Category Item Successfully Deleted')
