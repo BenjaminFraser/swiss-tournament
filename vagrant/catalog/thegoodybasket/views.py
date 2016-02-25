@@ -98,6 +98,10 @@ def editCategory(category_id):
         flash('You are not authorized to edit this category. Only the category creator may edit.')
         return redirect(url_for('categoryItems', category_id=category_id))
     if request.method == 'POST':
+        # Remove and return the csrf token, and compare with form csrf token.
+        token = login_session.pop('_csrf_token', None)
+        if not token or token != request.form.get('_csrf_token'):
+            abort(403)
         if request.form['name']:
             editedCategory.name = request.form['name']
             flash('Category Successfully Edited %s' % editedCategory.name)

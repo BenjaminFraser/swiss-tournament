@@ -63,13 +63,10 @@ def categoriesXML():
     categories = session.query(Category).all()
     return render_template('categories.xml', categories=categories)
 
+# Return category item data in XLM format. 
 @app.route('/category/<int:category_id>/items/XML')
 def categoryItemsXML(category_id):
     category = session.query(Category).filter_by(id=category_id).one()
     items = session.query(CategoryItem).filter_by(
         category_id=category_id).all()
     return render_template('categoryItems.xml', category=category, items=items)
-
-
-
-

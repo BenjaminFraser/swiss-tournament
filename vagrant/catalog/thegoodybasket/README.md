@@ -66,11 +66,6 @@ Finally, you shall need Vagrant installed to allow configuration of the virtual 
 
 - **CategoryItem** - Stores the unique item id, item name, description, price, picture, category id and original creators user id. The category and user references are foreign keys of the Category and User tables respectively. 
 
-
-### Views 
-
-- There are a total of 8 created views for the database, which provide the functions required for player standings, rankings and swiss pairings. On creation of a new tournament, extra views associated for that tournament are generated using Python and SQL.
-
 ---------
 
 
@@ -86,13 +81,17 @@ In order to get the app up and running, follow the series of steps given below:
 
 4 - Within the Vagrant VM, change directory to the tournament folder using `cd /vagrant/thegoodybasket`.
 
-5 - You can now run the database in PostgreSQL within the VM and utilise the `psql` program. To setup the database initially, you must run the tournament.sql file using the psql program, which can be done by running: 
-    `psql -f tournament.sql`
+5 - You can now run the application in using Python within the VM. To setup the database initially, you must run the database_setup.py file, which uses SQLAlchemy to create the database schema. This is carried out using:
+    `python database_setup.py`
 in the Virtual machine command line.
 
-6 - The database can be tested for full functionality using the tournament_test.py file through the VM command line. Simply input `python tournament_test.py`. The functions tested against these tests are defined within tournament.py.
+6 - To run the application, you must use python to execute runserver.py, using:
+    `python runserver.py`
+The application can then be accessed using the url 'localhost:5000' within a web browser of your choice. 
 
-7 - If sample data for insertion into the tournaments is required, it can be loaded into the database through running the sample_data.py file using `python sample_data.py` from the VM `/tournament` directory.
+7 - In order to create, edit or delete category data, you will be required to create an account through secure login in with either Google+ or Facebook. Upon login, your default Google+ or Facebook profile image will be used as your user image for The Goody Basket.
+
+7 - If sample data for insertion into the application is required, it can be loaded into the database through running the lotsofitems.py file using `python lotsofitems.py` from the VM `/thegoodybasket` directory.
 
 --------
 
@@ -101,6 +100,7 @@ in the Virtual machine command line.
 
 Benjamin Fraser
 
-Credit to Udacity for the core unit tests (1-8) of the tournament database. 
+Credit to Udacity for the Authentication and Authorisation process through using the Oauth API.
+Built using the Twitter Bootstrap framework coupled with Flask, SQLAlchemy and SQLite. 
 
 --------

@@ -12,7 +12,6 @@ import httplib2
 import json
 from flask import make_response
 import requests
-import os
 import urllib
 from werkzeug import secure_filename
 from thegoodybasket import app
@@ -218,6 +217,7 @@ def createUser(login_session):
     """ Upon a new user to DB upon facebook/google login. """
     newUser = User(name=login_session['username'], email=login_session[
                    'email'], picture=login_session['username']+".jpg")
+    # Retrieve the login session picture as the users default picture.
     if login_session['picture'] != None:
         urllib.urlretrieve(login_session['picture'], "thegoodybasket/static/user_images/"+login_session['username']+".jpg")
         print "added %s's picture to the image folder!" % login_session['username']
@@ -263,9 +263,9 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
-# Disconnect based on provider, either google or facebook
 @app.route('/disconnect')
 def disconnect():
+    """ Disconnect based on login provider. """
     if 'provider' in login_session:
         if login_session['provider'] == 'google':
             gdisconnect()
