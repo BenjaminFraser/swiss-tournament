@@ -18,6 +18,7 @@ This project provides you with the following required directory and files:
 
 ```
     The_Goody_Basket/
+    ├── README.md
     ├── runserver.py
     ├── database_setup.py
     ├── client_secrets.json
@@ -27,6 +28,7 @@ This project provides you with the following required directory and files:
         ├── __init__.py
         ├── signin.py
         ├── views.py
+        ├── endpoints.py
         ├── static/
             ├── css
             ├── images 
@@ -44,6 +46,7 @@ This project provides you with the following required directory and files:
 - `__init__.py` creates the Flask application object, which allows other modules within the application to safely import it for use.   
 - `signin.py` is the module required for setting up a full user registration and authentication system within our app, using OAuth 2.0.
 - `views.py` is the module containing the applications routings, views and CRUD functionality.
+- `endpoints.py` is the module that contains the applications API endpoint views, to provide functionality for JSON and XML data. 
 
 You will need Git installed on your system to get the Virtual Machine running prior to using the database. You can download the required version of Git for your operating system using this [link](http://git-scm.com/downloads).
 
