@@ -64,7 +64,6 @@
                             {% if 'username' not in session %}
                             <a href="{{url_for('loginMenu')}}">Create an account</a>
                             {% else %}
-                            <a href="{{url_for('accountInfo') }}">Account settings </a>
                             <a href="{{url_for('disconnect')}}">Logout </a>
                             {% endif %}
                         </li>

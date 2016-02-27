@@ -8,6 +8,7 @@
                     {% if 'username' not in session %}
 					<a href="{{url_for('loginMenu')}}">Login here </a>
                     {% else %}
+                    <a href="{{url_for('accountInfo') }}" class="margin-right"><span class="fa fa-wrench"></span> Account settings </a>
                     <a href="{{url_for('disconnect')}}"><span class="fa fa-times-circle-o"></span> Logout </a>
                     {% endif %}
 	</div>
