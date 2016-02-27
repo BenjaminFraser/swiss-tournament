@@ -13,7 +13,6 @@ import json
 from flask import make_response
 import requests
 import urllib
-from werkzeug import secure_filename
 from thegoodybasket import app
 
 # setup upload directory for file-upload functionality.

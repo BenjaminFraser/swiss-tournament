@@ -29,40 +29,41 @@
     <div class="row padding-top padding-bottom">
         <div class="col-md-1"></div>
         <div class="col-md-10 padding-none" id="userDetails">
-            <a href="{{url_for('newCategory')}}">
+            <a href="#">
                 <button class="btn btn-default" id="new-category">
-                    <span class="fa fa-edit" aria-hidden="true"></span> Add Profile Picture
+                    <span class="fa fa-edit" aria-hidden="true"></span> Add A New Profile Picture
+                </button>
+            </a>
+            <a href="#">
+                <button class="btn btn-default" id="new-category">
+                    <span class="fa fa-edit" aria-hidden="true"></span> Edit my details
                 </button>
             </a>
         </div>
         <div class="col-md-1"></div>
     </div>
-    {% for i in user %}
+    <div class="black-text">
             <div class="row" id="categoryItemSpace">
                 <div class="col-md-1"></div>
                     <div class="col-md-5 category-list">
-                        <h3>{{i.name}}</h3>
-                        {% if i.picture != None %}
-                                <img src="{{ url_for('static', filename='user_images/' + i.picture) }}">
+                        <h3>{{user.name}}</h3>
+                        {% if user.picture != None %}
+                                <img src="{{ url_for('static', filename='user_images/' + user.picture) }}" height="400px" width="400px">
                                 {% else %}
-                                <img src="{{ url_for('static', filename='blank_user.gif') }}">
+                                <img src="{{ url_for('static', filename='user_images/blank_user.gif') }}" height="300px" width="200px">
                                 {% endif %}
                     </div>
                     <div class="col-md-5 category-list">
                         <div class="border-line">
-                            <h4>Email:</h4>
-                            <p>{{ i.email }}</p>
+                            <h4 class="lead"><u>Email</u></h4>
+                            <p>{{ user.email }}</p>
                         </div>
                         <div class="border-line">
-                            <h4>About Me:</h4>
-                                {% if i.about_me != None %}
-                                    <p>{{ i.about_me }}</p>
-                                {% else %}
+                            <h4 class="lead"><u>About Me</u></h4>
                                     <p>Add a little bit about yourself <a href="#">here!</a></p>
-                                {% endif %}
                         </div>
                     </div>
                 <div class="col-md-1"></div>
             </div>
-    {% endfor %}
+    </div>
 {% endblock %}

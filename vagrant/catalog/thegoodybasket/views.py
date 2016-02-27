@@ -63,6 +63,7 @@ def introPage():
 # Show all categories
 @app.route('/category/')
 def showCategories():
+    """ Render the main category listings page."""
     categories = session.query(Category).order_by(asc(Category.name))
     if 'username' not in login_session:
         return render_template('categories.html', categories=categories)
@@ -72,6 +73,7 @@ def showCategories():
 # Create a new category
 @app.route('/category/new/', methods=['GET', 'POST'])
 def newCategory():
+    """ Create a new category for the app, provided the user is logged in."""
     # redirect to login page if the user is not currently logged in.
     if 'username' not in login_session:
         return redirect('/login')
@@ -89,6 +91,7 @@ def newCategory():
 # Edit a category
 @app.route('/category/<int:category_id>/edit/', methods=['GET', 'POST'])
 def editCategory(category_id):
+    """ Allow the creator user to edit the category name."""
     editedCategory = session.query(
         Category).filter_by(id=category_id).one()
     # Only allow a logged in user with the correct user id to edit.
@@ -144,8 +147,9 @@ def deleteCategory(category_id):
 @app.route('/category/<int:category_id>/')
 @app.route('/category/<int:category_id>/items/')
 def categoryItems(category_id):
+    """ Render a listing page of the selected categories items."""
     category = session.query(Category).filter_by(id=category_id).one()
-    creator = getUserInfo(category.user_id)
+    creator = session.query(User).filter_by(id=category.user_id).one()
     items = session.query(CategoryItem).filter_by(
         category_id=category_id).all()
     if 'username' not in login_session or creator.id != login_session['user_id']:
@@ -195,6 +199,7 @@ def editCategoryItem(category_id, item_id):
         flash('You are not authorized to edit category items in this category. Please create your own category in order to add items.')
         return redirect(url_for('categoryItems', category_id=category_id))
     if request.method == 'POST':
+        # If any of the fields were changed, update them accordingly.
         if request.form['name']:
             editedItem.name = request.form['name']
         if request.form['description']:
@@ -211,19 +216,22 @@ def editCategoryItem(category_id, item_id):
 # Edit a category item image
 @app.route('/category/<int:category_id>/items/<int:item_id>/edit/img', methods=['GET', 'POST'])
 def editCategoryItemImage(category_id, item_id):
-    """ Allows a user to upload a new image, or edit an existing. """
+    """ Allows a user to upload a new image, or edit an existing one. """
     if 'username' not in login_session:
         return redirect('/login')
     editedItem = session.query(CategoryItem).filter_by(id=item_id).one()
     category = session.query(Category).filter_by(id=category_id).one()
     if login_session['user_id'] != category.user_id:
-        flash('You are not authorized to edit items from this category. Only category creators may do so.')
+        flash('You are not authorized to edit items from this category. '
+                'Only category creators may do so.')
         return redirect(url_for('categoryItems', category_id=category_id))
-    return render_template('editItemPhoto.html', category=category, item_id=item_id, item=editedItem)
+    return render_template('editItemPhoto.html', category=category, 
+                item_id=item_id, item=editedItem)
 
 # Delete a category item
 @app.route('/category/<int:category_id>/items/<int:item_id>/delete', methods=['GET', 'POST'])
 def deleteCategoryItem(category_id, item_id):
+    """ Allow a creator user to delete the selected item. """
     if 'username' not in login_session:
         return redirect('/login')
     category = session.query(Category).filter_by(id=category_id).one()
@@ -242,37 +250,12 @@ def deleteCategoryItem(category_id, item_id):
     else:
         return render_template('deleteCategoryItem.html', item=itemToDelete, category=category)
 
-# User Helper Functions
-def createUser(login_session):
-    """ Upon a new user to DB upon facebook/google login. """
-    newUser = User(name=login_session['username'], email=login_session[
-                   'email'], picture=login_session['picture'])
-    session.add(newUser)
-    session.commit()
-    user = session.query(User).filter_by(email=login_session['email']).one()
-    return user.id
-
-
-def getUserInfo(user_id):
-    """ Return a specified user object from DB. """
-    user = session.query(User).filter_by(id=user_id).one()
-    return user
-
-
-def getUserID(email):
-    """ Return a user_id if exists, if not return None. """
-    try:
-        user = session.query(User).filter_by(email=email).one()
-        return user.id
-    except:
-        return None
-
 # Create a user account page to display basic user info.
-@app.route('/users/<int:user_id>/', methods=['GET', 'POST'])
-def accountInfo(email):
+@app.route('/users/account/', methods=['GET', 'POST'])
+def accountInfo():
     if 'username' not in login_session:
         return redirect('/login')
-    user = session.query(User).filter_by(email=email).one()
+    user = session.query(User).filter_by(id=login_session['user_id']).one()
     if user != None:
         return render_template('userAccountPage.html', user=user)
     else:

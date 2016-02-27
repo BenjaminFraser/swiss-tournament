@@ -126,13 +126,13 @@ categoryItem4 = CategoryItem(user_id=2, name="Walking Boots", description="Warm 
 session.add(categoryItem4)
 session.commit()
 
-categoryItem5 = CategoryItem(user_id=2, name="Sirloin Burger", description="Made with grade A beef",
+categoryItem5 = CategoryItem(user_id=2, name="Enhanced walking boots", description="Made with grade A beef",
                      price="$7.99", picture="walking_boots.jpg", category=category2)
 
 session.add(categoryItem5)
 session.commit()
 
-categoryItem6 = CategoryItem(user_id=2, name="Root Beer", description="16oz of refreshing goodness",
+categoryItem6 = CategoryItem(user_id=2, name="Gold plated walking boots", description="16oz of refreshing goodness",
                      price="$1.99", picture="walking_boots.jpg", category=category2)
 
 session.add(categoryItem6)
@@ -165,13 +165,13 @@ categoryItem3 = CategoryItem(user_id=3, name="Sony Vaio", description="Sony Vaio
 session.add(categoryItem3)
 session.commit()
 
-categoryItem4 = CategoryItem(user_id=3, name="Chocolate Cake", description="fresh baked and served with ice cream",
+categoryItem4 = CategoryItem(user_id=3, name="Sony Vaio Mk 2", description="fresh baked and served with ice cream",
                      price="$3.99", picture="sony_vaio.jpg", category=category3)
 
 session.add(categoryItem4)
 session.commit()
 
-categoryItem5 = CategoryItem(user_id=3, name="Sirloin Burger", description="Made with grade A beef",
+categoryItem5 = CategoryItem(user_id=3, name="Enhanced Sony Vaio", description="Made with grade A beef instead of silicon chips.",
                      price="$7.99", picture="sony_vaio.jpg", category=category3)
 
 session.add(categoryItem5)
@@ -267,10 +267,10 @@ categoryItem5 = CategoryItem(user_id=5, name="Hat", description="Hat for chillin
 session.add(categoryItem5)
 session.commit()
 
-categoryItem6 = CategoryItem(user_id=5, name="Root Beer", description="16oz of refreshing goodness",
+categoryItem6 = CategoryItem(user_id=5, name="Root Beer soaked flip-flops", description="16oz of refreshing goodness poured over a fresh set of flip-flops",
                      price="$1.99", picture="flip_flops.jpg", category=category5)
 
 session.add(categoryItem6)
 session.commit()
 
-print "added menu items!"
+print "Added Category items and users!"

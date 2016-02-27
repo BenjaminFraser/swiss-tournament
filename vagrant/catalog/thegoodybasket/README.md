@@ -73,7 +73,7 @@ Finally, you shall need Vagrant installed to allow configuration of the virtual 
 
 In order to get the app up and running, follow the series of steps given below:
 
-1 - Download The Goody Basket App directory to obtain the directory and files listed above, and store these somewhere accessible so that you know the path to the application directory.
+1 - Download The Goody Basket App directory to obtain the directory files listed above, and store these somewhere accessible so that you know the path to the application directory.
 
 2 - You shall need Git, Vagrant and VirtualBox installed as instructed above in order to use the database.
 
